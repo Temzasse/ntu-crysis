@@ -26,7 +26,10 @@ webpackConfig.module.loaders.push(
   {
     test: /\.scss$/,
     exclude: /node_modules/,
-    loader: ExtractTextPlugin.extract('css?minimize&modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]!postcss!sass')
+    loader: ExtractTextPlugin.extract({
+      fallbackLoader: 'style-loader',
+      loader: 'css?minimize&modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]!postcss!sass'
+    })
   }
 );
 
@@ -48,11 +51,9 @@ webpackConfig.plugins.push(
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor', filename: 'vendor.[hash].js'
   }),
-  new ExtractTextPlugin('style.[contenthash].css', {
-    allChunks: true
-  }),
+  new ExtractTextPlugin('style.[contenthash].css'),
   new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.OccurenceOrderPlugin(true),
+  new webpack.optimize.OccurrenceOrderPlugin(true),
   new webpack.optimize.UglifyJsPlugin({
     beautify: false,
     compress: {

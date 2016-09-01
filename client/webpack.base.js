@@ -23,7 +23,7 @@ var webpackConfig = {
   // When webpack bundles your application, the bundled file(s) need to be saved
   // somewhere. Settings under `output` affect this.
   output: {
-    path: path.join(__dirname, '../build'),
+    path: path.join(__dirname, 'build'),
     filename: 'app.[hash].js',
     publicPath: '/',
   },
