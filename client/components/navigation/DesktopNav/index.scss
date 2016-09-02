@@ -1,0 +1,60 @@
+@import '../../../static/scss/theme';
+@import '../../../static/scss/mixins';
+
+.DesktopNav {
+  width: 100%;
+
+  nav {
+    height: 60px;
+    display: flex;
+    border-bottom: 1px solid $grey-light;
+    padding: 0 12px;
+
+    .brand {
+      padding: 0px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        height: 45px;
+        width: auto;
+      }
+    }
+
+    ul {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      li {
+        min-width: 80px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid $grey-light;
+
+        &:hover {
+          background-color: $grey-lighest;
+        }
+
+        a {
+          text-decoration: none;
+          color: $blue-dark;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) { // landscape-mobile and down
+  .DesktopNav {
+    display: none;
+  }
+}

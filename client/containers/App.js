@@ -5,18 +5,17 @@ import React, { PropTypes } from 'react';
 
 
 // Components
-// import Navigation from '../components/Navigation';
+import NavigationContainer from '../components/navigation/NavigationContainer';
 
 const propTypes = {
   location: PropTypes.object.isRequired,
   children: PropTypes.object.isRequired,
 };
 
-
 const App = ({ children }) => {
   return (
     <div className='App' style={{ width: '100%' }}>
-      {/* <Navigation /> */}
+      <NavigationContainer />
       {children}
     </div>
   );

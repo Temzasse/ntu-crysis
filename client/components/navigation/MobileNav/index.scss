@@ -1,0 +1,59 @@
+@import '../../../static/scss/theme';
+@import '../../../static/scss/mixins';
+
+.MobileNav {
+  .navbar {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $grey-light;
+
+    .brand {
+      height: 35px;
+      width: auto;
+      padding: 0 12px;
+    }
+    .navicon {
+      font-size: 26px;
+      cursor: pointer;
+      padding: 0 12px;
+    }
+  }
+
+  .navpanel {
+    height: calc(100vh);
+    width: 300px;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    background-color: #fff;
+    box-shadow: 4px 0px 20px rgba(0,0,0,0.4);
+    transition: all 0.5s ease-in-out;
+    will-change: transform; // animation optimization trick
+
+    ul {
+      padding: 0px;
+      list-style: none;
+
+      li {
+        padding: 8px;
+        text-align: center;
+
+        &:hover, &:active {
+          background-color: $grey-lighest;
+        }
+
+        a {
+          text-decoration: none;
+          color: $blue-dark;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) { // tablet and up
+  .MobileNav {
+    display: none;
+  }
+}
