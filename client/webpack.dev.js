@@ -21,7 +21,7 @@ webpackConfig.module.loaders.push(
         query: {
           sourceMap: true,
           modules: true,
-          importLoaders: 3,
+          importLoaders: 1,
           localIdentName: '[name]-[local]'
         }
       },

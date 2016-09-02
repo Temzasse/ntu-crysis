@@ -51,7 +51,10 @@ webpackConfig.plugins.push(
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor', filename: 'vendor.[hash].js'
   }),
-  new ExtractTextPlugin('style.[contenthash].css'),
+  new ExtractTextPlugin({
+    filename: 'style.[contenthash].css',
+    allChunks: true
+  }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.OccurrenceOrderPlugin(true),
   new webpack.optimize.UglifyJsPlugin({
