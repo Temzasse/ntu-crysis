@@ -100,9 +100,12 @@ Also read about the [benefits](https://medium.com/@housecor/react-stateless-func
 
 After you have decided what kind of component you need:
 1. Copy either `_Base` or `_Base_functional` component directory
+
 2. Rename all occurences of Base to NewComponentName in the new directory
+
 3. Change the new component as needed
 
->If you have multiple components that are related to each other, create a new directory for them. For example take a look at `components/navigation` directory that container mobile / desktop navigation components.
 
-> One important concept React is so called presentation vs. container components. For example `NavigationContainer` in `components/navigation` owns the state for its child components. Read more about the subject [here](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.10qqa96lp).
+>**NOTE:** If you have multiple components that are related to each other, create a new directory for them. For example take a look at `components/navigation` directory that has both mobile / desktop navigation components.
+
+> One important concept in React is so called presentation vs. container components. For example `NavigationContainer` in `components/navigation` owns the state for its child components. Read more about the subject [here](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.10qqa96lp).
