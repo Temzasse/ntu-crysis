@@ -60,7 +60,6 @@ class NavigationContainer extends Component {
 }
 
 NavigationContainer.propTypes = propTypes;
-
 // NavigationContainer.defaultProps = {};
 
 export default NavigationContainer;

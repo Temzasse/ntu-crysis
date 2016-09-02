@@ -44,5 +44,3 @@ If you add a new package remember to add it to `requirements.txt` file:
 ```
 $ pip freeze > requirements.txt
 ```
-
-admin / crysis-admin#123

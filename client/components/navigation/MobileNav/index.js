@@ -25,6 +25,7 @@ const MobileNav = ({ navItems, brandImg, onClose, onOpen, isOpen }) => {
   const panelStyles = {
     transform: `translateX(${!isOpen ? '-300px' : '0px'})`,
     zIndex: panelZindex,
+    boxShadow: !isOpen && 'none',
   };
 
   return (
