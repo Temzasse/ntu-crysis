@@ -8,14 +8,16 @@ const propTypes = {
   something: PropTypes.object,
 };
 
-const Base = ({ something }) =>
-  <div styleName='Base'>
-    Base
-    <div>{something}</div>
-  </div>;
+const Base = ({ something }) => {
+  return (
+    <div styleName='Base'>
+      Base
+      <div>{something}</div>
+    </div>
+  );
+};
 
 Base.propTypes = propTypes;
-
 // Base.defaultProps = {};
 
 export default CSSModules(Base, styles); // { allowMultiple: true }
