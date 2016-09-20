@@ -4,7 +4,7 @@ Crisis management web application / project for "CZ3003 Software Systems Analysi
 
 ## Development
 
-Check out `client/README.md` and `server/README.md` for detailed instructions how to get started.
+Check out `client/README.md` and `server/crysis/README.md` for detailed instructions how to get started.
 
 Suggested editors:
 * [Atom](https://atom.io/) --> recommended!
