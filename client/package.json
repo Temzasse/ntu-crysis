@@ -72,7 +72,7 @@
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.1.0-beta.20",
+    "webpack": "^2.1.0-beta.22",
     "webpack-dev-server": "^2.1.0-beta.0",
     "webpack-strip": "^0.1.0"
   }
