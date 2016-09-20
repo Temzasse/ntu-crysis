@@ -1,46 +1,65 @@
-# Crysis - Server
+## Crysis CMS Backend
 
-## Getting Started
+This is the backend code for Crysis CMS. RESTful API for data access and WebSocket for live update are implemented in Python.
 
-### Requirements
-- Install [Python 2.7](http://docs.python-guide.org/en/latest/starting/installation/).
-- Install `pip` and `virtualenv` with this [guide](http://dont-be-afraid-to-commit.readthedocs.io/en/latest/virtualenv.html) and familiarize yourself with them (how to create virtual environment).
 
-### Development
+## Motivation
 
-**NOTE**: don't copy `$` character! It only means that the command should be executed in command-line / terminal!
+The system is to help people in Singapore to handle incidents and crises caused by Pokemons. 
 
-**Create virtual environment:**
+## Installation
+
+- Run at locol host:
+```commandline
+ $ pip3 install djangorestframework 
+ $ pip3 install channels
+ $ cd Crysis
+ $ python3 manage.py runserver
 ```
-$ virtualenv venv
+- Run online:
+access sublimeapp.site:8000/admin
+
+## API Reference
+
+
+##### RESTful API:
+
+- 'GET' and 'POST'
+  - ~/cms/incident
+  - ~/cms/crisis
+  - ~/cms/responseunit
+  - ~/cms/pokemondb
+  - ~/cms/pokemon
+  - ~/cms/trainer
+
+- 'GET', 'POST', 'PUT' and 'DELETE'
+  - host/cms/incident/i
+  - host/cms/crisis/i
+  - host/cms/responseunit/i
+  - host/cms/pokemondb/i
+  - host/cms/pokemon/i
+  - host/cms/trainer/i
+
+- Look at /crysis/cms/models.py for 'POST' and 'PUT' details
+
+##### WebSocket:
+- Connect
+```javascript
+//Javascript
+socket = new WebSocket("ws://" + window.location.host + "/User/");
 ```
 
-**Activate virtual environment:**
-
-*OSX / Linux*
-```
-$ source venv/bin/activate
-```
-or if the above does not work
-```
-$ . venv/bin/activate
+- React for messages
+```javascript
+socket.onmessage = function(e){action here with e.data}
 ```
 
-*Windows*
-```
-$ Scripts\activate
-```
 
-After activating the virtual environment your terminal should show `(venv)`. If i does not show that, **DO NOT** proceed with installation step because it will install all packages globally!
+- Messages of incident and crisis changes will be sent to Group 'User'.
 
-**Install dependencies**
-```
-$ pip install -r requirements.txt
-```
+## References
 
-**Updating dependencies**
-
-If you add a new package remember to add it to `requirements.txt` file:
-```
-$ pip freeze > requirements.txt
-```
+ * [Python 3.5](https://docs.python.org/3/) 
+ * [Django 1.10](https://github.com/django/django) Python web framework for backend HTTP request.  [Tutorial](https://docs.djangoproject.com/en/1.10/)
+ * [Django-REST-framework](https://github.com/tomchristie/django-rest-framework) for RESTful API. [Tutorial](http://www.django-rest-framework.org/)
+ * [Channels](https://github.com/django/channels) for WebSocket implementation. [Tutorial](http://channels.readthedocs.org)
