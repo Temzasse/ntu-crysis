@@ -16,6 +16,9 @@
     <link rel="stylesheet" type="text/css" href="/css/defaults.css">
     <!-- End CSS -->
 
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxqK8bRQb_IJWqWcKO71a3MkgnrsmrK0" async defer></script>
+
   </head>
   <body>
     <div id="root"></div>

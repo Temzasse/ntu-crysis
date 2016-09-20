@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router';
 import CSSModules from 'react-css-modules';
 
 // Components
-import Backdrop from '../../Backdrop';
+import Backdrop from '../../utils/Backdrop';
 
 // Styles
 import styles from './index.scss';
