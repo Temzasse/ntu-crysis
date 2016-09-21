@@ -69,11 +69,11 @@
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.0.11",
-    "sass-loader": "^4.0.0",
+    "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.1.0-beta.22",
-    "webpack-dev-server": "^2.1.0-beta.0",
+    "webpack": "^2.1.0-beta.24",
+    "webpack-dev-server": "^2.1.0-beta.4",
     "webpack-strip": "^0.1.0"
   }
 }

@@ -1,39 +1,62 @@
+var path = require('path');
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.base');
 
 webpackConfig.plugins = (webpackConfig.plugins) ? webpackConfig.plugins : [];
 
-webpackConfig.entry.unshift( //'./webpack-public-path',
-  'react-hot-loader/patch',
-  'webpack/hot/dev-server'
+webpackConfig.entry.main.unshift( //'./webpack-public-path',
+  './node_modules/react-hot-loader/patch',
+  './node_modules/webpack/hot/dev-server'
 );
+
+console.log(webpackConfig.entry);
 
 webpackConfig.output.filename = 'app.js'; // no need to add the hash in dev
 
-webpackConfig.module.loaders.push(
+// TODO: use LoaderOptionsPlugin instead of defining options inline
+webpackConfig.module.rules.push(
   {
     test: /\.scss$/,
     exclude: /node_modules/,
-    loaders: [
-      { loader: 'style-loader', query: { sourceMap: true } },
+    use: [
+      {
+        loader: 'style-loader',
+        options: {
+          sourceMap: true
+        }
+      },
       {
         loader: 'css-loader',
-        query: {
+        options: {
           sourceMap: true,
           modules: true,
           importLoaders: 1,
           localIdentName: '[name]-[local]'
         }
       },
-      'postcss-loader',
+      {
+        loader: 'postcss-loader',
+      },
       {
         loader: 'sass-loader',
-        query: {
-          sourceMap: true, sourceComments: true
+        options: {
+          sourceMap: true,
+          sourceComments: true
         }
       }
     ]
   }
+);
+
+webpackConfig.plugins.push(
+  new webpack.LoaderOptionsPlugin({
+    options: {
+      sassLoader: { // define options here => sass-loader requires context
+        includePaths: [path.resolve(__dirname, 'components', 'static')]
+      },
+      context: '/'
+    }
+  })
 );
 
 webpackConfig.plugins.push(

@@ -15,16 +15,15 @@ var autoprefixer = require('autoprefixer');
 var webpackConfig = {
   devtool: 'cheap-module-eval-source-map',
 
-  // Entry point for the application: where it starts.
-  entry: [
-    './index.js'
-  ],
+  entry: {
+    main: ['./index.js']
+  },
 
   // When webpack bundles your application, the bundled file(s) need to be saved
   // somewhere. Settings under `output` affect this.
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'app.[hash].js',
+    filename: '[name].[hash].js',
     publicPath: '/',
   },
   plugins: [
@@ -34,20 +33,23 @@ var webpackConfig = {
       title: 'Crysis',
       template: 'index.html.template',
       inject: 'body',
+    }),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: function () {
+          return [autoprefixer];
+        }
+      }
     })
   ],
   module: {
-    // Preloaders are run before normal loaders. Useful for linting before
-    // any code transformations, or to do image compression.
-    preLoaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader'
+        loader: 'eslint-loader',
+        enforce: 'pre'
       },
-    ],
-
-    loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -57,25 +59,19 @@ var webpackConfig = {
       {
         test: /\.json$/,
         exclude: /node_modules/,
-        loader: 'json',
+        loader: 'json'
       },
       {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-        loader: 'file-loader',
+        loader: 'file-loader'
       }
     ]
   },
   resolve: {
-    root: [
-      path.resolve('.'),
-    ],
-    modules: ['node_modules'],
+    modules: [path.resolve(__dirname, 'index'), 'node_modules'],
     descriptionFiles: ['package.json'],
     mainFiles: ['index.prod', 'index'],
-    extensions: ['', '.json', '.jsx', '.js'],
-  },
-  postcss: function () {
-    return [autoprefixer];
+    extensions: ['.json', '.jsx', '.js'],
   }
 }
 
