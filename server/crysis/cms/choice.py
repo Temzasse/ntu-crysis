@@ -54,3 +54,12 @@ SEX_CHOICE = (
     ('F', 'Female'),
     ('U', 'Unknown'),
 )
+
+WEATHER_CHOICE = (
+    ('UN', 'Unknown'),
+    ('CD', 'Cloudy'),
+    ('RN', 'Rainy'),
+    ('SN', 'Sunny'),
+    ('TS', 'Thunderstorm'),
+    ('FG', 'Foggy'),
+)

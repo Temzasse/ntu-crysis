@@ -2,6 +2,7 @@ from django.db import models
 from django.dispatch import receiver
 from .consumers import ws_send_notification
 from .choice import *
+from django.core import serializers
 
 
 class Incident(models.Model):
@@ -26,18 +27,16 @@ class Incident(models.Model):
 
 @receiver(models.signals.post_save, sender=Incident)
 def execute_after_save_incident(sender, instance, created, *args, **kwargs):
-    print('incident save')
-    print(created)
-    print(instance.id)
+    data = serializers.serialize('json', instance).data
     if created:
-        ws_send_notification('User', 'Incident', 'CREATE', instance.id)
+        ws_send_notification('Incident', 'CREATE', data)
     else:
-        ws_send_notification('User', 'Incident', 'UPDATE', instance.id)
+        ws_send_notification('Incident', 'UPDATE', data)
 
 
 @receiver(models.signals.post_delete, sender=Incident)
 def execute_after_delete_incidnet(sender, instance, *args, **kwargs):
-    ws_send_notification('User', 'Incident', 'DELETE', instance.id)
+    ws_send_notification('Incident', 'DELETE', 'deleted')
 
 
 class ResponseUnit(models.Model):
@@ -91,15 +90,16 @@ class Crisis(models.Model):
 
 @receiver(models.signals.post_save, sender=Crisis)
 def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
+    data = serializers.serialize('json', instance).data
     if created:
-        ws_send_notification('User', 'Crisis', 'CREATE', instance.id)
+        ws_send_notification('Crisis', 'CREATE', data)
     else:
-        ws_send_notification('User', 'Crisis', 'UPDATE', instance.id)
+        ws_send_notification('Crisis', 'UPDATE', data)
 
 
 @receiver(models.signals.post_delete, sender=Crisis)
 def execute_after_delete_crisis(sender, instance, *args, **kwargs):
-    ws_send_notification('User', 'Crisis', 'DELETE', instance.id)
+    ws_send_notification('Crisis', 'DELETE', 'deleted')
 
 
 class PokemonDB(models.Model):
@@ -120,11 +120,31 @@ class Pokemon(models.Model):
     def __str__(self):
         return self.pokemon_type.name+ ' by ' + self.owner.name
 
-# class Shelter(models.Model)
-# class Weather(models.Models)
-# class Report()
-# class SocialMedia()
-# class User()
 
+class Shelter(models.Model):
+    name = models.CharField(max_length=50)
+    capacity = models.IntegerField(blank=True)
+    area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
+    status = models.BooleanField(default=False)  # opening - True or closed - False
+
+    longitude = models.FloatField(default=103.851959, blank=True)
+    latitude = models.FloatField(default=1.290270, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Weather(models.Model):
+    temperature = models.IntegerField(blank=True)
+    temperature_low = models.IntegerField(blank=True)
+    temperature_hi = models.IntegerField(blank=True)
+    weather = models.CharField(choices=WEATHER_CHOICE, default='UN', blank=True, max_length=5)
+    psi = models.IntegerField(blank=True)
+
+
+@receiver(models.signals.post_save, sender=Weather)
+def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
+    data = serializers.serialize('json', instance).data
+    ws_send_notification('Weather', 'UPDATE', data)
 
 

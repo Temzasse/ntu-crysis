@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer
-from .consumers import ws_send_notification
+from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter, Weather
 from django.contrib.auth.models import User
 
 
@@ -51,3 +50,15 @@ class TrainerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainer
         fields = ('id', 'name', 'sex', 'type', 'dob', 'nationality')
+
+
+class ShelterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shelter
+        fields = ('id', 'name', 'capacity', 'area', 'status', 'longitude', 'latitude')
+
+
+class WeatherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Weather
+        fields = ('id', 'temperature', 'temperature_low', 'temperature_hi', 'weather', 'psi')

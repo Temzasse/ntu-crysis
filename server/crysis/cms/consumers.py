@@ -29,10 +29,9 @@ def ws_disconnect(message):
     Group('chat').discard(message.reply_channel)
 
 # React for push message by JavaScript socket.onmessage = function(e){action here with e.data}
-def ws_send_notification(group, class_name, change_type, class_id):
+def ws_send_notification(group, change_type, data):
     result = json.dumps({
-        'class': class_name,
-        'change_type': change_type,
-        'id': class_id
+        'type': change_type,
+        'data': data
     })
     Group("%s" % group).send({'text': result})
