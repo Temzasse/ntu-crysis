@@ -9,7 +9,7 @@ import json
 #         message.reply_channel.send(chunk)
 
 
-#Send message by JavaScript socket.send(something)
+# Send message by JavaScript socket.send(something)
 @channel_session
 def ws_message(message):
     Group("%s" % message.channel_session['room']).send({
@@ -17,7 +17,7 @@ def ws_message(message):
     })
 
 
-#Join a WebSocket by JavaScript socket = new WebSocket("ws://" + window.location.host + "/GroupName/");
+# Join a WebSocket by JavaScript socket = new WebSocket("ws://" + window.location.host + "/GroupName/");
 @channel_session
 def ws_connect(message):
     room = message.content['path'].strip("/")
@@ -28,7 +28,7 @@ def ws_connect(message):
 def ws_disconnect(message):
     Group('chat').discard(message.reply_channel)
 
-#React for push message by JavaScript socket.onmessage = function(e){action here with e.data}
+# React for push message by JavaScript socket.onmessage = function(e){action here with e.data}
 def ws_send_notification(group, class_name, change_type, class_id):
     result = json.dumps({
         'class': class_name,

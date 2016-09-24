@@ -3,309 +3,101 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer
-from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSerializer, PokemonSerializer, PokemonDBSerializer, TrainerSerializer
-
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
-
-@csrf_exempt
-def incident_list(request):
-    if request.method == 'GET':
-        incident = Incident.objects.all()
-        serializer = IncidentSerializer(incident, many=True)
-        return JSONResponse(serializer.data, status=200)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = IncidentSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
-
-@csrf_exempt
-def incident_detail(request,pk):
-    try:
-        incident = Incident.objects.get(pk=pk)
-    except Incidnet.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = IncidentSerializer(incident)
-        return JSONResponse(serializer.data, status=200)
-
-    elif request.method == 'POST':
-        data = JSONParser.parse(request.data)
-        serializer = IncidentSerializer(data=data)
-        if serializer.is_valid:
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=404)
-
-    elif request.method == 'PUT':
-        data = JSONParser.parse(request.data)
-        serializer = IncidentSerializer(incident, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
-
-    elif request.method == 'DELETE':
-        incident.delete()
-        return HttpResponse(status=204)
+from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSerializer, PokemonSerializer, \
+    PokemonDBSerializer, TrainerSerializer, UserSerializer
+from rest_framework import mixins, generics
+from django.contrib.auth.models import User
+from rest_framework import permissions
+from .permission import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 
-@csrf_exempt
-def crisis_list(request):
-    if request.method == 'GET':
-        crisis = Crisis.objects.all()
-        serializer = CrisisSerializer(crisis, many=True)
-        return JSONResponse(serializer.data, status=200)
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'user': reverse('cms:user_list', request=request, format=format),
+        'incident': reverse('cms:incident_list', request=request, format=format),
+        'crisis': reverse('cms:crisis_list', request=request, format=format),
+        'responseunit': reverse('cms:responseunit_list', request=request, format=format),
+        'pokemon': reverse('cms:pokemon_list', request=request, format=format),
+        'pokemondb': reverse('cms:pokemondb_list', request=request, format=format),
+        'trainer': reverse('cms:trainer_list', request=request, format=format),
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = CrisisSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
+    })
 
-@csrf_exempt
-def crisis_detail(request,pk):
-    try:
-        crisis = Crisis.objects.get(pk=pk)
-    except Crisis.DoesNotExist:
-        return HttpResponse(status=404)
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    if request.method == 'GET':
-        serializer = CrisisSerializer(crisis)
-        return JSONResponse(serializer.data, status=200)
 
-    elif request.method == 'POST':
-        data = JSONParser.parse(request.data)
-        serializer = CrisisSerializer(data=data)
-        if serializer.is_valid:
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=404)
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    elif request.method == 'PUT':
-        data = JSONParser.parse(request.data)
-        serializer = CrisisSerializer(crisis, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
 
-    elif request.method == 'DELETE':
-        crisis.delete()
-        return HttpResponse(status=204)
+class IncidentList(generics.ListCreateAPIView):
+    queryset = Incident.objects.all()
+    serializer_class = IncidentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-@csrf_exempt
-def responseunit_list(request):
-    if request.method == 'GET':
-        responceunit = ResponseUnit.objects.all()
-        serializer = ResponseUnitSerializer(responceunit, many=True)
-        return JSONResponse(serializer.data, status=200)
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = ResponseUnitSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
 
-@csrf_exempt
-def responseunit_detail(request,pk):
-    try:
-        responceunit = ResponseUnit.objects.get(pk=pk)
-    except ResponseUnit.DoesNotExist:
-        return HttpResponse(status=404)
+class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Incident.objects.all()
+    serializer_class = IncidentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
 
-    if request.method == 'GET':
-        serializer = ResponseUnitSerializer(responceunit)
-        return JSONResponse(serializer.data, status=200)
 
-    elif request.method == 'POST':
-        data = JSONParser.parse(request.data)
-        serializer = ResponseUnitSerializer(data=data)
-        if serializer.is_valid:
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=404)
+class CrisisList(generics.ListCreateAPIView):
+    queryset = Crisis.objects.all()
+    serializer_class = CrisisSerializer
 
-    elif request.method == 'PUT':
-        data = JSONParser.parse(request.data)
-        serializer = ResponseUnitSerializer(responceunit, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
 
-    elif request.method == 'DELETE':
-        responceunit.delete()
-        return HttpResponse(status=204)
+class CrisisDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Crisis.objects.all()
+    serializer_class = CrisisSerializer
 
-@csrf_exempt
-def pokemon_list(request):
-    if request.method == 'GET':
-        pokemon = Pokemon.objects.all()
-        serializer = PokemonSerializer(pokemon, many=True)
-        return JSONResponse(serializer.data, status=200)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = PokemonSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
+class ResponseUnitList(generics.ListCreateAPIView):
+    queryset = ResponseUnit.objects.all()
+    serializer_class = ResponseUnitSerializer
 
-@csrf_exempt
-def pokemon_detail(request,pk):
-    try:
-        pokemon = Pokemon.objects.get(pk=pk)
-    except Incidnet.DoesNotExist:
-        return HttpResponse(status=404)
 
-    if request.method == 'GET':
-        serializer = PokemonSerializer(pokemon)
-        return JSONResponse(serializer.data, status=200)
+class ResponseUnitDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ResponseUnit.objects.all()
+    serializer_class = ResponseUnitSerializer
 
-    elif request.method == 'POST':
-        data = JSONParser.parse(request.data)
-        serializer = PokemonSerializer(data=data)
-        if serializer.is_valid:
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=404)
 
-    elif request.method == 'PUT':
-        data = JSONParser.parse(request.data)
-        serializer = PokemonSerializer(pokemon, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
+class PokemonDBList(generics.ListCreateAPIView):
+    queryset = PokemonDB.objects.all()
+    serializer_class = PokemonDBSerializer
 
-    elif request.method == 'DELETE':
-        pokemon.delete()
-        return HttpResponse(status=204)
 
-@csrf_exempt
-def pokemonDB_list(request):
-    if request.method == 'GET':
-        pokemonDB = PokemonDB.objects.all()
-        serializer = PokemonDBSerializer(pokemonDB, many=True)
-        return JSONResponse(serializer.data, status=200)
+class PokemonDBDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PokemonDB.objects.all()
+    serializer_class = PokemonDBSerializer
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = PokemonDBSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
 
-@csrf_exempt
-def pokemonDB_detail(request,pk):
-    try:
-        pokemonDB = PokemonDB.objects.get(pk=pk)
-    except Incidnet.DoesNotExist:
-        return HttpResponse(status=404)
+class PokemonList(generics.ListCreateAPIView):
+    queryset = Pokemon.objects.all()
+    serializer_class = PokemonSerializer
 
-    if request.method == 'GET':
-        serializer = PokemonDBSerializer(pokemonDB)
-        return JSONResponse(serializer.data, status=200)
 
-    elif request.method == 'POST':
-        data = JSONParser.parse(request.data)
-        serializer = PokemonDBSerializer(data=data)
-        if serializer.is_valid:
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=404)
+class PokemonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Pokemon.objects.all()
+    serializer_class = PokemonSerializer
 
-    elif request.method == 'PUT':
-        data = JSONParser.parse(request.data)
-        serializer = PokemonDBSerializer(pokemonDB, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
 
-    elif request.method == 'DELETE':
-        pokemonDB.delete()
-        return HttpResponse(status=204)
+class TrainerList(generics.ListCreateAPIView):
+    queryset = Trainer.objects.all()
+    serializer_class = TrainerSerializer
 
-@csrf_exempt
-def trainer_list(request):
-    if request.method == 'GET':
-        trainer = Trainer.objects.all()
-        serializer = TrainerSerializer(trainer, many=True)
-        return JSONResponse(serializer.data, status=200)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = TrainerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
+class TrainerDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Trainer.objects.all()
+    serializer_class = TrainerSerializer
 
-@csrf_exempt
-def trainer_detail(request,pk):
-    try:
-        trainer = Trainer.objects.get(pk=pk)
-    except Incidnet.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = TrainerSerializer(trainer)
-        return JSONResponse(serializer.data, status=200)
-
-    elif request.method == 'POST':
-        data = JSONParser.parse(request.data)
-        serializer = TrainerSerializer(data=data)
-        if serializer.is_valid:
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=404)
-
-    elif request.method == 'PUT':
-        data = JSONParser.parse(request.data)
-        serializer = TrainerSerializer(trainer, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        else:
-            return JSONResponse(serializer.errors, status=400)
-
-    elif request.method == 'DELETE':
-        trainer.delete()
-        return HttpResponse(status=204)
