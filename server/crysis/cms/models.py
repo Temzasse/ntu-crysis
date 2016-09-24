@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from .consumers import ws_send_notification
 from .choice import *
 from django.core import serializers
-
+import json
 
 class Incident(models.Model):
     title = models.CharField(max_length=100)
@@ -27,7 +27,9 @@ class Incident(models.Model):
 
 @receiver(models.signals.post_save, sender=Incident)
 def execute_after_save_incident(sender, instance, created, *args, **kwargs):
-    data = serializers.serialize('json', instance).data
+    data = serializers.serialize('json', [instance, ])
+    data = json.loads(data)
+    data = json.dumps(data[0]['fields'])
     if created:
         ws_send_notification('Incident', 'CREATE', data)
     else:
@@ -77,7 +79,8 @@ class Crisis(models.Model):
     created_by = models.DateTimeField(auto_now_add=True)
     updated_by = models.DateTimeField(auto_now=True)
 
-    incident = models.ManyToManyField(Incident)
+    incident = models.ManyToManyField(Incident, blank=True)
+    shelter = models.ManyToManyField(Shelter, blank=True)
     responseUnit = models.ManyToManyField(ResponseUnit, blank=True)
     trainer = models.ManyToManyField(Trainer, blank=True)
 
@@ -90,7 +93,9 @@ class Crisis(models.Model):
 
 @receiver(models.signals.post_save, sender=Crisis)
 def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
-    data = serializers.serialize('json', instance).data
+    data = serializers.serialize('json', [instance, ])
+    data = json.loads(data)
+    data = json.dumps(data[0]['fields'])
     if created:
         ws_send_notification('Crisis', 'CREATE', data)
     else:
@@ -134,6 +139,14 @@ class Shelter(models.Model):
         return self.name
 
 
+@receiver(models.signals.post_save, sender=Shelter)
+def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
+    data = serializers.serialize('json', [instance, ])
+    data = json.loads(data)
+    data = json.dumps(data[0]['fields'])
+    ws_send_notification('Shelter', 'UPDATE', data)
+
+
 class Weather(models.Model):
     temperature = models.IntegerField(blank=True)
     temperature_low = models.IntegerField(blank=True)
@@ -144,7 +157,9 @@ class Weather(models.Model):
 
 @receiver(models.signals.post_save, sender=Weather)
 def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
-    data = serializers.serialize('json', instance).data
+    data = serializers.serialize('json', [instance, ])
+    data = json.loads(data)
+    data = json.dumps(data[0]['fields'])
     ws_send_notification('Weather', 'UPDATE', data)
 
 
