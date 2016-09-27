@@ -3,6 +3,7 @@ from . import views
 
 app_name = 'cms'
 urlpatterns = [
+    url(r'^auth/$', views.Auth.as_view()),
     url(r'^$', views.api_root),
 
     url(r'^incident/$', views.IncidentList.as_view(), name='incident_list'),

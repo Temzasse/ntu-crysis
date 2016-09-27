@@ -4,6 +4,14 @@ from .consumers import ws_send_notification
 from .choice import *
 from django.core import serializers
 import json
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
+@receiver(models.signals.post_save, sender=User)
+def create_auth_token(sender, instance, created, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
 
 class Incident(models.Model):
     title = models.CharField(max_length=100)
@@ -19,7 +27,7 @@ class Incident(models.Model):
     longitude = models.FloatField(default=103.851959, blank=True)
     latitude = models.FloatField(default=1.290270, blank=True)
 
-    owner = models.ForeignKey('auth.User', related_name='incident')
+    # owner = models.ForeignKey('auth.User', related_name='incident')
 
     def __str__(self):
         return self.title
@@ -66,6 +74,28 @@ class Trainer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Shelter(models.Model):
+    name = models.CharField(max_length=50)
+    capacity = models.IntegerField(blank=True)
+    area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
+    status = models.BooleanField(default=False)  # opening - True or closed - False
+
+    longitude = models.FloatField(default=103.851959, blank=True)
+    latitude = models.FloatField(default=1.290270, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+@receiver(models.signals.post_save, sender=Shelter)
+def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
+    data = serializers.serialize('json', [instance, ])
+    data = json.loads(data)
+    data = json.dumps(data[0]['fields'])
+    ws_send_notification('Shelter', 'UPDATE', data)
+
 
 
 class Crisis(models.Model):
@@ -124,27 +154,6 @@ class Pokemon(models.Model):
 
     def __str__(self):
         return self.pokemon_type.name+ ' by ' + self.owner.name
-
-
-class Shelter(models.Model):
-    name = models.CharField(max_length=50)
-    capacity = models.IntegerField(blank=True)
-    area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
-    status = models.BooleanField(default=False)  # opening - True or closed - False
-
-    longitude = models.FloatField(default=103.851959, blank=True)
-    latitude = models.FloatField(default=1.290270, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-@receiver(models.signals.post_save, sender=Shelter)
-def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
-    data = serializers.serialize('json', [instance, ])
-    data = json.loads(data)
-    data = json.dumps(data[0]['fields'])
-    ws_send_notification('Shelter', 'UPDATE', data)
 
 
 class Weather(models.Model):

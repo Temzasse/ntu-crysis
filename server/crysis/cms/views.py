@@ -8,10 +8,12 @@ from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSeria
 from rest_framework import mixins, generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from .permission import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.views import APIView
 
 
 @api_view(['GET'])
@@ -26,8 +28,18 @@ def api_root(request, format=None):
         'trainer': reverse('cms:trainer_list', request=request, format=format),
         'shelter': reverse('cms:shelter_list', request=request, format=format),
         'weather': reverse('cms:weather', request=request, format=format),
-
     })
+
+class Auth(APIView):
+    authentication_classes = (TokenAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        content = {
+        'user': str(request.user),
+        'auth': str(request.auth)
+        }
+        return Response(content)
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
@@ -42,16 +54,19 @@ class UserDetail(generics.RetrieveAPIView):
 class IncidentList(generics.ListCreateAPIView):
     queryset = Incident.objects.all()
     serializer_class = IncidentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
 
 
 class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Incident.objects.all()
     serializer_class = IncidentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class CrisisList(generics.ListCreateAPIView):

@@ -36,7 +36,10 @@ CHANNEL_LAYERS = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        ),
+    'DEFAULT_PERMISSION_CLASSES': ('cms.permission.IsAdminOrReadOnly',),
     'PAGE_SIZE': 10
 }
 
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
     'cms.apps.CmsConfig',
     'channels',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

@@ -4,21 +4,21 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())
+    # incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())
 
     class Meta:
         model = User
-        field = ('id', 'username', 'incidents')
+        field = ('id', 'username')
 
 
 class IncidentSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+    # owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Incident
         fields = (
             'id', "title", 'description', 'comment', 'type', 'area', 'level', 'created_by', 'updated_by', 'witness',
-            'longitude', 'latitude', 'owner')
+            'longitude', 'latitude')
 
 
 class CrisisSerializer(serializers.ModelSerializer):
