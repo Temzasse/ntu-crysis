@@ -24,9 +24,9 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 
 > Symbol | Type | Owner | Token | isAthenticated
 > -|-|-|-|-
-> <center>:octocat: | SuperUser | CMS administrators | <center>Yes | <center>Yes
-> <center>:cop: | User | Call center operaters | <center>Yes | <center>Yes
-> <center>:family: | AnonymousUser | Public | <center>No | <center>No
+> <center>:octocat:</center> | SuperUser | CMS administrators | <center>Yes</center> | <center>Yes</center>
+> <center>:cop:</center> | User | Call center operaters | <center>Yes</center> | <center>Yes</center>
+> <center>:family:</center> | AnonymousUser | Public | <center>No</center> | <center>No</center>
 
 ##### Authentication
 - `TokenAuthentication` is used
@@ -77,13 +77,13 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 
 > Name | `CREATE` | `UPDATE` | `DELETE`
 > -|-|-|-
-> Incident | <center>Yes | <center>Yes | <center>Yes
-> Crisis | <center>Yes | <center>Yes | <center>Yes
-> Weather | <center>No | <center>No | <center>No
+> Incident | <center>Yes</center> | <center>Yes</center> | <center>Yes</center>
+> Crisis | <center>Yes</center> | <center>Yes</center> | <center>Yes</center>
+> Weather | <center>No</center> | <center>No</center> | <center>No</center>
 
 - Format
 	```javascript
-      {"type": TYPE_OF_CHANGE,  				// "CREATE", "UPDATE"锛�"DELETE"
+      {"type": TYPE_OF_CHANGE,  				// "CREATE", "UPDATE"，"DELETE"
        "data": {SERIALIZATION_OF_THE_OBJECT} }	// "deleted" for "DELETION"
  	```
     
@@ -108,3 +108,5 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
  * [Django 1.10](https://github.com/django/django) Python web framework for backend HTTP request.  [Tutorial](https://docs.djangoproject.com/en/1.10/)
  * [Django-REST-framework](https://github.com/tomchristie/django-rest-framework) for RESTful API. [Tutorial](http://www.django-rest-framework.org/)
  * [Channels](https://github.com/django/channels) for WebSocket implementation. [Tutorial](http://channels.readthedocs.org)
+
+
