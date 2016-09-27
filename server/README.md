@@ -23,7 +23,7 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 ##### Users
 
 > Symbol | Type | Owner | Token | isAthenticated
-> -|-|-|-|-
+> --------|--------|--------|-------|--------
 > <center>:octocat:</center> | SuperUser | CMS administrators | <center>Yes</center> | <center>Yes</center>
 > <center>:cop:</center> | User | Call center operaters | <center>Yes</center> | <center>Yes</center>
 > <center>:family:</center> | AnonymousUser | Public | <center>No</center> | <center>No</center>
@@ -76,7 +76,7 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 - Groups
 
 > Name | `CREATE` | `UPDATE` | `DELETE`
-> -|-|-|-
+> ------|------|-------|------
 > Incident | <center>Yes</center> | <center>Yes</center> | <center>Yes</center>
 > Crisis | <center>Yes</center> | <center>Yes</center> | <center>Yes</center>
 > Weather | <center>No</center> | <center>No</center> | <center>No</center>
