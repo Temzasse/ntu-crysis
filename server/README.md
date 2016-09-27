@@ -6,10 +6,9 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 ## Installation
 
 - Run at locolhost
-
 	```javascript
       /* Command-line *
-       * Prerequsite: Python3.5, pip/pip3 installed*/
+       * Prerequsite: Python3.5, pip/pip3 installed */
  	  $ pip install djangorestframework 
  	  $ pip install channels
 	  $ cd crysis
@@ -84,9 +83,10 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 
 - Format
 	```javascript
-      {"type": TYPE_OF_CHANGE,  				// "CREATE", "UPDATE"，"DELETE"
+      {"type": TYPE_OF_CHANGE,  				// "CREATE", "UPDATE"锛�"DELETE"
        "data": {SERIALIZATION_OF_THE_OBJECT} }	// "deleted" for "DELETION"
  	```
+    
 - Connect
 
 	```javascript
@@ -108,5 +108,3 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
  * [Django 1.10](https://github.com/django/django) Python web framework for backend HTTP request.  [Tutorial](https://docs.djangoproject.com/en/1.10/)
  * [Django-REST-framework](https://github.com/tomchristie/django-rest-framework) for RESTful API. [Tutorial](http://www.django-rest-framework.org/)
  * [Channels](https://github.com/django/channels) for WebSocket implementation. [Tutorial](http://channels.readthedocs.org)
-
-
