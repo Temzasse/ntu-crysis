@@ -23,7 +23,7 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 ##### Users
 
 > Symbol | Type | Owner | Token | isAthenticated
-> -|-|-|-|-
+> ----|-----|-----|----|-----
 > <center>:octocat:</center> | SuperUser | CMS administrators | <center>Yes</center> | <center>Yes</center>
 > <center>:cop:</center> | User | Call center operaters | <center>Yes</center> | <center>Yes</center>
 > <center>:family:</center> | AnonymousUser | Public | <center>No</center> | <center>No</center>
@@ -76,7 +76,7 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 - Groups
 
 > Name | `CREATE` | `UPDATE` | `DELETE`
-> -|-|-|-
+> ---- |-----|-----|------
 > Incident | <center>Yes</center> | <center>Yes</center> | <center>Yes</center>
 > Crisis | <center>Yes</center> | <center>Yes</center> | <center>Yes</center>
 > Weather | <center>No</center> | <center>No</center> | <center>No</center>
@@ -108,5 +108,4 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
  * [Django 1.10](https://github.com/django/django) Python web framework for backend HTTP request.  [Tutorial](https://docs.djangoproject.com/en/1.10/)
  * [Django-REST-framework](https://github.com/tomchristie/django-rest-framework) for RESTful API. [Tutorial](http://www.django-rest-framework.org/)
  * [Channels](https://github.com/django/channels) for WebSocket implementation. [Tutorial](http://channels.readthedocs.org)
-
 
