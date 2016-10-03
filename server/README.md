@@ -10,7 +10,7 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
       /* Command-line *
        * Prerequsite: Python3.5, pip/pip3 installed */
       // run in virtualenv
-      	  $ pip install virtualenv
+      $ pip install virtualenv
 	  $ cd /WHERE_TO_STORE/
 	  $ virtualenv FOLDER_NAME
 	  $ cd FOLDER_NAME
