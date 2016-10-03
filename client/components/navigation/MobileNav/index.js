@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Link } from 'react-router';
 import CSSModules from 'react-css-modules';
 
 // Components
@@ -31,30 +31,24 @@ const MobileNav = ({ navItems, brandImg, onClose, onOpen, isOpen }) => {
   return (
     <div styleName='MobileNav'>
 
-      {isOpen && // this basically means if(isOpen) { render stuff }
+      {isOpen &&
         <Backdrop zIndex={panelZindex - 1} onClick={onClose} />
       }
 
       <div styleName='navbar'>
-        <IndexLink to='/'>
+        <Link to='/'>
           <img styleName='brand' src={brandImg} alt='brand logo' />
-        </IndexLink>
+        </Link>
         <i styleName='navicon' className='ion-navicon' onClick={onOpen} />
       </div>
 
       <div styleName='navpanel' style={panelStyles}>
         <ul>
-          {navItems.map((item, key) => {
-            // links to root `/` need to use `IndexLink` instead od `Link`
-            return (item.to === '/' ?
-              <li key={key}>
-                <IndexLink to={item.to}>{item.label}</IndexLink>
-              </li> :
-              <li key={key}>
-                <Link to={item.to}>{item.label}</Link>
-              </li>
-            );
-          })}
+          {navItems.map((item, key) =>
+            <li key={key}>
+              <Link to={item.to}>{item.label}</Link>
+            </li>
+          )}
         </ul>
       </div>
 
@@ -63,7 +57,5 @@ const MobileNav = ({ navItems, brandImg, onClose, onOpen, isOpen }) => {
 };
 
 MobileNav.propTypes = propTypes;
-
-// MobileNav.defaultProps = {};
 
 export default CSSModules(MobileNav, styles); // { allowMultiple: true }

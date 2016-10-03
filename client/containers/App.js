@@ -1,26 +1,29 @@
-import React, { PropTypes } from 'react';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-// import * as actions from '../actions/index.actions';
-
+import React from 'react';
+import { BrowserRouter, Match, Miss } from 'react-router';
 
 // Components
 import NavigationContainer from '../components/navigation/NavigationContainer';
+import LandingPage from './LandingPage';
+import NoMatchPage from './NoMatchPage';
 
-const propTypes = {
-  location: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired,
-};
-
-const App = ({ children }) => {
-  return (
-    <div className='App' style={{ width: '100%' }}>
+const App = () => (
+  <BrowserRouter>
+    <div>
       <NavigationContainer />
-      {children}
-    </div>
-  );
-};
 
-App.propTypes = propTypes;
+      {/*
+        -- First level routes here --
+
+        NOTE: routes can now be easily nested by adding Match components
+        to inner UI components (eg: https://react-router.now.sh/recursive-paths)
+        */}
+      <Match exactly pattern='/' component={LandingPage} />
+      <Match pattern='/uber' render={() => <div>uber page</div>} />
+      <Match pattern='/awesome' render={() => <div>awesome</div>} />
+      <Miss component={NoMatchPage} />
+
+    </div>
+  </BrowserRouter>
+);
 
 export default App;

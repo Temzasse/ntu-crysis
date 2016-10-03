@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Link } from 'react-router';
 import CSSModules from 'react-css-modules';
 
 // Styles
@@ -14,36 +14,27 @@ const propTypes = {
   brandImg: PropTypes.string,
 };
 
-const DesktopNav = ({ brandImg, navItems }) => {
-  return (
-    <div styleName='DesktopNav'>
-      <nav>
-        {brandImg &&
-          <div styleName='brand'>
-            <IndexLink to='/'>
-              <img src={brandImg} alt='brand logo' />
-            </IndexLink>
-          </div>
-        }
-        <ul>
-          {navItems.map((item, key) => {
-            // links to root `/` need to use `IndexLink` instead od `Link`
-            return (item.to === '/' ?
-              <li key={key}>
-                <IndexLink to={item.to}>{item.label}</IndexLink>
-              </li> :
-              <li key={key}>
-                <Link to={item.to}>{item.label}</Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    </div>
-  );
-};
+const DesktopNav = ({ brandImg, navItems }) => (
+  <div styleName='DesktopNav'>
+    <nav>
+      {brandImg &&
+        <div styleName='brand'>
+          <Link to='/'>
+            <img src={brandImg} alt='brand logo' />
+          </Link>
+        </div>
+      }
+      <ul>
+        {navItems.map((item, key) =>
+          <li key={key}>
+            <Link to={item.to}>{item.label}</Link>
+          </li>
+        )}
+      </ul>
+    </nav>
+  </div>
+);
 
 DesktopNav.propTypes = propTypes;
-// DesktopNav.defaultProps = {};
 
 export default CSSModules(DesktopNav, styles); // { allowMultiple: true }
