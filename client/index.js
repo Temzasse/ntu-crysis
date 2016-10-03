@@ -26,9 +26,12 @@ if (process.env.NODE_ENV === 'production') {
 
   if (module.hot) {
     module.hot.accept('./containers/Root', () => {
+      // When using Webpack 2 in ES modules mode, you can
+      // use <Root /> here rather than require() a <NextDevRoot />.
+      const NextDevRoot = require('./containers/Root').default; // eslint-disable-line
       render(
         <AppContainer errorReporter={Redbox}>
-          <Root store={store} />
+          <NextDevRoot store={store} />
         </AppContainer>,
         rootElement
       );
