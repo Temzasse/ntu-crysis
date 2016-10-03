@@ -3,31 +3,112 @@
 This is the backend code for Crysis CMS. RESTful API for data access and WebSocket for live update are implemented in Python.
 
 
-## Installation
+## Getting Started
 
-- Run at locolhost
-	```javascript
-      /* Command-line *
-       * Prerequsite: Python3.5, pip/pip3 installed */
-      // run in virtualenv
-      $ pip install virtualenv
-	  $ cd /PATH_TO_STORE/
-	  $ virtualenv FOLDER_NAME
-	  $ cd FOLDER_NAME
-	  $ source bin/activate 
-      // skip above if you dont want to run in virtual env
-      $ git clone ....
-      $ cd /PATH_TO_CRYSIS/crysis
-      $ pip install -r requirement.txt
-	  $ python manage.py runserver
-	```
-    - enter [http://127.0.0.1:8000/cms/api-root](http://127.0.0.1:8000/cms/api-root) in your browser 
-    - or use command `curl` to send request
-    - or install chrome app postman to send request
+### Requirements
+- Install [Python 3.5](https://www.python.org/downloads/).
+- Install `pip` and `virtualenv` with this [guide](http://dont-be-afraid-to-commit.readthedocs.io/en/latest/virtualenv.html) and familiarize yourself with them (how to create virtual environment).
 
-- Run online
-	- Access through [HRER(closed)](sublimeapp.site:8000/cms/api-root) 
+### Development
 
+**NOTE**: don't copy `$` character! It only means that the command should be executed in command-line / terminal!
+
+**Create virtual environment:**
+
+```
+$ virtualenv venv
+```
+
+**Activate virtual environment:**
+
+*OSX / Linux*
+
+```
+$ source venv/bin/activate
+```
+or if the above does not work
+
+```
+$ . venv/bin/activate
+```
+
+*Windows*
+
+```
+$ Scripts\activate
+```
+
+After activating the virtual environment your terminal should show `(venv)`. If i does not show that, **DO NOT** proceed with installation step because it will install all packages globally!
+
+**Add project files**
+
+You can either unzip the download project files to your working directory or 
+
+```
+$ git clone https://github.com/Temzasse/ntu-crysis.git
+```
+
+
+**Install dependencies**
+
+```
+$ cd /PATH_TO_CRYSIS/crysis
+$ pip install -r requirements.txt
+```
+
+**Updating dependencies**
+
+If you add a new package remember to add it to `requirements.txt` file:
+
+```
+$ pip freeze > requirements.txt
+```
+
+**Run server**
+
+
+```
+ $ python manage.py runserver
+```
+
+**Test API**
+
+   - test API([example](http://127.0.0.1:8000/cms/api-root)) in your browser    
+   - or use command `curl` to send request
+   - or install chrome app postman to send request
+
+
+## Structure
+```
+├── README.md
+├── cms						--> Django app folder
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── ...
+│   ├── admin.py				--> Admin page construction
+│   ├── apps.py
+│   ├── choice.py
+│   ├── consumers.py			--> WebSocket methods
+│   ├── migrations
+│   │   └── ...
+│   ├── models.py				--> Model definations !WORK IN HERE!
+│   ├── permission.py			--> Permission class
+│   ├── serializers.py		--> REST API serializer class !WORK IN HERE!
+│   ├── tests.py
+│   ├── urls.py				--> Urls of all APIs
+│   └── views.py				--> How the server response the request !WORK IN HERE!
+├── crysis
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── ...
+│   ├── routing.py			--> Differentiate HTTP and WebSocket request
+│   ├── settings.py	
+│   ├── urls.py
+│   └── wsgi.py
+├── db.sqlite3
+├── manage.py
+└── requirements.txt
+```
 ## API Reference
 ##### Users
 
