@@ -9,6 +9,13 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 	```javascript
       /* Command-line *
        * Prerequsite: Python3.5, pip/pip3 installed */
+      // run in virtualenv
+      	  $ pip install virtualenv
+	  $ cd /WHERE_TO_STORE/
+	  $ virtualenv FOLDER_NAME
+	  $ cd FOLDER_NAME
+	  $ source bin/activate 
+      // skip above if you dont want to run in virtual env
  	  $ pip install djangorestframework 
  	  $ pip install channels
 	  $ cd crysis
