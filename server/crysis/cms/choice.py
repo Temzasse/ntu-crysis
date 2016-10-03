@@ -1,3 +1,5 @@
+# NOTE: do we want this many areas?
+# Takes quite the time to draw them on the map.
 AREA_CHOICE = (
     ('NE', 'North-east'),
     ('SE', 'South-east'),
