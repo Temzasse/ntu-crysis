@@ -9,11 +9,9 @@ const propTypes = {
   zIndex: PropTypes.number,
 };
 
-const Backdrop = ({ onClick, zIndex }) => {
-  return (
-    <div styleName='Backdrop' onClick={onClick} style={{ zIndex }} />
-  );
-};
+const Backdrop = ({ onClick, zIndex }) => (
+  <div styleName='Backdrop' onClick={onClick} style={{ zIndex }} />
+);
 
 Backdrop.propTypes = propTypes;
 

@@ -4,12 +4,12 @@ var webpackConfig = require('./webpack.base');
 
 webpackConfig.plugins = (webpackConfig.plugins) ? webpackConfig.plugins : [];
 
-webpackConfig.entry.main.unshift( //'./webpack-public-path',
+// add HMR related entries
+webpackConfig.entry.main.unshift(
   './node_modules/react-hot-loader/patch',
-  './node_modules/webpack/hot/dev-server'
+  './node_modules/webpack-dev-server/client?http://localhost:8080',
+  './node_modules/webpack/hot/only-dev-server'
 );
-
-console.log(webpackConfig.entry);
 
 webpackConfig.output.filename = 'app.js'; // no need to add the hash in dev
 

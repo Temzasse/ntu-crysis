@@ -8,14 +8,12 @@ const propTypes = {
   color: PropTypes.string,
 };
 
-const LoadingIndicator = ({ color }) => {
-  return (
-    <div styleName='la-ball-clip-rotate-multiple' style={{ color }}>
-      <div />
-      <div />
-    </div>
-  );
-};
+const LoadingIndicator = ({ color }) => (
+  <div styleName='la-ball-clip-rotate-multiple' style={{ color }}>
+    <div />
+    <div />
+  </div>
+);
 
 LoadingIndicator.propTypes = propTypes;
 LoadingIndicator.defaultProps = {
