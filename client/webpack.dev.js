@@ -5,10 +5,16 @@ var webpackConfig = require('./webpack.base');
 webpackConfig.plugins = (webpackConfig.plugins) ? webpackConfig.plugins : [];
 
 // add HMR related entries
+// webpackConfig.entry.main.unshift(
+//   './node_modules/react-hot-loader/patch',
+//   './node_modules/webpack-dev-server/client?http://localhost:8080',
+//   './node_modules/webpack/hot/only-dev-server'
+// );
+
 webpackConfig.entry.main.unshift(
-  './node_modules/react-hot-loader/patch',
-  './node_modules/webpack-dev-server/client?http://localhost:8080',
-  './node_modules/webpack/hot/only-dev-server'
+  path.join(__dirname, 'node_modules', 'react-hot-loader', 'patch'),
+  path.join(__dirname, 'node_modules', 'webpack-dev-server', 'client') + '?http://localhost:8080',
+  path.join(__dirname, 'node_modules', 'webpack', 'hot', 'only-dev-server')
 );
 
 webpackConfig.output.filename = 'app.js'; // no need to add the hash in dev
@@ -77,13 +83,13 @@ webpackConfig.plugins.push(
 );
 
 webpackConfig.devServer = {
-  contentBase: './static',
+  contentBase: path.resolve(__dirname, 'static'),
   historyApiFallback: true,
   hot: true,
   inline: true,
   progress: true,
   // Display only errors to reduce the amount of output.
-  stats: 'errors-only',
+  stats: 'minimal',
 };
 
 module.exports = webpackConfig;

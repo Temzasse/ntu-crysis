@@ -12,11 +12,14 @@ var autoprefixer = require('autoprefixer');
   * Note that this file is NOT run through babel transpilation before execution.
   */
 
+
+var appPath = path.resolve(__dirname, 'index.js');
+
 var webpackConfig = {
   devtool: 'cheap-module-eval-source-map',
 
   entry: {
-    main: ['./index.js']
+    main: [appPath]
   },
 
   // When webpack bundles your application, the bundled file(s) need to be saved
@@ -68,7 +71,8 @@ var webpackConfig = {
     ]
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'index'), 'node_modules'],
+    modules: [path.resolve('.'), 'node_modules'],
+    //modules: [path.resolve(__dirname, 'index'), 'node_modules'],
     descriptionFiles: ['package.json'],
     mainFiles: ['index.prod', 'index'],
     extensions: ['.json', '.jsx', '.js'],
