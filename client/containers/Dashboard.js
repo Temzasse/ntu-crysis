@@ -12,20 +12,25 @@ const Dashboard = () => (
   <div className='Dashboard'>
     <FlexLayout direction='row'>
 
-      <Sidebar>
-        <div style={{ height: 200 }}>
-          Active Incidents
-        </div>
-        <div style={{ height: 200 }}>
-          Reporting
-        </div>
-      </Sidebar>
+      <Sidebar
+        leftPanelContent={() =>
+          <div style={{ height: 200 }}>
+            Active Incidents (CLICK ME!!)
+          </div>
+        }
+        rightPanelContent={() =>
+          <div style={{ height: 200 }}>
+            Incident Details (CLICK ME TOO!!)
+          </div>
+        }
+      />
 
       <MainPanel>
         <FlexLayout direction='column'>
           <div>Crisis situation here</div>
           <MapContainer />
-          <IncidentDetails />
+          <div>Map filters here. Or something...</div>
+          {/* <IncidentDetails /> */}
         </FlexLayout>
       </MainPanel>
 

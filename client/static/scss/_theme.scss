@@ -22,4 +22,6 @@ $desktop-navbar-height: 45px;
 
 $content-height: calc(100vh - #{$desktop-navbar-height});
 $sidebar-width: 300px;
-$map-height: 65vh;
+$crisis-progress-bar-height: 30px;
+$map-filter-bar-height: 40px;
+$map-height: calc(100vh - #{$desktop-navbar-height} - #{$crisis-progress-bar-height} - #{$map-filter-bar-height});

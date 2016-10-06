@@ -4,4 +4,24 @@
   height: $content-height;
   width: $sidebar-width;
   border-right: 1px solid #ddd;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+
+  .panels {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    transform: translateX(0px);
+    transition: transform 0.3s ease-in;
+
+    .left {
+      width: $sidebar-width;
+      background-color: #eee;
+    }
+    .right {
+      width: $sidebar-width;
+      background-color: #ccc;
+    }
+  }
 }
