@@ -1,6 +1,8 @@
+@import '../../../static/scss/theme';
+
 .MapView {
   width: 100%;
-  height: 600px;
+  height: $map-height;
   margin: 0 auto;
 
   .map {

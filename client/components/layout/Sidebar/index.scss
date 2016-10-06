@@ -1,0 +1,7 @@
+@import '../../../static/scss/theme';
+
+.Sidebar {
+  height: $content-height;
+  width: $sidebar-width;
+  border-right: 1px solid #ddd;
+}

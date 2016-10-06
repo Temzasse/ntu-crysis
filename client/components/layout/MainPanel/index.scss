@@ -1,0 +1,7 @@
+@import '../../../static/scss/theme';
+
+.MainPanel {
+  width: calc(100vw - #{$sidebar-width});
+  height: $content-height;
+  background-color: #eee;
+}

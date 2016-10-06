@@ -35,9 +35,8 @@ class NavigationContainer extends Component {
 
   render() {
     const navItems = [
-      { label: 'Uber', to: '/uber' },
-      { label: 'Awesome', to: '/awesome' },
-      { label: 'Crazy', to: '/crazy' },
+      { label: 'Report Incident', to: '/report-incident' },
+      { label: 'Logout', to: '/logout' },
     ];
 
     return (

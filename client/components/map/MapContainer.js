@@ -133,7 +133,7 @@ class MapContainer extends Component {
     ];
 
     return (
-      <div className='MapContainer' style={{ width: 1000, margin: '0px auto' }}>
+      <div className='MapContainer' style={{ width: '100%' }}>
         {!mapApiLoaded ?
           <LoadingIndicator /> :
           <MapView

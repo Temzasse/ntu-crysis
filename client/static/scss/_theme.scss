@@ -17,5 +17,9 @@ $text-dark: #333333;
 $text-white: #ffffff;
 
 $mobile-nav-menu-width: 300px;
-$mobile-navbar-height: 50px;
-$desktop-navbar-height: 60px;
+$mobile-navbar-height: 45px;
+$desktop-navbar-height: 45px;
+
+$content-height: calc(100vh - #{$desktop-navbar-height});
+$sidebar-width: 300px;
+$map-height: 65vh;

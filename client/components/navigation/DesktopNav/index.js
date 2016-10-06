@@ -5,6 +5,8 @@ import CSSModules from 'react-css-modules';
 // Styles
 import styles from './index.scss';
 
+// balaldpewfopewjfpiewjf
+
 const propTypes = {
   navItems: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
@@ -20,7 +22,7 @@ const DesktopNav = ({ brandImg, navItems }) => (
       {brandImg &&
         <div styleName='brand'>
           <Link to='/'>
-            <img src={brandImg} alt='brand logo' />
+            <img src={brandImg} alt='brand logo' height='40' />
           </Link>
         </div>
       }
