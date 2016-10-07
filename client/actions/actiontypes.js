@@ -19,6 +19,8 @@ export const LOAD_PAGE = 'LOAD_PAGE';
 export const DEBUG = 'DEBUG';
 export const ERRORS = createTypes('ERROR', ['CLEAR']);
 
-
 /* ---------- SOMETHING ---------- */
 export const SOMETHING = createTypes('SOMETHING', [...fetchActions]);
+
+
+export const INCIDENT = createTypes('INCIDENT', [...fetchActions, 'SET_SELECTED', 'CLEAR_SELECTED']);

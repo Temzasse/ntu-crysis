@@ -8,7 +8,8 @@
   nav {
     height: $desktop-navbar-height;
     display: flex;
-    border-bottom: 1px solid $grey-light;
+    // border-bottom: 1px solid $blue;
+    background-color: $blue-darkest;
     padding: 0 12px;
 
     .brand {
@@ -40,15 +41,21 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-left: 1px solid $grey-light;
+        // border-left: 1px solid $blue;
 
         &:hover {
-          background-color: $grey-lighest;
+          // background-color: $grey-lighest;
+          a {
+            color: #fff;
+          }
         }
 
         a {
           text-decoration: none;
-          color: $blue-dark;
+          // color: $blue-dark;
+          color: $blue-lightest;
+          font-weight: 300;
+          cursor: pointer;
         }
       }
     }

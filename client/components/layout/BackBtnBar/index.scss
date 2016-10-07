@@ -1,0 +1,33 @@
+@import '../../../static/scss/theme';
+
+@keyframes arrow-bounce {
+  0%   { left: -4px; }
+  100% { left: 0px; }
+}
+
+.BackBtnBar {
+  .bar {
+    padding: 6px 10px;
+
+    span {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        color: $blue;
+        i {
+          animation: arrow-bounce 1s linear infinite;
+          animation-play-state: running;
+        }
+      }
+
+      i {
+        position: relative;
+        left: 0px;
+        animation-play-state: paused;
+        font-size: 20px;
+      }
+    }
+  }
+}

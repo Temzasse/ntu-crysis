@@ -1,4 +1,12 @@
 .IncidentDetails {
   flex: 1;
   border-top: 1px solid #ddd;
+
+  .wrapper {
+    padding: 8px;
+
+    h2 {
+      margin-top: 0;
+    }
+  }
 }

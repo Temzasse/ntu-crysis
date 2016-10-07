@@ -5,12 +5,17 @@ import CSSModules from 'react-css-modules';
 import styles from './index.scss';
 
 const propTypes = {
-  something: PropTypes.object,
+  incident: PropTypes.object.isRequired,
 };
 
-const IncidentDetails = () => (
+const IncidentDetails = ({ incident }) => (
   <div styleName='IncidentDetails'>
-    IncidentDetails here
+    <div styleName='wrapper'>
+      <h2>{incident.title}</h2>
+      <strong>Description</strong>
+      <p>{incident.description}</p>
+      <p>Here comes incidents Response unit related stuff too</p>
+    </div>
   </div>
 );
 

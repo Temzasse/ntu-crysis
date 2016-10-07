@@ -6,8 +6,9 @@ import CSSModules from 'react-css-modules';
 import styles from './index.scss';
 
 const propTypes = {
-  leftPanelContent: PropTypes.func.isRequired,
-  rightPanelContent: PropTypes.func.isRequired,
+  leftPanelComponent: PropTypes.func.isRequired,
+  rightPanelComponent: PropTypes.func.isRequired,
+  visiblePanel: PropTypes.string.isRequired,
 };
 
 class Sidebar extends Component {
@@ -31,8 +32,12 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { leftPanelContent, rightPanelContent } = this.props;
-    const { visiblePanel } = this.state;
+    const {
+      leftPanelComponent,
+      rightPanelComponent,
+      visiblePanel,
+    } = this.props;
+
     const panelsStyles = {
       transform: visiblePanel === 'left' ?
         'translateX(0px)' :
@@ -43,10 +48,10 @@ class Sidebar extends Component {
       <div styleName='Sidebar'>
         <div styleName='panels' style={panelsStyles}>
           <div styleName='left' onClick={this.togglePanel}>
-            {leftPanelContent()}
+            {React.createElement(leftPanelComponent, {})}
           </div>
           <div styleName='right' onClick={this.togglePanel}>
-            {rightPanelContent()}
+            {React.createElement(rightPanelComponent, {})}
           </div>
         </div>
       </div>
@@ -56,6 +61,8 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = propTypes;
-// Sidebar.defaultProps = {};
+Sidebar.defaultProps = {
+  visiblePanel: 'left',
+};
 
 export default CSSModules(Sidebar, styles); // { allowMultiple: true }

@@ -14,3 +14,7 @@ html, body {
 img {
   max-width: 100%;
 }
+
+p {
+  font-weight: 300;
+}
