@@ -8,11 +8,11 @@ import * as types from '../actions/actiontypes';
 // const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /* ***************************** TASKS *********************************** */
-function* fetchSomething({ payload }) {
-  console.debug('====> fetchSomething payload', payload);
+function* fetchWeatherData() {
+  console.debug('====> fetchWeatherData');
   try {
-    const something = yield call(api.getSomething, 'something');
-    console.log(something);
+    const data = yield call(api.fetchWeatherData);
+    console.log(data);
     // yield put(actions.receiveSomething(something));
   } catch (err) {
     yield put(actions.failSomething());
@@ -21,8 +21,8 @@ function* fetchSomething({ payload }) {
 
 
 /* ***************************** WATCHERS *********************************** */
-function* watchFetchSomething() {
-  yield* takeEvery(types.SOMETHING.FETCH, fetchSomething);
+function* watchFetchWeatherData() {
+  yield* takeEvery(types.WEATHER.FETCH, fetchWeatherData);
 }
 
 function* watchDebug() {
@@ -34,6 +34,6 @@ function* watchDebug() {
 
 
 export default function* root() {
-  yield fork(watchFetchSomething);
+  yield fork(watchFetchWeatherData);
   yield fork(watchDebug);
 }

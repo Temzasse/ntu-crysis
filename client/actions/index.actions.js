@@ -14,9 +14,9 @@ function createAction(foo, bar) {
 // export const debug = createAction(types.DEBUG);
 
 // ******************* GALLERY ************************/
-export const fetchSomething = createAction(types.SOMETHING.FETCH);
-export const receiveSomething = createAction(types.SOMETHING.RECEIVE);
-export const failSomething = createAction(types.SOMETHING.FAIL);
+export const fetchWeatherData = createAction(types.WEATHER.FETCH);
+export const receiveWeatherData = createAction(types.WEATHER.RECEIVE);
+export const failWeatherData = createAction(types.WEATHER.FAIL);
 
 export const setSelectedIncident = createAction(types.INCIDENT.SET_SELECTED);
 export const clearSelectedIncident = createAction(types.INCIDENT.CLEAR_SELECTED);

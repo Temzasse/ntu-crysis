@@ -2,17 +2,14 @@
  * API service
  */
 
-// import qs from 'qs';
-// const qsOptions = { arrayFormat: 'repeat' };
+import { parseWeatherXMLtoJS } from './utils';
 
 const API_URL = `${process.env.API_BASE_PATH}`;
+const NEA_API_KEY = `${process.env.NEA_API_KEY}`;
+const NEA_API_URL = `${process.env.NEA_API_URL}`;
+const NEA_DATASET = '2hr_nowcast';
 
-
-async function callApi(endpoint, method = 'get', bodyData = null) {
-  const fullUrl = (endpoint.indexOf(API_URL) === -1)
-    ? API_URL + endpoint
-    : endpoint;
-
+async function callApi(url, method = 'get', bodyData = null) {
   let reqOptions;
 
   // Dynamically determine request options
@@ -21,16 +18,16 @@ async function callApi(endpoint, method = 'get', bodyData = null) {
   } else if (method === 'post' || method === 'put') {
     reqOptions = {
       method,
+      body: JSON.stringify(bodyData),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(bodyData),
     };
   } else throw new Error('Unsupported method');
 
   // Fetch the resource
-  const res = await fetch(fullUrl, reqOptions);
+  const res = await fetch(url, reqOptions);
   const contentType = res.headers.get('content-type');
   let body;
 
@@ -57,12 +54,19 @@ async function callApi(endpoint, method = 'get', bodyData = null) {
 /////////////////////////
 */
 
-export async function fetchSomething() {
-  const { response } = await callApi('/something');
-  return response;
+export async function fetchWeatherData() {
+  const { response } = await callApi(
+    `${NEA_API_URL}?dataset=${NEA_DATASET}&keyref=${NEA_API_KEY}`
+  );
+  // Use the DOMParser browser API to convert text to a XML Document
+  const xml = new DOMParser().parseFromString(response, 'text/xml');
+  // Parse xml to js object
+  const weatherData = parseWeatherXMLtoJS(xml);
+
+  return weatherData;
 }
 
-export async function fetchSomethingElse() {
-  const { response } = await callApi('/something');
+export async function fetchSomething() {
+  const { response } = await callApi(`${API_URL}/something`);
   return response;
 }

@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchWeatherData } from '../../actions/index.actions';
 
 // Components
 import LoadingIndicator from '../utils/LoadingIndicator';
 import MapView from './MapView';
 
 const propTypes = {
-  something: PropTypes.object,
+  fetchWeatherData: PropTypes.func.isRequired,
 };
 
 const MAP_MAX_TIMEOUT = 20 * 60;
@@ -43,6 +46,9 @@ class MapContainer extends Component {
 
       // Save map object to state and flip loading flag
       this.setState({ googleMaps: window.google.maps, mapApiLoaded: true });
+
+      // Start loading weather data
+      this.props.fetchWeatherData();
     } else if (this.mapLoadingCounter > MAP_MAX_TIMEOUT) {
       clearInterval(this.mapApiLoadInterval);
       console.debug('[MapContainer] Map failed to load!');
@@ -151,4 +157,18 @@ class MapContainer extends Component {
 MapContainer.propTypes = propTypes;
 // MapContainer.defaultProps = {};
 
-export default MapContainer;
+// This makes state objects available to the component via props!
+function mapStateToProps(state) {
+  return {
+    loading: state.loading,
+  };
+}
+
+// This adds action creators to components props
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchWeatherData,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
