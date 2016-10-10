@@ -38,16 +38,7 @@ function weather(state = weatherInitialState, action) {
   }
 }
 
-// TODO: remove. These are just for testing the functionality.
-const messagesInitialState = [
-  { type: 'error', content: 'Test toast 1' },
-  { type: 'info', content: 'Test toast 2' },
-  { type: 'info', content: 'Test toast 3' },
-  { type: 'info', content: 'Test toast 4' },
-  { type: 'info', content: 'Test toast 5' },
-];
-
-function messages(state = messagesInitialState, action) {
+function messages(state = [], action) {
   switch (action.type) {
   case types.MESSAGES.ADD:
     return [...state, action.payload];
