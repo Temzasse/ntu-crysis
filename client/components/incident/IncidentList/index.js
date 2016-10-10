@@ -16,10 +16,13 @@ const IncidentList = ({ incidents, selectIncident }) => (
       {incidents.map(({ id, title }) =>
         <li
           key={id}
-          styleName='incident-card'
+          styleName='card'
           onClick={() => selectIncident(id)}
         >
-          {title}{id}
+          <div styleName='card-content'>
+            {title}{id}
+          </div>
+          <i className='ion-ios-arrow-right' />
         </li>
       )}
     </ul>
