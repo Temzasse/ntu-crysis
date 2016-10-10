@@ -22,7 +22,6 @@ export const ERRORS = createTypes('ERROR', ['CLEAR']);
 /* ---------- SOMETHING ---------- */
 export const SOMETHING = createTypes('SOMETHING', [...fetchActions]);
 
-
 export const INCIDENT = createTypes('INCIDENT', [...fetchActions, 'SET_SELECTED', 'CLEAR_SELECTED']);
-
 export const WEATHER = createTypes('WEATHER', [...fetchActions]);
+export const MESSAGES = createTypes('MESSAGES', ['ADD', 'REMOVE']);

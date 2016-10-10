@@ -37,7 +37,7 @@ webpackConfig.module.rules.push(
           sourceMap: true,
           modules: true,
           importLoaders: 1,
-          localIdentName: '[name]-[local]'
+          localIdentName: '[folder]-[local]--[hash:base64:5]'
         }
       },
       {

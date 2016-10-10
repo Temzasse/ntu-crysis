@@ -26,6 +26,48 @@ function incident(state = incidentsInitialState, action) {
   }
 }
 
+const weatherInitialState = {
+  forecast: [],
+};
+function weather(state = weatherInitialState, action) {
+  switch (action.type) {
+  case types.WEATHER.RECEIVE:
+    return { ...state, forecast: [...action.payload] };
+  default:
+    return state;
+  }
+}
+
+// TODO: remove. These are just for testing the functionality.
+const messagesInitialState = [
+  { type: 'error', content: 'Test toast 1' },
+  { type: 'info', content: 'Test toast 2' },
+  { type: 'info', content: 'Test toast 3' },
+  { type: 'info', content: 'Test toast 4' },
+  { type: 'info', content: 'Test toast 5' },
+];
+
+function messages(state = messagesInitialState, action) {
+  switch (action.type) {
+  case types.MESSAGES.ADD:
+    return [...state, action.payload];
+  case types.MESSAGES.REMOVE: {
+    // Remove from specific index if payload (index in array) is defined
+    // and is within the index range
+    if (isFinite(action.payload) && state.length > action.payload) {
+      // NOTE: we can't mutate old state => need to return new array
+      return [
+        ...state.slice(0, action.payload),
+        ...state.slice(action.payload + 1),
+      ];
+    }
+    return state;
+  }
+  default:
+    return state;
+  }
+}
+
 
 const loadingInitialState = {
   something: true,
@@ -61,6 +103,8 @@ function errors(state = errorsInitialState, action) {
 
 const rootReducer = combineReducers({
   incident,
+  weather,
+  messages,
   loading,
   errors,
 });

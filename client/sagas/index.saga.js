@@ -9,11 +9,13 @@ import * as types from '../actions/actiontypes';
 
 /* ***************************** TASKS *********************************** */
 function* fetchWeatherData() {
-  console.debug('====> fetchWeatherData');
   try {
     const data = yield call(api.fetchWeatherData);
-    console.log(data);
-    // yield put(actions.receiveSomething(something));
+    yield put(actions.receiveWeatherData(data));
+    yield put(actions.addMessage({
+      type: 'info',
+      content: 'Weather data updated',
+    }));
   } catch (err) {
     yield put(actions.failSomething());
   }

@@ -4,6 +4,7 @@
 
 .DesktopNav {
   width: 100%;
+  z-index: $nav-z;
 
   nav {
     height: $desktop-navbar-height;

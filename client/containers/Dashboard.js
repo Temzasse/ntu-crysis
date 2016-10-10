@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { removeMessage } from '../actions/index.actions';
 
 /* eslint-disable max-len */
 // Component imports
@@ -10,14 +11,23 @@ import MainPanel from '../components/layout/MainPanel';
 import Sidebar from '../components/layout/Sidebar';
 import IncidentDetailsContainer from '../components/incident/IncidentDetailsContainer';
 import IncidentListContainer from '../components/incident/IncidentListContainer';
+import Toast from '../components/utils/Toast';
 /* eslint-enable max-len */
 
 const propTypes = {
   selectedIncident: PropTypes.object,
+  rmMessage: PropTypes.func.isRequired,
+  toastMessages: PropTypes.array.isRequired,
 };
 
-const Dashboard = ({ selectedIncident }) => (
+const Dashboard = ({ selectedIncident, toastMessages, rmMessage }) => (
   <div className='Dashboard'>
+
+    <Toast
+      messages={toastMessages}
+      removeToastMsg={rmMessage}
+    />
+
     <FlexLayout direction='row'>
 
       <Sidebar
@@ -44,14 +54,15 @@ Dashboard.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     selectedIncident: state.incident.selected,
+    toastMessages: state.messages,
   };
 }
 
 // This adds action creators to components props
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators({
+    rmMessage: removeMessage,
+  }, dispatch);
 }
 
-export default connect(
-  mapStateToProps, mapDispatchToProps
-)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

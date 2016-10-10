@@ -13,6 +13,8 @@ const propTypes = {
 };
 
 const MAP_MAX_TIMEOUT = 20 * 60;
+const WEATHER_UPDATE_INTERVAL = 2 * 60 * 60 * 1000; // 2h
+// const WEATHER_UPDATE_INTERVAL = 20000; // 20sec for testing
 
 class MapContainer extends Component {
   constructor(props) {
@@ -47,8 +49,15 @@ class MapContainer extends Component {
       // Save map object to state and flip loading flag
       this.setState({ googleMaps: window.google.maps, mapApiLoaded: true });
 
-      // Start loading weather data
+      // Fetch the first set of weather data
+      console.debug('[MapContainer] Fetching weather data...');
       this.props.fetchWeatherData();
+
+      // Start weather loading interval
+      this.weatherIntervalId = window.setInterval(() => {
+        console.debug('[MapContainer] Fetching weather data...');
+        this.props.fetchWeatherData();
+      }, WEATHER_UPDATE_INTERVAL);
     } else if (this.mapLoadingCounter > MAP_MAX_TIMEOUT) {
       clearInterval(this.mapApiLoadInterval);
       console.debug('[MapContainer] Map failed to load!');
