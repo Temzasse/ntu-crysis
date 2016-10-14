@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga';
+import { takeEvery, delay } from 'redux-saga';
 import { put, call, fork } from 'redux-saga/effects';
 import { api } from '../services';
 import * as actions from '../actions/index.actions';
@@ -21,6 +21,37 @@ function* fetchWeatherData() {
   }
 }
 
+function* doLogin({ payload }) {
+  yield delay(1000);
+  console.log('------->', payload);
+  const { username } = payload;
+  let mockUser = {
+    username: 'Operator',
+    role: 'operator',
+  };
+
+  // For testing the login with different roles
+  if (username === 'operator') {
+    mockUser = {
+      username: 'Operator',
+      role: 'operator',
+    };
+  }
+  if (username === 'callcentre') {
+    mockUser = {
+      username: 'callcentre',
+      role: 'callcentre',
+    };
+  }
+  if (username === 'response') {
+    mockUser = {
+      username: 'response',
+      role: 'response',
+    };
+  }
+  yield put(actions.setUser(mockUser));
+}
+
 
 /* ***************************** WATCHERS *********************************** */
 function* watchFetchWeatherData() {
@@ -32,10 +63,16 @@ function* watchDebug() {
     types.DEBUG, (action) => console.debug('REDUX DEBUG', action.payload)
   );
 }
+
+function* watchLogin() {
+  yield* takeEvery(types.LOGIN, doLogin);
+}
+
 /* ***************************** /WATCHERS ********************************** */
 
 
 export default function* root() {
   yield fork(watchFetchWeatherData);
   yield fork(watchDebug);
+  yield fork(watchLogin);
 }

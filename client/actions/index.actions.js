@@ -23,3 +23,7 @@ export const clearSelectedIncident = createAction(types.INCIDENT.CLEAR_SELECTED)
 
 export const addMessage = createAction(types.MESSAGES.ADD);
 export const removeMessage = createAction(types.MESSAGES.REMOVE);
+export const doLogin = createAction(types.LOGIN);
+
+export const setUser = createAction(types.USER.SET);
+export const clearUser = createAction(types.USER.CLEAR);
