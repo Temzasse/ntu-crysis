@@ -83,5 +83,6 @@ rules:
   generator-star-spacing: 0
   babel/generator-star-spacing: 0
   linebreak-style: 0
+  react/require-extension: 0
 
   # import/no-unresolved: 0 # deps are only installed in the docker container
