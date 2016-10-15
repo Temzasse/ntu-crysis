@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { removeMessage } from '../actions/index.actions';
+import {
+  removeMessage,
+  toggleMarkerVisibility,
+} from '../actions/index.actions';
 
 /* eslint-disable max-len */
 // Component imports
@@ -40,7 +43,7 @@ const Dashboard = ({ selectedIncident, toastMessages, rmMessage }) => (
         <FlexLayout direction='column'>
           <div>Crisis situation progress bar here...</div>
           <MapContainer />
-          <div>Map filter buttons here. Or reporting related stuff...</div>
+          <div>Toolbar here</div>
         </FlexLayout>
       </MainPanel>
 

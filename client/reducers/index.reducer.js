@@ -26,6 +26,29 @@ function incident(state = incidentsInitialState, action) {
   }
 }
 
+
+const mapInitialState = {
+  visibility: {
+    weather: true,
+    shelters: true,
+  },
+};
+function controlMap(state = mapInitialState, action) {
+  switch (action.type) {
+  case types.MAP.TOGGLE_MARKER: {
+    return {
+      ...state,
+      visibility: {
+        [action.payload]: !!state.visibility[action.payload],
+      },
+    };
+  }
+  default:
+    return state;
+  }
+}
+
+
 const weatherInitialState = {
   forecast: [],
 };
@@ -93,6 +116,7 @@ function errors(state = errorsInitialState, action) {
 
 
 const rootReducer = combineReducers({
+  controlMap,
   incident,
   weather,
   messages,

@@ -23,3 +23,5 @@ export const clearSelectedIncident = createAction(types.INCIDENT.CLEAR_SELECTED)
 
 export const addMessage = createAction(types.MESSAGES.ADD);
 export const removeMessage = createAction(types.MESSAGES.REMOVE);
+
+export const toggleMarkerVisibility = createAction(types.MAP.TOGGLE_MARKER);
