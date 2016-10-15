@@ -4,9 +4,7 @@ import { api } from '../services';
 import * as actions from '../actions/index.actions';
 import * as types from '../actions/actiontypes';
 
-// For mocking api call delays
-// const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
+// Constants
 const TOAST_VISIBLE_TIME = 5000; // 4 seconds
 
 /* ***************************** TASKS *********************************** */
@@ -14,32 +12,34 @@ function* fetchWeatherData() {
   try {
     const data = yield call(api.fetchWeatherData);
     yield put(actions.receiveWeatherData(data));
+
+    // Inform that the weather data has been updated
     yield put(actions.addMessage({
       type: 'info',
       content: 'Weather data updated',
     }));
 
-    // TODO: remove. Adding some test toasts.
-    yield delay(3000);
-    yield put(actions.addMessage({
-      type: 'info',
-      content: 'Test info toast BOOM!',
-    }));
-    yield delay(3000);
-    yield put(actions.addMessage({
-      type: 'error',
-      content: 'Test error toast BOOM!',
-    }));
-    yield delay(2000);
-    yield put(actions.addMessage({
-      type: 'error',
-      content: 'Another test error toast BOOM BOOM!',
-    }));
-    yield delay(2000);
-    yield put(actions.addMessage({
-      type: 'info',
-      content: 'Last toast!',
-    }));
+    // // TODO: remove. Adding some test toasts.
+    // yield delay(3000);
+    // yield put(actions.addMessage({
+    //   type: 'info',
+    //   content: 'Test info toast BOOM!',
+    // }));
+    // yield delay(3000);
+    // yield put(actions.addMessage({
+    //   type: 'error',
+    //   content: 'Test error toast BOOM!',
+    // }));
+    // yield delay(2000);
+    // yield put(actions.addMessage({
+    //   type: 'error',
+    //   content: 'Another test error toast BOOM BOOM!',
+    // }));
+    // yield delay(2000);
+    // yield put(actions.addMessage({
+    //   type: 'info',
+    //   content: 'Last toast!',
+    // }));
   } catch (err) {
     yield put(actions.failWeatherData());
   }

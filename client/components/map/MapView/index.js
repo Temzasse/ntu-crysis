@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+// import shallowCompare from 'react-addons-shallow-compare';
 import CSSModules from 'react-css-modules';
 
 // Styles
@@ -10,7 +10,14 @@ const propTypes = {
   lat: PropTypes.number,
   lng: PropTypes.number,
   zoomLevel: PropTypes.number,
-  markers: PropTypes.arrayOf(PropTypes.shape({
+  shelterMarkers: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    position: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
+  })),
+  weatherMarkers: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     position: PropTypes.shape({
       lat: PropTypes.number.isRequired,
@@ -30,7 +37,9 @@ class MapView extends Component {
   }
 
   componentDidMount() {
-    const { googleMaps, lat, lng, zoomLevel, markers, sectors } = this.props;
+    const {
+      googleMaps, lat, lng, zoomLevel, shelterMarkers, weatherMarkers, sectors,
+    } = this.props;
 
     // render Google Map
     this.map = new googleMaps.Map(this.mapRef, {
@@ -38,12 +47,26 @@ class MapView extends Component {
       zoom: zoomLevel,
     });
 
+    // Create placeholder for markers
+    this.markers = {
+      shelters: [],
+      weather: [],
+    };
+
+    // Create initial markers and sectors
     this.createSectors(sectors);
-    this.createMarkers(markers);
+    this.createShelterMarkers(shelterMarkers);
+    this.createWeatherMarkers(weatherMarkers);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return shallowCompare(this, nextProps, nextState);
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.weatherMarkers !== this.props.weatherMarkers) {
+      this.updateWeatherMarkers(nextProps.weatherMarkers);
+    }
   }
 
   createSectors(sectors) {
@@ -62,17 +85,16 @@ class MapView extends Component {
     );
   }
 
-  createMarkers(markers) {
+  createMarkers(markers, icon, type) {
     const { googleMaps } = this.props;
 
     markers.forEach(({ title, position }) => {
-      const marker = new googleMaps.Marker({
+      const marker = new googleMaps.Marker(Object.assign({
         position,
         title,
         map: this.map,
         animation: googleMaps.Animation.DROP,
-        icon: '/images/crysis-logo-marker.png',
-      });
+      }, icon ? { icon } : {}));
 
       const infoWindow = new googleMaps.InfoWindow({
         content: title,
@@ -81,7 +103,23 @@ class MapView extends Component {
       marker.addListener('click', () => {
         infoWindow.open(this.map, marker);
       });
+
+      this.markers[`${type}`].push(marker);
     });
+  }
+
+  createShelterMarkers(markers) {
+    this.createMarkers(markers, '/images/crysis-logo-marker.png', 'shelters');
+  }
+
+  createWeatherMarkers(markers) {
+    this.createMarkers(markers, null, 'weather');
+  }
+
+  updateWeatherMarkers(markers) {
+    this.markers.weather.forEach(m => m.setMap(null));
+    this.markers.weather = [];
+    this.createWeatherMarkers(markers);
   }
 
 
