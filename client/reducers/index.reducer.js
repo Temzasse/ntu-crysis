@@ -5,6 +5,7 @@ import * as types from '../actions/actiontypes';
 const mockIncidents = [
   { id: 1, title: 'Incident 1', description: 'Lorem ipsum dolor sit amet, ex est vide possim copiosae, omnesque efficiendi vix id. Suavitate disputando id ius, ludus possim imperdiet pro ea, pro vidisse forensibus at.' },
   { id: 2, title: 'Incident 2', description: 'Lorem ipsum dolor sit amet, ex est vide possim copiosae, omnesque efficiendi vix id. Suavitate disputando id ius, ludus possim imperdiet pro ea, pro vidisse forensibus at.' },
+  { id: 3, title: 'Incident 3', description: 'Lorem ipsum dolor sit amet, ex est vide possim copiosae, omnesque efficiendi vix id. Suavitate disputando id ius, ludus possim imperdiet pro ea, pro vidisse forensibus at.' },
 ];
 /* eslint-enable max-len */
 
@@ -81,6 +82,20 @@ function messages(state = [], action) {
     return state;
   }
 }
+const userInitialState = {
+  user: null,
+  loggedIn: false,
+};
+function user(state = userInitialState, action) {
+  switch (action.type) {
+  case types.USER.SET:
+    return { ...state, user: { ...action.payload }, loggedIn: true };
+  case types.USER.CLEAR:
+    return { ...userInitialState };
+  default:
+    return state;
+  }
+}
 
 
 const loadingInitialState = {
@@ -120,6 +135,7 @@ const rootReducer = combineReducers({
   incident,
   weather,
   messages,
+  user,
   loading,
   errors,
 });

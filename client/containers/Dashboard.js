@@ -1,10 +1,15 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router';
+
+// Actions
 import {
   removeMessage,
   toggleMarkerVisibility,
 } from '../actions/index.actions';
+
 
 /* eslint-disable max-len */
 // Component imports
@@ -21,35 +26,69 @@ const propTypes = {
   selectedIncident: PropTypes.object,
   rmMessage: PropTypes.func.isRequired,
   toastMessages: PropTypes.array.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
-const Dashboard = ({ selectedIncident, toastMessages, rmMessage }) => (
-  <div className='Dashboard'>
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userIsAuthenticated: false,
+    };
+  }
 
-    <Toast
-      messages={toastMessages}
-      removeToastMsg={rmMessage}
-    />
+  componentWillMount() {
+    const { loggedIn, currentUser } = this.props;
 
-    <FlexLayout direction='row'>
+    if (loggedIn) {
+      if (currentUser.role === 'operator') {
+        this.setState({ userIsAuthenticated: true });
+      }
+    }
+  }
 
-      <Sidebar
-        leftPanelComponent={IncidentListContainer}
-        rightPanelComponent={IncidentDetailsContainer}
-        visiblePanel={selectedIncident ? 'right' : 'left'}
-      />
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
 
-      <MainPanel>
-        <FlexLayout direction='column'>
-          <div>Crisis situation progress bar here...</div>
-          <MapContainer />
-          <div>Toolbar here</div>
+  render() {
+    const { toastMessages, rmMessage, selectedIncident } = this.props;
+    const { userIsAuthenticated } = this.state;
+
+    if (!userIsAuthenticated) {
+      return <Redirect to='/login' />;
+    }
+
+    return (
+      <div className='Dashboard'>
+
+        <Toast
+          messages={toastMessages}
+          removeToastMsg={rmMessage}
+        />
+
+        <FlexLayout direction='row'>
+
+          <Sidebar
+            leftPanelComponent={IncidentListContainer}
+            rightPanelComponent={IncidentDetailsContainer}
+            visiblePanel={selectedIncident ? 'right' : 'left'}
+          />
+
+          <MainPanel>
+            <FlexLayout direction='column'>
+              <div>Crisis situation progress bar here...</div>
+              <MapContainer />
+              <div>Map filter buttons here. Or reporting related stuff...</div>
+            </FlexLayout>
+          </MainPanel>
+
         </FlexLayout>
-      </MainPanel>
-
-    </FlexLayout>
-  </div>
-);
+      </div>
+    );
+  }
+}
 
 Dashboard.propTypes = propTypes;
 
@@ -58,6 +97,8 @@ function mapStateToProps(state) {
   return {
     selectedIncident: state.incident.selected,
     toastMessages: state.messages,
+    currentUser: state.user.user,
+    loggedIn: state.user.loggedIn,
   };
 }
 

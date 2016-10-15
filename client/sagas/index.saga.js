@@ -7,7 +7,13 @@ import * as types from '../actions/actiontypes';
 // Constants
 const TOAST_VISIBLE_TIME = 5000; // 4 seconds
 
-/* ***************************** TASKS *********************************** */
+
+/*
+///////////
+// TASKS //
+///////////
+*/
+
 function* fetchWeatherData() {
   try {
     const data = yield call(api.fetchWeatherData);
@@ -18,34 +24,13 @@ function* fetchWeatherData() {
       type: 'info',
       content: 'Weather data updated',
     }));
-
-    // // TODO: remove. Adding some test toasts.
-    // yield delay(3000);
-    // yield put(actions.addMessage({
-    //   type: 'info',
-    //   content: 'Test info toast BOOM!',
-    // }));
-    // yield delay(3000);
-    // yield put(actions.addMessage({
-    //   type: 'error',
-    //   content: 'Test error toast BOOM!',
-    // }));
-    // yield delay(2000);
-    // yield put(actions.addMessage({
-    //   type: 'error',
-    //   content: 'Another test error toast BOOM BOOM!',
-    // }));
-    // yield delay(2000);
-    // yield put(actions.addMessage({
-    //   type: 'info',
-    //   content: 'Last toast!',
-    // }));
   } catch (err) {
     yield put(actions.failWeatherData());
   }
 }
 
-/* NOTE:
+/**
+ * NOTE:
  * When toast message is added we want to remove it automatically
  * after x seconds
  *
@@ -59,7 +44,32 @@ function* unshiftMessage() {
   yield put(actions.removeMessage(0)); // from start of array
 }
 
-/* ***************************** WATCHERS *********************************** */
+
+function* doLogin({ payload }) {
+  yield delay(1000); // Simulate API call delay
+
+  const { username } = payload;
+  let mockUser = { username: 'Operator', role: 'operator' };
+
+  // For testing the login with different roles
+  if (username === 'operator') {
+    mockUser = { username: 'Operator', role: 'operator' };
+  }
+  if (username === 'callcentre') {
+    mockUser = { username: 'callcentre', role: 'callcentre' };
+  }
+  if (username === 'response') {
+    mockUser = { username: 'response', role: 'response' };
+  }
+  yield put(actions.setUser(mockUser));
+}
+
+
+/*
+//////////////
+// WATCHERS //
+//////////////
+*/
 function* watchFetchWeatherData() {
   yield* takeEvery(types.WEATHER.FETCH, fetchWeatherData);
 }
@@ -73,11 +83,15 @@ function* watchDebug() {
     types.DEBUG, (action) => console.debug('REDUX DEBUG', action.payload)
   );
 }
-/* ***************************** /WATCHERS ********************************** */
+
+function* watchLogin() {
+  yield* takeEvery(types.LOGIN, doLogin);
+}
 
 
 export default function* root() {
   yield fork(watchAddMessage);
   yield fork(watchFetchWeatherData);
   yield fork(watchDebug);
+  yield fork(watchLogin);
 }

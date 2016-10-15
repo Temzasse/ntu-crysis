@@ -5,6 +5,7 @@ import { BrowserRouter, Match, Miss } from 'react-router';
 import NavigationContainer from '../components/navigation/NavigationContainer';
 import Dashboard from './Dashboard';
 import NoMatchPage from './NoMatchPage';
+import Login from './Login';
 
 const App = () => (
   <BrowserRouter>
@@ -18,6 +19,7 @@ const App = () => (
         to inner UI components (eg: https://react-router.now.sh/recursive-paths)
         */}
       <Match exactly pattern='/' component={Dashboard} />
+      <Match pattern='/login' component={Login} />
       <Match pattern='/uber' render={() => <div>uber page</div>} />
       <Match pattern='/awesome' render={() => <div>awesome</div>} />
       <Miss component={NoMatchPage} />
