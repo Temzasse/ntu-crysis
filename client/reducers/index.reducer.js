@@ -49,7 +49,9 @@ function controlMap(state = mapInitialState, action) {
   case types.MAP.TOGGLE_MARKER: {
     return {
       ...state,
-      visibility: { [action.payload]: !!state.visibility[action.payload] },
+      visibility: {
+        [action.payload]: !state.visibility[action.payload],
+      },
     };
   }
   default:

@@ -12,15 +12,17 @@ import {
 
 
 /* eslint-disable max-len */
+
 // Component imports
 import MapContainer from '../components/map/MapContainer';
-// import Toolbar from '../components/map/Toolbar';
+import Toolbar from '../components/map/Toolbar';
 import FlexLayout from '../components/layout/FlexLayout';
 import MainPanel from '../components/layout/MainPanel';
 import Sidebar from '../components/layout/Sidebar';
 import IncidentDetailsContainer from '../components/incident/IncidentDetailsContainer';
 import IncidentListContainer from '../components/incident/IncidentListContainer';
 import Toast from '../components/utils/Toast';
+
 /* eslint-enable max-len */
 
 const propTypes = {
@@ -30,6 +32,7 @@ const propTypes = {
   toastMessages: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object.isRequired,
+  controlMap: PropTypes.object.isRequired,
 };
 
 class Dashboard extends Component {
@@ -42,6 +45,8 @@ class Dashboard extends Component {
 
   componentWillMount() {
     const { loggedIn, currentUser } = this.props;
+
+    // Don't require login when developing
     const isDev = process.env.DEBUG;
 
     if (loggedIn) {
@@ -58,7 +63,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { toastMessages, selectedIncident } = this.props;
+    const { toastMessages, selectedIncident, controlMap } = this.props;
     const { userIsAuthenticated } = this.state;
 
     if (!userIsAuthenticated) {
@@ -85,9 +90,10 @@ class Dashboard extends Component {
             <FlexLayout direction='column'>
               <div>Crisis situation progress bar here...</div>
               <MapContainer />
-              {/* <Toolbar
+              <Toolbar
                 toggleMarkerVisibility={this.props.toggleMarkerVisibility}
-              /> */}
+                controlMap={controlMap}
+              />
             </FlexLayout>
           </MainPanel>
 
@@ -106,6 +112,7 @@ function mapStateToProps(state) {
     toastMessages: state.messages,
     currentUser: state.user.user,
     loggedIn: state.user.loggedIn,
+    controlMap: state.controlMap,
   };
 }
 

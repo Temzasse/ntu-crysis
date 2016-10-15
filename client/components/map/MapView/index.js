@@ -31,6 +31,9 @@ class MapView extends Component {
     super(props);
     this.createSectors = this.createSectors.bind(this);
     this.createMarkers = this.createMarkers.bind(this);
+    this.createShelterMarkers = this.createShelterMarkers.bind(this);
+    this.createWeatherMarkers = this.createWeatherMarkers.bind(this);
+    this.createIncidentMarkers = this.createIncidentMarkers.bind(this);
   }
 
   componentDidMount() {
