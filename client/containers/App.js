@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Match, Miss } from 'react-router';
+import BrowserRouter from 'react-router/BrowserRouter';
+import Match from 'react-router/Match';
+import Miss from 'react-router/Miss';
 
 // Components
 import NavigationContainer from '../components/navigation/NavigationContainer';

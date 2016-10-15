@@ -5,7 +5,7 @@ import * as actions from '../actions/index.actions';
 import * as types from '../actions/actiontypes';
 
 // Constants
-const TOAST_VISIBLE_TIME = 5000; // 4 seconds
+const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 
 
 /*

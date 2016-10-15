@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
+import Redirect from 'react-router/Redirect';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router';
 
 // Actions
 import {
@@ -14,6 +14,7 @@ import {
 /* eslint-disable max-len */
 // Component imports
 import MapContainer from '../components/map/MapContainer';
+// import Toolbar from '../components/map/Toolbar';
 import FlexLayout from '../components/layout/FlexLayout';
 import MainPanel from '../components/layout/MainPanel';
 import Sidebar from '../components/layout/Sidebar';
@@ -24,7 +25,8 @@ import Toast from '../components/utils/Toast';
 
 const propTypes = {
   selectedIncident: PropTypes.object,
-  rmMessage: PropTypes.func.isRequired,
+  removeMessage: PropTypes.func.isRequired,
+  toggleMarkerVisibility: PropTypes.func.isRequired,
   toastMessages: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object.isRequired,
@@ -40,11 +42,14 @@ class Dashboard extends Component {
 
   componentWillMount() {
     const { loggedIn, currentUser } = this.props;
+    const isDev = process.env.DEBUG;
 
     if (loggedIn) {
       if (currentUser.role === 'operator') {
         this.setState({ userIsAuthenticated: true });
       }
+    } else if (isDev) {
+      this.setState({ userIsAuthenticated: true });
     }
   }
 
@@ -53,7 +58,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { toastMessages, rmMessage, selectedIncident } = this.props;
+    const { toastMessages, selectedIncident } = this.props;
     const { userIsAuthenticated } = this.state;
 
     if (!userIsAuthenticated) {
@@ -65,7 +70,7 @@ class Dashboard extends Component {
 
         <Toast
           messages={toastMessages}
-          removeToastMsg={rmMessage}
+          removeToastMsg={this.props.removeMessage}
         />
 
         <FlexLayout direction='row'>
@@ -80,7 +85,9 @@ class Dashboard extends Component {
             <FlexLayout direction='column'>
               <div>Crisis situation progress bar here...</div>
               <MapContainer />
-              <div>Map filter buttons here. Or reporting related stuff...</div>
+              {/* <Toolbar
+                toggleMarkerVisibility={this.props.toggleMarkerVisibility}
+              /> */}
             </FlexLayout>
           </MainPanel>
 
@@ -105,7 +112,8 @@ function mapStateToProps(state) {
 // This adds action creators to components props
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    rmMessage: removeMessage,
+    removeMessage,
+    toggleMarkerVisibility,
   }, dispatch);
 }
 
