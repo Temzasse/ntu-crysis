@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
   render(<Root store={store} />, rootElement);
 } else {
   // NOTE: Workaround for https://github.com/gaearon/react-hot-loader/pull/314
-  const Redbox = require('redbox-react'); // eslint-disable-line
+  const Redbox = require('redbox-react').default; // eslint-disable-line
 
   render(
     <AppContainer errorReporter={Redbox}>
