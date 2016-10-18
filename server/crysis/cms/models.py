@@ -42,6 +42,8 @@ class Incident(models.Model):
     witness = models.CharField(max_length=20, default='Public', blank=True)
     longitude = models.FloatField(default=103.851959, blank=True)
     latitude = models.FloatField(default=1.290270, blank=True)
+    #create many-to-one relationship handle
+    handle_by = models.ForeignKey('ResponseUnit', on_delete=models.CASCADE, default = 1)
     # NOTE: Incident should have `status` field => `active` / `done`
     #       Response unit sets incident to `done` when task is completed.
 
