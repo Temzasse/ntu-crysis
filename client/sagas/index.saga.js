@@ -37,10 +37,10 @@ function* doLogin({ payload }) {
       role: 'operator',
     };
   }
-  if (username === 'callcentre') {
+  if (username === 'callcenter') {
     mockUser = {
-      username: 'callcentre',
-      role: 'callcentre',
+      username: 'callcenter',
+      role: 'callcenter',
     };
   }
   if (username === 'response') {
@@ -51,7 +51,6 @@ function* doLogin({ payload }) {
   }
   yield put(actions.setUser(mockUser));
 }
-
 
 /* ***************************** WATCHERS *********************************** */
 function* watchFetchWeatherData() {

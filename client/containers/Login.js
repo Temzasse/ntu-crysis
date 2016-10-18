@@ -8,7 +8,7 @@ import { Redirect } from 'react-router';
 // import FlexLayout from '../components/layout/FlexLayout';
 // import Toast from '../components/utils/Toast';
 import LoginContainer from '../components/login/LoginContainer';
-
+import callcenter from './CallCenter';
 /* eslint-enable max-len */
 
 const propTypes = {
@@ -19,7 +19,7 @@ const propTypes = {
 const Login = ({ currentUser, loggedIn }) => {
   if (loggedIn) {
     if (currentUser.role === 'operator') return <Redirect to='/' />;
-    if (currentUser.role === 'callcentre') return <Redirect to='/callcentre' />;
+    if (currentUser.role === 'callcenter') return <Redirect to='/callcenter' />;
     if (currentUser.role === 'response') return <Redirect to='/response' />;
   }
   return (
