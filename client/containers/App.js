@@ -6,6 +6,8 @@ import NavigationContainer from '../components/navigation/NavigationContainer';
 import Dashboard from './Dashboard';
 import NoMatchPage from './NoMatchPage';
 import Login from './Login';
+import CallCenter from './CallCenter';
+import ReportIncidentPage from './ReportIncidentPage';
 
 const App = () => (
   <BrowserRouter>
@@ -20,6 +22,8 @@ const App = () => (
         */}
       <Match exactly pattern='/' component={Dashboard} />
       <Match pattern='/login' component={Login} />
+      <Match pattern='/callcenter' component={CallCenter} />
+      <Match pattern='/report-incident' component={ReportIncidentPage} />
       <Match pattern='/uber' render={() => <div>uber page</div>} />
       <Match pattern='/awesome' render={() => <div>awesome</div>} />
       <Miss component={NoMatchPage} />

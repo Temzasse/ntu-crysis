@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router';
+// import { Redirect } from 'react-router';
 
 /* eslint-disable max-len */
 // Component imports
