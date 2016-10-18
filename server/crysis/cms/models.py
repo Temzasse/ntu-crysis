@@ -27,28 +27,17 @@ class Incident(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, blank=True)
     comment = models.TextField(max_length=300, blank=True)  # use as a string but should be split by '.' or '\n'
-
-    # NOTE: Incident type should probably be like `land` or `sea`
-    #       so that we know what kind of response unit to send.
     type = models.CharField(choices=TYPE_CHOICE, default='UN', max_length=5)
-    # NOTE: Check choice.py for note about area choices.
     area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
     level = models.IntegerField(default=0)
-    # NOTE: Should this be `created_at`?
     created_at = models.DateTimeField(auto_now_add=True)
-    # NOTE: Should this be `updated_at`?
     updated_at = models.DateTimeField(auto_now=True)
     # NOTE: Is this data necessary? Can be expressed in comment or maybe even left out entirely.
     witness = models.CharField(max_length=20, default='Public', blank=True)
     longitude = models.FloatField(default=103.851959, blank=True)
     latitude = models.FloatField(default=1.290270, blank=True)
-    #create many-to-one relationship handle
     handle_by = models.ForeignKey('ResponseUnit', on_delete=models.CASCADE, default = 1)
-    # NOTE: Incident should have `status` field => `active` / `done`
-    #       Response unit sets incident to `done` when task is completed.
-
-    # owner = models.ForeignKey('auth.User', related_name='incident')
-
+    status = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
@@ -76,10 +65,7 @@ class ResponseUnit(models.Model):
     area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
     phone = models.CharField(max_length=10, blank=True)
     email = models.EmailField(max_length=50, blank=True)
-    # NOTE: Do we need address?
     address = models.CharField(max_length=30, blank=True)
-    longitude = models.FloatField(default=103.851959, blank=True)
-    latitude = models.FloatField(default=1.290270, blank=True)
     speciality = models.CharField(choices = TYPE_CHOICE, default='UN', max_length=5)
 
     def __str__(self):
@@ -123,18 +109,12 @@ class Crisis(models.Model):
     comment = models.TextField(max_length=300, blank=True)
     status = models.CharField(choices= STATUS_CHOICE, default='UN', max_length=5) 
     type = models.CharField(choices=TYPE_CHOICE, default='UN', max_length=5)
-    # NOTE: Crisis probably doesn't need to know about area because area is
-    #       property of individual incident in crisis.
-    area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
     level = models.IntegerField(default=0)
     threshold = models.IntegerField(default=5)
-    # NOTE: `created_at` and `updated_at` instead?
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     incidents = models.ManyToManyField(Incident, blank=True)
     #shelters = models.ManyToManyField(Shelter, blank=True)
-    responseUnits = models.ManyToManyField(ResponseUnit, blank=True)
 
     def __str__(self):
         return self.title
