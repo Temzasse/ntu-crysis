@@ -6,7 +6,10 @@ import CSSModules from 'react-css-modules';
 import styles from './index.scss';
 
 const propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   content: PropTypes.string.isRequired,
 };
 

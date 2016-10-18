@@ -1,6 +1,6 @@
 import { takeEvery, delay } from 'redux-saga';
 import { put, call, fork } from 'redux-saga/effects';
-import { api } from '../services';
+import { api, websocket as ws } from '../services';
 import * as actions from '../actions/index.actions';
 import * as types from '../actions/actiontypes';
 
@@ -64,6 +64,11 @@ function* doLogin({ payload }) {
   yield put(actions.setUser(mockUser));
 }
 
+function* fetchIncidents() {
+  yield delay(1000);
+  ws.send({ type: types.INCIDENT.FETCH });
+}
+
 
 /*
 //////////////
@@ -84,6 +89,10 @@ function* watchDebug() {
   );
 }
 
+function* watchFetchIncidents() {
+  yield* takeEvery(types.INCIDENT.FETCH, fetchIncidents);
+}
+
 function* watchLogin() {
   yield* takeEvery(types.LOGIN, doLogin);
 }
@@ -94,4 +103,5 @@ export default function* root() {
   yield fork(watchFetchWeatherData);
   yield fork(watchDebug);
   yield fork(watchLogin);
+  yield fork(watchFetchIncidents);
 }

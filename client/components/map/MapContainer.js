@@ -56,13 +56,17 @@ class MapContainer extends Component {
         mapApiLoaded: true,
       });
 
+      // TODO: Uncomment below. Disabled featching weather temporarily...
       // Fetch the first set of weather data
-      this.props.fetchWeatherData();
+      // this.props.fetchWeatherData();
 
       // Start weather loading interval
       this.weatherIntervalId = window.setInterval(
-        this.props.fetchWeatherData, WEATHER_UPDATE_INTERVAL
+        () => console.debug('FETCH WEATHER DATA'), WEATHER_UPDATE_INTERVAL
       );
+      // this.weatherIntervalId = window.setInterval(
+      //   this.props.fetchWeatherData, WEATHER_UPDATE_INTERVAL
+      // );
     } else if (this.mapLoadingCounter > MAP_MAX_TIMEOUT) {
       clearInterval(this.mapApiLoadInterval);
       console.debug('[MapContainer] Map failed to load!');

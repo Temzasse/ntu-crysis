@@ -92,6 +92,8 @@ function messages(state = [], action) {
     return state;
   }
 }
+
+
 const userInitialState = {
   user: null,
   loggedIn: false,

@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import {
   removeMessage,
   toggleMarkerVisibility,
+  fetchIncidents,
 } from '../actions/index.actions';
 
 
@@ -28,10 +29,11 @@ import Toast from '../components/utils/Toast';
 const propTypes = {
   selectedIncident: PropTypes.object,
   removeMessage: PropTypes.func.isRequired,
+  fetchIncidents: PropTypes.func.isRequired,
   toggleMarkerVisibility: PropTypes.func.isRequired,
   toastMessages: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
   controlMap: PropTypes.object.isRequired,
 };
 
@@ -51,9 +53,11 @@ class Dashboard extends Component {
 
     if (loggedIn) {
       if (currentUser.role === 'operator') {
+        this.props.fetchIncidents();
         this.setState({ userIsAuthenticated: true });
       }
-    } else if (isDev) {
+    } else if (isDev) { // NOTE: This part is only for development
+      this.props.fetchIncidents();
       this.setState({ userIsAuthenticated: true });
     }
   }
@@ -121,6 +125,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     removeMessage,
     toggleMarkerVisibility,
+    fetchIncidents,
   }, dispatch);
 }
 

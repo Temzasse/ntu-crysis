@@ -7,8 +7,13 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 import Root from './containers/Root';
 import configureStore from './store/configureStore';
+import { websocket as ws } from './services';
 
 const store = configureStore();
+
+// Connect the websocket
+ws.connect(store);
+
 const rootElement = document.getElementById('root'); // where to mount on page
 
 if (process.env.NODE_ENV === 'production') {
