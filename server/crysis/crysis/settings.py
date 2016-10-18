@@ -34,6 +34,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [("localhost", 6379)],
         },
+        #"BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "crysis.routing.channel_routing",
     },
 }
@@ -46,6 +47,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+FIXTURE_DIRS = (
+   BASE_DIR, 'fixtures/'
+)
 
 # Application definition
 
