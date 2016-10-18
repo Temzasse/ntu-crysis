@@ -82,14 +82,6 @@ class ResponseUnit(models.Model):
     latitude = models.FloatField(default=1.290270, blank=True)
     speciality = models.CharField(choices = TYPE_CHOICE, default='UN', max_length=5)
 
-
-    # NOTE: Response unit should have `speciality` field that corresponds to some incident `type` field
-    #       => eg. `land` or `sea`
-    #       => this way we can send the correct unit to handle the correct incident.
-
-    # NOTE: Also response unit `type` field could be one of `trainer` / `police` / `military`...
-    #       We dont need to create classes for these => lets keep it simple ;)
-
     def __str__(self):
         return self.name
 
@@ -135,33 +127,14 @@ class Crisis(models.Model):
     #       property of individual incident in crisis.
     area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
     level = models.IntegerField(default=0)
-    threshold = models.IntegerField(default=0)
-    # NOTE: should probably have `status` field => `inactive` / `active` / `pending` / `archived`
-    #       For example: when we create incident we attach it to Crisis
-    #       that might need to be created with status `inactive` since its not
-    #       a crisis yet.
-    #       When the num of incidents passes the threshold we change the status to `active`
-    #       And when the crisis has been resolved it goes to `pending` status
-    #       (or `archived` if we want to make it simpler)
-
+    threshold = models.IntegerField(default=5)
     # NOTE: `created_at` and `updated_at` instead?
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # NOTE: Should be `incidents` because of ManyToManyField
     incidents = models.ManyToManyField(Incident, blank=True)
-    # NOTE: Shelter are not crisis dependant, right? So crisis doesn't really have shelters
-    shelters = models.ManyToManyField(Shelter, blank=True)
-    # NOTE: Should be `resonseUnits` because of ManyToManyField
+    #shelters = models.ManyToManyField(Shelter, blank=True)
     responseUnits = models.ManyToManyField(ResponseUnit, blank=True)
-    # NOTE: Trainer should one type of response unit not a thing by itself.
-    #       => this can probably be removed.
-    trainers = models.ManyToManyField(Trainer, blank=True)
-
-    # NOTE: Crisis is not attached to some location.
-    #       Crisis is basically a container for incidents that have the location data.
-    longitude = models.FloatField(default=103.851959, blank=True)
-    latitude = models.FloatField(default=1.290270, blank=True)
 
     def __str__(self):
         return self.title

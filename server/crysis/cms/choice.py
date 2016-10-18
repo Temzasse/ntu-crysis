@@ -5,18 +5,13 @@ AREA_CHOICE = (
     ('SE', 'South-east'),
     ('NW', 'North-west'),
     ('NS', 'North-west'),
-    ('CT', 'Central'),
-    ('ME', 'Marine-east'),
-    ('MW', 'Marine-west'),
-    ('MC', 'Marine-central'),
-    ('IW', 'Island-wide'),
-    ('UN', 'Unknown'),
 )
 
 TYPE_CHOICE = (
-    ('LA', 'Land'),
-    ('SE', 'Sea'),
-    ('AI', 'Air'),
+    ('LAN', 'Land'),
+    ('SEA', 'Sea'),
+    ('AIR', 'Air'),
+    ('TRA', 'Trainer'),
 )
 
 NATIONALITY_CHOICE = (
