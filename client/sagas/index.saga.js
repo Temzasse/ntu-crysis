@@ -55,14 +55,15 @@ function* doLogin({ payload }) {
   if (username === 'operator') {
     mockUser = { username: 'Operator', role: 'operator' };
   }
-  if (username === 'callcentre') {
-    mockUser = { username: 'callcentre', role: 'callcentre' };
+  if (username === 'callcenter') {
+    mockUser = { username: 'callcenter', role: 'callcenter' };
   }
   if (username === 'response') {
     mockUser = { username: 'response', role: 'response' };
   }
   yield put(actions.setUser(mockUser));
 }
+
 
 function* fetchIncidents() {
   yield delay(1000);
@@ -75,6 +76,7 @@ function* fetchIncidents() {
 // WATCHERS //
 //////////////
 */
+
 function* watchFetchWeatherData() {
   yield* takeEvery(types.WEATHER.FETCH, fetchWeatherData);
 }
