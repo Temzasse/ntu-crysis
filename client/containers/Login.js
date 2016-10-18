@@ -3,17 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 
-/* eslint-disable max-len */
+
 // Component imports
-// import FlexLayout from '../components/layout/FlexLayout';
-// import Toast from '../components/utils/Toast';
 import LoginContainer from '../components/login/LoginContainer';
-import callcenter from './CallCenter';
-/* eslint-enable max-len */
 
 const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
 };
 
 const Login = ({ currentUser, loggedIn }) => {

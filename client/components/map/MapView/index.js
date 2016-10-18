@@ -1,22 +1,26 @@
 import React, { Component, PropTypes } from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
 import CSSModules from 'react-css-modules';
 
 // Styles
 import styles from './index.scss';
+
+const markerPropType = PropTypes.arrayOf(
+  PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    position: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+    }),
+  }).isRequired);
 
 const propTypes = {
   googleMaps: PropTypes.object.isRequired,
   lat: PropTypes.number,
   lng: PropTypes.number,
   zoomLevel: PropTypes.number,
-  markers: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    position: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired,
-    }).isRequired,
-  })),
+  shelterMarkers: markerPropType,
+  weatherMarkers: markerPropType,
+  incidentMarkers: markerPropType,
   sectors: PropTypes.arrayOf(PropTypes.shape({
     coords: PropTypes.array.isRequired,
   })),
@@ -27,10 +31,16 @@ class MapView extends Component {
     super(props);
     this.createSectors = this.createSectors.bind(this);
     this.createMarkers = this.createMarkers.bind(this);
+    this.createShelterMarkers = this.createShelterMarkers.bind(this);
+    this.createWeatherMarkers = this.createWeatherMarkers.bind(this);
+    this.createIncidentMarkers = this.createIncidentMarkers.bind(this);
   }
 
   componentDidMount() {
-    const { googleMaps, lat, lng, zoomLevel, markers, sectors } = this.props;
+    const {
+      googleMaps, lat, lng, zoomLevel,
+      incidentMarkers, shelterMarkers, weatherMarkers, sectors,
+    } = this.props;
 
     // render Google Map
     this.map = new googleMaps.Map(this.mapRef, {
@@ -38,12 +48,38 @@ class MapView extends Component {
       zoom: zoomLevel,
     });
 
+    // Create placeholder for markers
+    this.markers = {
+      shelters: [],
+      weather: [],
+      incidents: [],
+    };
+
+    // Create initial markers and sectors
     this.createSectors(sectors);
-    this.createMarkers(markers);
+    this.createShelterMarkers(shelterMarkers);
+    this.createWeatherMarkers(weatherMarkers);
+    this.createIncidentMarkers(incidentMarkers);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
+  /**
+   * NOTE:
+   * Only update map markers if the marker props have changed!
+   * This will help to keep the performance good.
+   */
+  componentWillReceiveProps(nextProps) {
+    const { weatherMarkers, incidentMarkers } = this.props;
+
+    // TODO: Is there a better way to deep compare objects?
+    const wPrev = JSON.stringify(weatherMarkers);
+    const wNext = JSON.stringify(nextProps.weatherMarkers);
+
+    if (wPrev !== wNext) {
+      this.updateWeatherMarkers(nextProps.weatherMarkers);
+    }
+    if (nextProps.incidentMarkers.length !== incidentMarkers.length) {
+      this.updateIncidentMarkers(nextProps.incidentMarkers);
+    }
   }
 
   createSectors(sectors) {
@@ -62,17 +98,16 @@ class MapView extends Component {
     );
   }
 
-  createMarkers(markers) {
+  createMarkers(markers, icon, type) {
     const { googleMaps } = this.props;
 
     markers.forEach(({ title, position }) => {
-      const marker = new googleMaps.Marker({
+      const marker = new googleMaps.Marker(Object.assign({
         position,
         title,
         map: this.map,
         animation: googleMaps.Animation.DROP,
-        icon: '/images/crysis-logo-marker.png',
-      });
+      }, icon ? { icon } : {}));
 
       const infoWindow = new googleMaps.InfoWindow({
         content: title,
@@ -81,7 +116,34 @@ class MapView extends Component {
       marker.addListener('click', () => {
         infoWindow.open(this.map, marker);
       });
+
+      this.markers[type].push(marker);
     });
+  }
+
+  createShelterMarkers(markers) {
+    this.createMarkers(markers, '/images/crysis-logo-marker.png', 'shelters');
+  }
+
+  createWeatherMarkers(markers) {
+    this.createMarkers(markers, null, 'weather');
+  }
+
+  createIncidentMarkers(markers) {
+    this.createMarkers(markers, '/images/crysis-logo-marker.png', 'incidents');
+  }
+
+  updateWeatherMarkers(markers) {
+    this.markers.weather.forEach(m => m.setMap(null));
+    this.markers.weather = [];
+    this.createWeatherMarkers(markers);
+  }
+
+  updateIncidentMarkers(markers) {
+    // TODO: rethink this method...
+    this.markers.incidents.forEach(m => m.setMap(null));
+    this.markers.incidents = [];
+    this.createIncidentMarkers(markers);
   }
 
 
@@ -102,4 +164,4 @@ MapView.defaultProps = {
   zoomLevel: 11,
 };
 
-export default CSSModules(MapView, styles); // { allowMultiple: true }
+export default CSSModules(MapView, styles);

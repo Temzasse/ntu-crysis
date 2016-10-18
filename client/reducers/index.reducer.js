@@ -1,13 +1,19 @@
 import { combineReducers } from 'redux';
 import * as types from '../actions/actiontypes';
 
-/* eslint-disable max-len */
-const mockIncidents = [
-  { id: 1, title: 'Incident 1', description: 'Lorem ipsum dolor sit amet, ex est vide possim copiosae, omnesque efficiendi vix id. Suavitate disputando id ius, ludus possim imperdiet pro ea, pro vidisse forensibus at.' },
-  { id: 2, title: 'Incident 2', description: 'Lorem ipsum dolor sit amet, ex est vide possim copiosae, omnesque efficiendi vix id. Suavitate disputando id ius, ludus possim imperdiet pro ea, pro vidisse forensibus at.' },
-  { id: 3, title: 'Incident 3', description: 'Lorem ipsum dolor sit amet, ex est vide possim copiosae, omnesque efficiendi vix id. Suavitate disputando id ius, ludus possim imperdiet pro ea, pro vidisse forensibus at.' },
-];
-/* eslint-enable max-len */
+// Import constants and dummy data
+import {
+  mockIncidents,
+  shelterMarkers,
+  mapSectors,
+} from '../static/dummyData';
+
+
+/*
+//////////////
+// REDUCERS //
+//////////////
+*/
 
 const incidentsInitialState = {
   all: [...mockIncidents],
@@ -27,6 +33,33 @@ function incident(state = incidentsInitialState, action) {
   }
 }
 
+
+const mapInitialState = {
+  visibility: {
+    weather: true,
+    shelters: true,
+  },
+  sectors: [...mapSectors], // sectors are pre-defined
+  markers: {
+    shelters: [...shelterMarkers], // shelters are pre-defined
+  },
+};
+function controlMap(state = mapInitialState, action) {
+  switch (action.type) {
+  case types.MAP.TOGGLE_MARKER: {
+    return {
+      ...state,
+      visibility: {
+        [action.payload]: !state.visibility[action.payload],
+      },
+    };
+  }
+  default:
+    return state;
+  }
+}
+
+
 const weatherInitialState = {
   forecast: [],
 };
@@ -39,16 +72,7 @@ function weather(state = weatherInitialState, action) {
   }
 }
 
-// TODO: remove. These are just for testing the functionality.
-const messagesInitialState = [
-  { type: 'error', content: 'Test toast 1' },
-  { type: 'info', content: 'Test toast 2' },
-  { type: 'info', content: 'Test toast 3' },
-  { type: 'info', content: 'Test toast 4' },
-  { type: 'info', content: 'Test toast 5' },
-];
-
-function messages(state = messagesInitialState, action) {
+function messages(state = [], action) {
   switch (action.type) {
   case types.MESSAGES.ADD:
     return [...state, action.payload];
@@ -68,6 +92,8 @@ function messages(state = messagesInitialState, action) {
     return state;
   }
 }
+
+
 const userInitialState = {
   user: null,
   loggedIn: false,
@@ -85,15 +111,15 @@ function user(state = userInitialState, action) {
 
 
 const loadingInitialState = {
-  something: true,
+  weather: false,
 };
 
 function loading(state = loadingInitialState, action) {
   switch (action.type) {
-  case types.SOMETHING.FETCH:
-    return { ...state, something: true };
-  case types.SOMETHING.RECEIVE:
-    return { ...state, something: false };
+  case types.WEATHER.FETCH:
+    return { ...state, weather: true };
+  case types.WEATHER.RECEIVE:
+    return { ...state, weather: false };
   default:
     return state;
   }
@@ -101,13 +127,13 @@ function loading(state = loadingInitialState, action) {
 
 
 const errorsInitialState = {
-  something: false,
+  weather: false,
 };
 
 function errors(state = errorsInitialState, action) {
   switch (action.type) {
-  case types.SOMETHING.FAIL:
-    return { ...state, something: true };
+  case types.WEATHER.FAIL:
+    return { ...state, weather: true };
   case types.ERRORS.CLEAR:
     return { ...errorsInitialState };
   default:
@@ -117,6 +143,7 @@ function errors(state = errorsInitialState, action) {
 
 
 const rootReducer = combineReducers({
+  controlMap,
   incident,
   weather,
   messages,

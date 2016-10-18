@@ -1,0 +1,15 @@
+.Toolbar {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+
+  button {
+    border: 1px solid #eee;
+    border-radius: 3px;
+    padding: 8px 12px;
+    background-color: transparent;
+  }
+}

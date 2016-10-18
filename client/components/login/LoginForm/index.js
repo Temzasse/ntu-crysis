@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import CSSModules from 'react-css-modules';
 
 // Styles
@@ -17,15 +16,25 @@ const LoginForm = ({ handleUsername, handlePassword, handleSubmit }) => (
       <div styleName='LoginField'>
         <img src='/images/crysis-logo.png' alt='brand logo' height='40' />
         <br />
-        <label>
+
+        <label htmlFor='username'>
           Username
-          <input onChange={event => handleUsername(event.target.value)} />
+          <input
+            onChange={event => handleUsername(event.target.value)}
+            name='username'
+          />
         </label>
+
         <br />
-        <label>
+
+        <label htmlFor='password'>
           Password
-          <input onChange={event => handlePassword(event.target.value)} />
+          <input
+            onChange={event => handlePassword(event.target.value)}
+            name='password'
+          />
         </label>
+
         <br />
         <button onClick={handleSubmit}>Login</button>
       </div>

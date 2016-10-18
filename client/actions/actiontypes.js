@@ -27,3 +27,4 @@ export const INCIDENT = createTypes('INCIDENT', [...fetchActions, 'SET_SELECTED'
 export const WEATHER = createTypes('WEATHER', [...fetchActions]);
 export const MESSAGES = createTypes('MESSAGES', ['ADD', 'REMOVE']);
 export const USER = createTypes('USER', [...binaryActions]);
+export const MAP = createTypes('MAP', ['TOGGLE_MARKER']);

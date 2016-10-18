@@ -1,0 +1,87 @@
+# TODO: uncomment and modify to make more sense
+# Users
+# - model: cms.ResponseUnit
+#   pk: 1
+#   fields:
+#     name: "Response Unit 1"
+#     area: 1
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "land"
+
+# Area 1
+# - model: cms.ResponseUnit
+#   pk: 1
+#   fields:
+#     name: "Response Unit 1"
+#     area: 1
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "land"
+#
+# - model: cms.ResponseUnit
+#   pk: 2
+#   fields:
+#     name: "Response Unit 2"
+#     area: 1
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "sea"
+#
+# # Area 2
+# - model: cms.ResponseUnit
+#   pk: 3
+#   fields:
+#     name: "Response Unit 3"
+#     area: 2
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "land"
+#
+# - model: cms.ResponseUnit
+#   pk: 4
+#   fields:
+#     name: "Response Unit 4"
+#     area: 2
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "sea"
+#
+#
+# # Area 3
+# - model: cms.ResponseUnit
+#   pk: 5
+#   fields:
+#     name: "Response Unit 5"
+#     area: 3
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "land"
+#
+# - model: cms.ResponseUnit
+#   pk: 6
+#   fields:
+#     name: "Response Unit 6"
+#     area: 3
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "sea"
+#
+# # Area 4
+# - model: cms.ResponseUnit
+#   pk: 7
+#   fields:
+#     name: "Response Unit 7"
+#     area: 4
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "land"
+#
+# - model: cms.ResponseUnit
+#   pk: 8
+#   fields:
+#     name: "Response Unit 8"
+#     area: 4
+#     phone: 23456789
+#     email: "resp1@crysis.sg"
+#     speciality: "sea"
