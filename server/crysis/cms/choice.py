@@ -14,9 +14,9 @@ AREA_CHOICE = (
 )
 
 TYPE_CHOICE = (
-    ('PKM', 'Among pokemons'),
-    ('PKMHM', 'Among pokemons and humans'),
-    ('UN', 'Unknown'),
+    ('LA', 'Land'),
+    ('SE', 'Sea'),
+    ('AI', 'Air'),
 )
 
 NATIONALITY_CHOICE = (
@@ -57,11 +57,9 @@ SEX_CHOICE = (
     ('U', 'Unknown'),
 )
 
-WEATHER_CHOICE = (
-    ('UN', 'Unknown'),
-    ('CD', 'Cloudy'),
-    ('RN', 'Rainy'),
-    ('SN', 'Sunny'),
-    ('TS', 'Thunderstorm'),
-    ('FG', 'Foggy'),
+STATUS_CHOICE = (
+    ('INA', 'Inactive'),
+    ('ACT', 'Active'),
+    ('PEN', 'Pending'),
+    ('ARC', 'Archived'),
 )

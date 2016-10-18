@@ -2,9 +2,9 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter, Weather
+from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter
 from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSerializer, PokemonSerializer, \
-    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer, WeatherSerializer
+    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer
 from rest_framework import mixins, generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
@@ -27,7 +27,6 @@ def api_root(request, format=None):
         'pokemondb': reverse('cms:pokemondb_list', request=request, format=format),
         'trainer': reverse('cms:trainer_list', request=request, format=format),
         'shelter': reverse('cms:shelter_list', request=request, format=format),
-        'weather': reverse('cms:weather', request=request, format=format),
     })
 
 class Auth(APIView):
@@ -127,8 +126,3 @@ class ShelterList(generics.ListAPIView):
 class ShelterDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
-
-
-class WeatherDetails(generics.ListAPIView):
-    queryset = Weather.objects.all()
-    serializer_class = WeatherSerializer

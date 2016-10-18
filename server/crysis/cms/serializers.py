@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter, Weather
+from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter
 from django.contrib.auth.models import User
 
 
@@ -57,8 +57,3 @@ class ShelterSerializer(serializers.ModelSerializer):
         model = Shelter
         fields = ('id', 'name', 'capacity', 'area', 'status', 'longitude', 'latitude')
 
-
-class WeatherSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Weather
-        fields = ('id', 'temperature', 'temperature_low', 'temperature_hi', 'weather', 'psi')
