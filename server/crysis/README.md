@@ -8,10 +8,23 @@ This is the backend code for Crysis CMS. RESTful API for data access and WebSock
 ### Requirements
 - Install [Python 3.5](https://www.python.org/downloads/).
 - Install `pip` and `virtualenv` with this [guide](http://dont-be-afraid-to-commit.readthedocs.io/en/latest/virtualenv.html) and familiarize yourself with them (how to create virtual environment).
+- Redis
+  - OSX: `brew install redis`
+  - If you don't have Homebrew => install [it](http://brew.sh/
+  )
+
 
 ### Development
 
 **NOTE**: don't copy `$` character! It only means that the command should be executed in command-line / terminal!
+
+**Add project files**
+
+You can either unzip the download project files to your working directory or
+
+```
+$ git clone https://github.com/Temzasse/ntu-crysis.git
+```
 
 **Create virtual environment:**
 
@@ -40,14 +53,6 @@ $ Scripts\activate
 
 After activating the virtual environment your terminal should show `(venv)`. If i does not show that, **DO NOT** proceed with installation step because it will install all packages globally!
 
-**Add project files**
-
-You can either unzip the download project files to your working directory or 
-
-```
-$ git clone https://github.com/Temzasse/ntu-crysis.git
-```
-
 
 **Install dependencies**
 
@@ -64,6 +69,18 @@ If you add a new package remember to add it to `requirements.txt` file:
 $ pip freeze > requirements.txt
 ```
 
+**Start Redis server**
+
+*OSX / Linux*
+```
+$ redis-server /usr/local/etc/redis.conf
+```
+
+*Windows*
+
+```
+$ TODO...
+```
 **Run server**
 
 
@@ -102,7 +119,7 @@ $ pip freeze > requirements.txt
 │   ├── __pycache__
 │   │   └── ...
 │   ├── routing.py			--> Differentiate HTTP and WebSocket request
-│   ├── settings.py	
+│   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
 ├── db.sqlite3
@@ -121,11 +138,11 @@ $ pip freeze > requirements.txt
 ##### Authentication
 - `TokenAuthentication` is used
 - Get token
-	- URL: &nbsp; ~/api-token/"	
+	- URL: &nbsp; ~/api-token/"
 	- Method: &nbsp; `POST`
 	- Request
 		``` javascript
-		  { "username": YOUR_USERNAME, 
+		  { "username": YOUR_USERNAME,
             "password": YOUR_PASSWORD }
     	```
     - Response
@@ -136,7 +153,7 @@ $ pip freeze > requirements.txt
 	- URL: any
 	- Method: `POST`, `PUT`, `DELETE`
 	- Headers
-	
+
 	 	``` javascript
           //There is a space between "Token" and YOUR_TOKEN string
 	 	  { "Athorization": "Token " + YOUR_TOKEN }
@@ -146,8 +163,8 @@ $ pip freeze > requirements.txt
 ##### RESTful API
 
 
-> URL | `GET` | `POST` | `PUT`| `DELETE` | Description 
-> --- | ----- | ------ | ---- | -------- | ----------- 
+> URL | `GET` | `POST` | `PUT`| `DELETE` | Description
+> --- | ----- | ------ | ---- | -------- | -----------
 > ~ admin ||||| Django login page for admin user.
 > ~ api-token |:octocat: :cop: :family:|:octocat: :cop:||| Return a user token.
 > ~ cms/incidnet |:octocat: :cop: :family:|:octocat: :cop:||| Return a list of incidents.
@@ -176,7 +193,7 @@ $ pip freeze > requirements.txt
       {"type": TYPE_OF_CHANGE,  				// "CREATE", "UPDATE"，"DELETE"
        "data": {SERIALIZATION_OF_THE_OBJECT} }	// "deleted" for "DELETION"
  	```
-    
+
 - Connect
 
 	```javascript
@@ -194,9 +211,7 @@ $ pip freeze > requirements.txt
 
 ## References
 
- * [Python 3.5](https://docs.python.org/3/) 
+ * [Python 3.5](https://docs.python.org/3/)
  * [Django 1.10](https://github.com/django/django) Python web framework for backend HTTP request.  [Tutorial](https://docs.djangoproject.com/en/1.10/)
  * [Django-REST-framework](https://github.com/tomchristie/django-rest-framework) for RESTful API. [Tutorial](http://www.django-rest-framework.org/)
  * [Channels](https://github.com/django/channels) for WebSocket implementation. [Tutorial](http://channels.readthedocs.org)
-
-
