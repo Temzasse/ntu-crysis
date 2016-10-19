@@ -46,6 +46,24 @@ class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
 
 
+"""
+Get current user from request (based on Authorization token).
+=> Used to do re-login eg. after page reload.
+"""
+class CurrentUser(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        currentUser = request.user
+        groups = currentUser.groups.all().values('name');
+
+        if currentUser and groups:
+            group_names = [ v for v in groups.values() ]
+            return Response({'username': currentUser.username, 'groups': group_names}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class LoginView(APIView):
     def post(self, request, format=None):
         serializer = LoginSerializer(data=request.data)
@@ -58,7 +76,6 @@ class LoginView(APIView):
                 return Response({'token': token.key, 'username': user.username, 'groups': group_names}, status=status.HTTP_200_OK)
 
             return Response({'error': 'invalid username or password'}, status=status.HTTP_400_BAD_REQUEST)
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

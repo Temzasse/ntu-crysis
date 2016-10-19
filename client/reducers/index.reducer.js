@@ -15,6 +15,19 @@ import {
 //////////////
 */
 
+const appInitInitialState = {
+  complete: false,
+};
+function appInit(state = appInitInitialState, action) {
+  switch (action.type) {
+  case types.INIT.COMPLETE: {
+    return { ...state, complete: true };
+  }
+  default:
+    return state;
+  }
+}
+
 const incidentsInitialState = {
   all: [...mockIncidents],
   selected: null,
@@ -143,6 +156,7 @@ function errors(state = errorsInitialState, action) {
 
 
 const rootReducer = combineReducers({
+  appInit,
   controlMap,
   incident,
   weather,

@@ -49,17 +49,18 @@ class Dashboard extends Component {
     const { loggedIn, currentUser } = this.props;
 
     // Don't require login when developing
-    const isDev = process.env.DEBUG;
+    // const isDev = process.env.DEBUG;
 
     if (loggedIn) {
       if (currentUser.role === 'operator') {
         this.props.fetchIncidents();
         this.setState({ userIsAuthenticated: true });
       }
-    } else if (isDev) { // NOTE: This part is only for development
-      this.props.fetchIncidents();
-      this.setState({ userIsAuthenticated: true });
     }
+    // else if (isDev) { // NOTE: This part is only for development
+    //   this.props.fetchIncidents();
+    //   this.setState({ userIsAuthenticated: true });
+    // }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

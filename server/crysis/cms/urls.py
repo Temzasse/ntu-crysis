@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^user/$', views.UserList.as_view(), name='user_list'),
     url(r'^user/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
     url(r'^user/login/$', views.LoginView.as_view(), name='login'),
+    url(r'^user/me/$', views.CurrentUser.as_view(), name='login'),
 
     url(r'^crisis/$', views.CrisisList.as_view(), name='crisis_list'),
     url(r'^crisis/(?P<pk>[0-9]+)/$', views.CrisisDetail.as_view()),

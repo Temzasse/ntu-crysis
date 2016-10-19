@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import BrowserRouter from 'react-router/BrowserRouter';
 import Match from 'react-router/Match';
 import Miss from 'react-router/Miss';
+
+// Actions
+import { startInit } from '../actions/index.actions';
 
 // Components
 import NavigationContainer from '../components/navigation/NavigationContainer';
@@ -11,27 +16,63 @@ import Login from './Login';
 import CallCenter from './CallCenter';
 import ReportIncidentPage from './ReportIncidentPage';
 
-const App = () => (
-  <BrowserRouter>
-    <div>
-      <NavigationContainer />
+const propTypes = {
+  startInit: PropTypes.func.isRequired,
+  initCompleted: PropTypes.bool.isRequired,
+};
 
-      {/*
-        -- First level routes here --
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-        NOTE: routes can now be easily nested by adding Match components
-        to inner UI components (eg: https://react-router.now.sh/recursive-paths)
-        */}
-      <Match exactly pattern='/' component={Dashboard} />
-      <Match pattern='/login' component={Login} />
-      <Match pattern='/callcenter' component={CallCenter} />
-      <Match pattern='/report-incident' component={ReportIncidentPage} />
-      <Match pattern='/uber' render={() => <div>uber page</div>} />
-      <Match pattern='/awesome' render={() => <div>awesome</div>} />
-      <Miss component={NoMatchPage} />
+  componentWillMount() {
+    this.props.startInit();
+  }
 
-    </div>
-  </BrowserRouter>
-);
+  render() {
+    const { initCompleted } = this.props;
 
-export default App;
+    return (
+      <div>
+        {initCompleted ?
+          <BrowserRouter>
+            <div>
+              <NavigationContainer />
+
+              {/* eslint-disable max-len */}
+              <Match exactly pattern='/' component={Dashboard} />
+              <Match pattern='/login' component={Login} />
+              <Match pattern='/callcenter' component={CallCenter} />
+              <Match pattern='/report-incident' component={ReportIncidentPage} />
+              <Match pattern='/uber' render={() => <div>uber page</div>} />
+              <Match pattern='/awesome' render={() => <div>awesome</div>} />
+              <Miss component={NoMatchPage} />
+              {/* eslint-enable max-len */}
+
+            </div>
+          </BrowserRouter> :
+          <div>Loading...</div>
+        }
+      </div>
+    );
+  }
+}
+
+App.propTypes = propTypes;
+
+// This makes state objects available to the component via props!
+function mapStateToProps(state) {
+  return {
+    initCompleted: state.appInit.complete,
+  };
+}
+
+// This adds action creators to components props
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    startInit,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

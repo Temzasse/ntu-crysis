@@ -14,6 +14,18 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 ///////////
 */
 
+
+function* initApp() {
+  const user = yield call(api.getCurrentUser);
+
+  if (user) { // Do auto login
+    yield put(actions.setUser(user));
+  }
+
+  yield put(actions.completeInit());
+}
+
+
 function* fetchWeatherData() {
   try {
     const data = yield call(api.fetchWeatherData);
@@ -49,17 +61,7 @@ function* doLogin({ payload }) {
   const userData = yield call(api.login, payload);
 
   if (userData) {
-    const { username, groups } = userData;
-
-    if (groups.indexOf('operator') !== -1) {
-      yield put(actions.setUser({ username, role: 'operator' }));
-    } else if (groups.indexOf('callcenter') !== -1) {
-      yield put(actions.setUser({ username, role: 'callcenter' }));
-    } else if (groups.indexOf('responseunit') !== -1) {
-      yield put(actions.setUser({ username, role: 'responseunit' }));
-    } else {
-      console.error('User role not recogniced!');
-    }
+    yield put(actions.setUser(userData));
   } else { // NOTE: for development
     let mockUser = { username: 'Operator', role: 'operator' };
 
@@ -77,6 +79,11 @@ function* doLogin({ payload }) {
   }
 }
 
+function* doLogout() {
+  yield put(actions.clearUser());
+  sessionStorage.removeItem('jwt-token');
+}
+
 
 function* fetchIncidents() {
   yield delay(1000);
@@ -89,6 +96,11 @@ function* fetchIncidents() {
 // WATCHERS //
 //////////////
 */
+
+
+function* watchInitApp() {
+  yield* takeEvery(types.INIT.START, initApp);
+}
 
 function* watchFetchWeatherData() {
   yield* takeEvery(types.WEATHER.FETCH, fetchWeatherData);
@@ -112,11 +124,17 @@ function* watchLogin() {
   yield* takeEvery(types.LOGIN, doLogin);
 }
 
+function* watchLogout() {
+  yield* takeEvery(types.LOGOUT, doLogout);
+}
+
 
 export default function* root() {
+  yield fork(watchInitApp);
   yield fork(watchAddMessage);
   yield fork(watchFetchWeatherData);
   yield fork(watchDebug);
   yield fork(watchLogin);
+  yield fork(watchLogout);
   yield fork(watchFetchIncidents);
 }

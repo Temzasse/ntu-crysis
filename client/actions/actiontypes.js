@@ -18,6 +18,7 @@ export const NAVIGATE = 'NAVIGATE';
 export const LOAD_PAGE = 'LOAD_PAGE';
 export const DEBUG = 'DEBUG';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const ERRORS = createTypes('ERROR', ['CLEAR']);
 
 /* ---------- SOMETHING ---------- */
@@ -28,3 +29,4 @@ export const WEATHER = createTypes('WEATHER', [...fetchActions]);
 export const MESSAGES = createTypes('MESSAGES', ['ADD', 'REMOVE']);
 export const USER = createTypes('USER', [...binaryActions]);
 export const MAP = createTypes('MAP', ['TOGGLE_MARKER']);
+export const INIT = createTypes('INIT', ['COMPLETE', 'START', 'ERROR']);

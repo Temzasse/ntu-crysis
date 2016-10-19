@@ -26,8 +26,13 @@ export const receiveIncidents = createAction(types.INCIDENT.RECEIVE);
 export const addMessage = createAction(types.MESSAGES.ADD);
 export const removeMessage = createAction(types.MESSAGES.REMOVE);
 export const doLogin = createAction(types.LOGIN);
+export const doLogout = createAction(types.LOGOUT);
 
 export const setUser = createAction(types.USER.SET);
 export const clearUser = createAction(types.USER.CLEAR);
 
 export const toggleMarkerVisibility = createAction(types.MAP.TOGGLE_MARKER);
+
+export const startInit = createAction(types.INIT.START);
+export const completeInit = createAction(types.INIT.COMPLETE);
+export const errorInit = createAction(types.INIT.ERROR);

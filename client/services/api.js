@@ -4,10 +4,22 @@
 
 import { parseWeatherXMLtoJS } from './utils';
 
-const API_URL = `${process.env.API_URL}`;
+const API_URL = `${process.env.API_BASE}/${process.env.API_ROOT}`;
 const NEA_API_KEY = `${process.env.NEA_API_KEY}`;
 const NEA_API_URL = `${process.env.NEA_API_URL}`;
 const NEA_DATASET = '2hr_nowcast';
+
+/*
+/////////////
+// HELPERS //
+/////////////
+*/
+function getAuthHeaders() {
+  // get token from session storage
+  const token = sessionStorage.getItem('jwt-token');
+  return token ? { 'Authorization': `Token ${token}` } : null;
+}
+
 
 async function callApi(url, method = 'get', bodyData = null) {
   let reqOptions;
@@ -26,6 +38,16 @@ async function callApi(url, method = 'get', bodyData = null) {
     };
   } else throw new Error('Unsupported method');
 
+  const authHeaders = getAuthHeaders();
+
+  // Add auth headers if needed
+  if (authHeaders) {
+    const currHeaders = reqOptions.headers;
+    reqOptions.headers = {
+      ...currHeaders,
+      ...authHeaders,
+    };
+  }
   // Fetch the resource
   const res = await fetch(url, reqOptions);
   const contentType = res.headers.get('content-type');
@@ -47,12 +69,63 @@ async function callApi(url, method = 'get', bodyData = null) {
   return { response: body };
 }
 
+function getUserRole(groupList) {
+  const groupNames = groupList.map(g => g.name);
+
+  if (groupNames.indexOf('operator') !== -1) {
+    return 'operator';
+  } else if (groupNames.indexOf('callcenter') !== -1) {
+    return 'callcenter';
+  } else if (groupNames.indexOf('responseunit') !== -1) {
+    return 'responseunit';
+  }
+  // TODO: how do we handle this case?
+  console.error('Unknown user group!');
+  return 'unknown';
+}
 
 /*
 /////////////////////////
 // EXPORTED API METHODS
 /////////////////////////
 */
+
+export async function login(userData) {
+  const { response } = await callApi(
+    `${API_URL}/user/login/`,
+    'post',
+    userData,
+  );
+
+  const { token, username, groups } = response;
+
+  // save token to session storage
+  sessionStorage.setItem('jwt-token', token);
+
+  return {
+    username,
+    role: getUserRole(groups),
+  };
+}
+
+export async function getCurrentUser() {
+  try {
+    const { response } = await callApi(`${API_URL}/user/me/`);
+    const { username, groups } = response;
+
+    return {
+      username,
+      role: getUserRole(groups),
+    };
+  } catch (e) {
+    return false;
+  }
+}
+
+export async function fetchSomething() {
+  const { response } = await callApi(`${API_URL}/something`);
+  return response;
+}
 
 export async function fetchWeatherData() {
   const { response } = await callApi(
@@ -64,23 +137,4 @@ export async function fetchWeatherData() {
   const weatherData = parseWeatherXMLtoJS(xml);
 
   return weatherData;
-}
-
-export async function login(userData) {
-  console.log('efnoewoewjfioewj');
-  const { response } = await callApi(`${API_URL}/login/`, 'post', userData);
-  console.log(response);
-  const { token, username, groups } = response;
-  // save token to session storage
-  sessionStorage.setItem('jwt-token', token);
-
-  return {
-    username,
-    groups: groups.map(g => g.name),
-  };
-}
-
-export async function fetchSomething() {
-  const { response } = await callApi(`${API_URL}/something`);
-  return response;
 }
