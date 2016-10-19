@@ -3,33 +3,24 @@
     "model": "auth.group",
     "pk": 1,
     "fields": {
-        "name": "Call_Operator",
-        "permissions": [
-            22
-        ]
+        "name": "callcenter",
+        "permissions": []
     }
 },
 {
     "model": "auth.group",
     "pk": 2,
     "fields": {
-        "name": "Control_Operator",
-        "permissions": [
-            25,
-            26,
-            27
-        ]
+        "name": "operator",
+        "permissions": []
     }
 },
 {
     "model": "auth.group",
     "pk": 3,
     "fields": {
-        "name": "Response_Unit",
-        "permissions": [
-            23,
-            24
-        ]
+        "name": "responseunit",
+        "permissions": []
     }
 },
 {
@@ -39,16 +30,15 @@
         "password": "pbkdf2_sha256$30000$2nLAJuRht8sF$nRR11hopniPVw7y9k1LGWZokMOhZ02ke+OlrJBmlKzI=",
         "last_login": "2016-10-18T16:01:50.828Z",
         "is_superuser": true,
-        "username": "superuser",
+        "username": "admin",
         "first_name": "",
         "last_name": "",
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:00:53.698Z",
         "groups": [],
         "user_permissions": []
-    }
+     }
 },
 {
     "model": "auth.user",
@@ -63,10 +53,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:14:02Z",
-        "groups": [
-            1
-        ],
+        "groups": [1],
         "user_permissions": []
     }
 },
@@ -83,10 +70,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:14:11Z",
-        "groups": [
-            1
-        ],
+        "groups": [1],
         "user_permissions": []
     }
 },
@@ -103,10 +87,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:16:29Z",
-        "groups": [
-            1
-        ],
+        "groups": [1],
         "user_permissions": []
     }
 },
@@ -123,10 +104,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:16:48Z",
-        "groups": [
-            2
-        ],
+        "groups": [2],
         "user_permissions": []
     }
 },
@@ -143,10 +121,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:16:55Z",
-        "groups": [
-            2
-        ],
+        "groups": [2],
         "user_permissions": []
     }
 },
@@ -163,10 +138,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:17:05Z",
-        "groups": [
-            2
-        ],
+        "groups": [2],
         "user_permissions": []
     }
 },
@@ -183,10 +155,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:23:05Z",
-        "groups": [
-            3
-        ],
+        "groups": [3],
         "user_permissions": []
     }
 },
@@ -203,10 +172,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:23:12Z",
-        "groups": [
-            3
-        ],
+        "groups": [3],
         "user_permissions": []
     }
 },
@@ -223,10 +189,7 @@
         "email": "",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2016-10-18T16:23:18Z",
-        "groups": [
-            3
-        ],
+        "groups": [3],
         "user_permissions": []
     }
 }
