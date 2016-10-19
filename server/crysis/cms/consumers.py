@@ -34,7 +34,7 @@ def ws_disconnect(message):
 def ws_send_notification(group, change_type, data):
     result = json.dumps({
         'type': change_type,
-        'data': data
+        'payload': data
     })
     print('Websocket sending Group \'%s\' \'%s\'.' % (group, result))
     Group("%s" % group).send({'text': result})

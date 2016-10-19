@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Incident, Crisis, ResponseUnit, Trainer, PokemonDB, Pokemon, Shelter, Weather
+from .models import Incident, Crisis, ResponseUnit, Trainer, PokemonDB, Pokemon, Shelter
 
 
 class IncidentAdmin(admin.ModelAdmin):
@@ -27,4 +27,3 @@ admin.site.register(Trainer)
 admin.site.register(PokemonDB)
 admin.site.register(Pokemon)
 admin.site.register(Shelter)
-admin.site.register(Weather)

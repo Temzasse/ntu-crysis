@@ -46,7 +46,6 @@ function* unshiftMessage() {
 
 
 function* doLogin({ payload }) {
-  yield delay(1000); // Simulate API call delay
   const userData = yield call(api.login, payload);
 
   if (userData) {
@@ -78,6 +77,7 @@ function* doLogin({ payload }) {
   }
 }
 
+
 function* fetchIncidents() {
   yield delay(1000);
   ws.send({ type: types.INCIDENT.FETCH });
@@ -89,6 +89,7 @@ function* fetchIncidents() {
 // WATCHERS //
 //////////////
 */
+
 function* watchFetchWeatherData() {
   yield* takeEvery(types.WEATHER.FETCH, fetchWeatherData);
 }

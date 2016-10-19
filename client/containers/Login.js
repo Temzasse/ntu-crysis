@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 // Component imports
 import LoginContainer from '../components/login/LoginContainer';
 
-
 const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object,
@@ -16,7 +15,7 @@ const propTypes = {
 const Login = ({ currentUser, loggedIn }) => {
   if (loggedIn) {
     if (currentUser.role === 'operator') return <Redirect to='/' />;
-    if (currentUser.role === 'callcentre') return <Redirect to='/callcentre' />;
+    if (currentUser.role === 'callcenter') return <Redirect to='/callcenter' />;
     if (currentUser.role === 'response') return <Redirect to='/response' />;
   }
   return (

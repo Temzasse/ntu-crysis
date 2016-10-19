@@ -31,6 +31,4 @@ urlpatterns = [
 
     url(r'^shelter/$', views.ShelterList.as_view(), name='shelter_list'),
     url(r'^shelter/(?P<pk>[0-9]+)/$', views.ShelterDetails.as_view()),
-
-    url(r'^weather/$', views.WeatherDetails.as_view(), name='weather'),
 ]

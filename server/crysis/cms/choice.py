@@ -5,18 +5,13 @@ AREA_CHOICE = (
     ('SE', 'South-east'),
     ('NW', 'North-west'),
     ('NS', 'North-west'),
-    ('CT', 'Central'),
-    ('ME', 'Marine-east'),
-    ('MW', 'Marine-west'),
-    ('MC', 'Marine-central'),
-    ('IW', 'Island-wide'),
-    ('UN', 'Unknown'),
 )
 
 TYPE_CHOICE = (
-    ('PKM', 'Among pokemons'),
-    ('PKMHM', 'Among pokemons and humans'),
-    ('UN', 'Unknown'),
+    ('LAN', 'Land'),
+    ('SEA', 'Sea'),
+    ('AIR', 'Air'),
+    ('TRA', 'Trainer'),
 )
 
 NATIONALITY_CHOICE = (
@@ -57,11 +52,9 @@ SEX_CHOICE = (
     ('U', 'Unknown'),
 )
 
-WEATHER_CHOICE = (
-    ('UN', 'Unknown'),
-    ('CD', 'Cloudy'),
-    ('RN', 'Rainy'),
-    ('SN', 'Sunny'),
-    ('TS', 'Thunderstorm'),
-    ('FG', 'Foggy'),
+STATUS_CHOICE = (
+    ('INA', 'Inactive'),
+    ('ACT', 'Active'),
+    ('PEN', 'Pending'),
+    ('ARC', 'Archived'),
 )
