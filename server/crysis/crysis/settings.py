@@ -41,9 +41,9 @@ CHANNEL_LAYERS = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        ),
-    'DEFAULT_PERMISSION_CLASSES': ('cms.permission.IsAdminOrReadOnly',),
-    'PAGE_SIZE': 10
+        )
+    # 'DEFAULT_PERMISSION_CLASSES': ('cms.permission.IsAdminOrReadOnly',),
+    # 'PAGE_SIZE': 10
 }
 
 
@@ -59,13 +59,16 @@ INSTALLED_APPS = [
     # settings
     'cms.apps.CmsConfig',
     'channels',
+    'users',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -137,6 +140,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+    '127.0.0.1:8080'
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
