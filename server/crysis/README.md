@@ -81,8 +81,49 @@ $ redis-server /usr/local/etc/redis.conf
 ```
 $ TODO...
 ```
-**Run server**
 
+**Load initial user / group data**
+```
+$ python manage.py loaddata fixtures/initial_usergroup.json
+```
+
+**NOTE:** You have to give the right permissions to the groups via admin panel!
+
+`callcenter`
+* cms | incident | Can add incident
+
+`responseunit`
+* cms | incident | Can change incident
+* cms | response unit | Can add response unit
+* cms | response unit | Can change response unit
+
+`operator`
+* cms | crisis | Can add crisis
+* cms | crisis | Can change crisis
+* cms | crisis | Can delete crisis
+* cms | incident | Can add incident
+* cms | incident | Can change incident
+* cms | incident | Can delete incident
+* cms | response unit | Can add response unit
+* cms | response unit | Can change response unit
+* cms | response unit | Can delete response unit
+* cms | shelter | Can add shelter
+* cms | shelter | Can change shelter
+* cms | shelter | Can delete shelter
+
+*Permissions below are optional for operator*
+* auth | group | Can add group
+* auth | group | Can change group
+* auth | group | Can delete group
+* auth | permission | Can add permission
+* auth | permission | Can change permission
+* auth | permission | Can delete permission
+* auth | user | Can add user
+* auth | user | Can change user
+* auth | user | Can delete user
+
+
+**Run server**
 
 ```
  $ python manage.py runserver
