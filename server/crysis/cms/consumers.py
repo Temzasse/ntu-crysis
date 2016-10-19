@@ -1,36 +1,37 @@
-from django.http import HttpResponse
-from channels.handler import AsgiHandler
+import json
 from channels import Group
 from channels.sessions import channel_session
-import json
-# def http_consumer(message):
-#     response = HttpResponse("Hello world! You asked for %s" %message.content['path'])
-#     for chunk in AsgiHandler.encode_response(response):
-#         message.reply_channel.send(chunk)
+from .models import Crisis
 
 
-# Send message by JavaScript socket.send(something)
 @channel_session
 def ws_message(message):
-    msg = json.loads(message['text']);
-    Group("%s" % message.channel_session['room']).send({
-        "text": message['text'] + message.channel_session['room'],
+    msg = json.loads(message['text'])
+
+    if msg['type'] == 'INCIDENT_FETCH':
+        print('INCIDENT_FETCH')
+        activeCrisis = Crisis.objects.get(status='INA')
+        print('---------------')
+        print(activeCrisis)
+        print('---------------')
+
+    message.reply_channel.send({
+        "text": 'test',
     })
 
 
-# Join a WebSocket by JavaScript socket = new WebSocket("ws://" + window.location.host + "/GroupName/");
 @channel_session
 def ws_connect(message):
-    room = message.content['path'].strip("/")
-    message.channel_session['room'] = room
-    Group("%s" % room).add(message.reply_channel)
+    print('WEBSOCKET CONNECTED!')
+    Group('incident').add(message.reply_channel)
+
 
 @channel_session
 def ws_disconnect(message):
-    Group('chat').discard(message.reply_channel)
+    print('WEBSOCKET DISCONNECTED!')
+    Group('incident').discard(message.reply_channel)
 
 
-# React for push message by JavaScript socket.onmessage = function(e){action here with e.data}
 def ws_send_notification(group, change_type, data):
     result = json.dumps({
         'type': change_type,
