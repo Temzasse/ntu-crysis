@@ -64,6 +64,20 @@ function* doLogin({ payload }) {
   yield put(actions.setUser(mockUser));
 }
 
+function* doReportIncident({ payload }) {
+  yield delay(1000); // Simulate API call delay
+
+  const { Title } = payload;
+  let mockIncident = { Title: 'Pikachu Breakout', Type: 'Land', Long: '1.30563255', Lat: '103.98444641', Area: 'Bukit Batok', Description: '' };
+
+  // For testing the incident with titles
+  if (Title === 'Onyx') {
+    mockIncident = { Title: 'Onyx', Type: 'Land', Long: '1.31063255', Lat: '103.92444641', Area: 'Choa Chu Kang', Description: '' };
+  }
+
+  yield put(actions.CreateIncident(mockIncident));
+}
+
 
 function* fetchIncidents() {
   yield delay(1000);
@@ -99,11 +113,16 @@ function* watchLogin() {
   yield* takeEvery(types.LOGIN, doLogin);
 }
 
+function* watchReportIncident() {
+  yield* takeEvery(types.REPORTINCIDENT, doReportIncident);
+}
+
 
 export default function* root() {
   yield fork(watchAddMessage);
   yield fork(watchFetchWeatherData);
   yield fork(watchDebug);
   yield fork(watchLogin);
+  yield fork(watchReportIncident);
   yield fork(watchFetchIncidents);
 }

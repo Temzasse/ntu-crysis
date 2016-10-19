@@ -35,6 +35,7 @@ class NavigationContainer extends Component {
 
   render() {
     const navItems = [
+      { label: 'Main Page', to: '/login' },
       { label: 'Report Incident', to: '/report-incident' },
       { label: 'Logout', to: '/logout' },
     ];

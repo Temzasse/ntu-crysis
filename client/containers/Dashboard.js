@@ -58,7 +58,7 @@ class Dashboard extends Component {
       }
     } else if (isDev) { // NOTE: This part is only for development
       this.props.fetchIncidents();
-      this.setState({ userIsAuthenticated: true });
+      this.setState({ userIsAuthenticated: false });
     }
   }
 
@@ -101,7 +101,7 @@ class Dashboard extends Component {
             </FlexLayout>
           </MainPanel>
 
-        </FlexLayout>
+        </FlexLayout>»
       </div>
     );
   }
