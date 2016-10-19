@@ -2,15 +2,17 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter, Weather
+from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter
 from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSerializer, PokemonSerializer, \
-    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer, WeatherSerializer
+    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer, LoginSerializer
 from rest_framework import mixins, generics
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from rest_framework import permissions
+from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.views import APIView
@@ -25,9 +27,7 @@ def api_root(request, format=None):
         'responseunit': reverse('cms:responseunit_list', request=request, format=format),
         'pokemon': reverse('cms:pokemon_list', request=request, format=format),
         'pokemondb': reverse('cms:pokemondb_list', request=request, format=format),
-        'trainer': reverse('cms:trainer_list', request=request, format=format),
         'shelter': reverse('cms:shelter_list', request=request, format=format),
-        'weather': reverse('cms:weather', request=request, format=format),
     })
 
 class Auth(APIView):
@@ -44,6 +44,22 @@ class Auth(APIView):
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class LoginView(APIView):
+    def post(self, request, format=None):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = authenticate(username=serializer.validated_data['username'], password=serializer.validated_data['password'])
+            groups = user.groups.all().values('name');
+            if user and groups:
+                group_names = [ v for v in groups.values() ]
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key, 'username': user.username, 'groups': group_names}, status=status.HTTP_200_OK)
+
+            return Response({'error': 'invalid username or password'}, status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserDetail(generics.RetrieveAPIView):
@@ -127,8 +143,3 @@ class ShelterList(generics.ListAPIView):
 class ShelterDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
-
-
-class WeatherDetails(generics.ListAPIView):
-    queryset = Weather.objects.all()
-    serializer_class = WeatherSerializer

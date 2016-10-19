@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter, Weather
+from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter
 from django.contrib.auth.models import User
 
 
@@ -9,6 +9,20 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         field = ('id', 'username')
+
+
+# TODO: figure out why this does not work...
+# class LoginSerializer(serializers.ModelSerializer):
+#     # incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())
+#
+#     class Meta:
+#         model = User
+#         field = ('username', 'password')
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100, required=True)
+    password = serializers.CharField(max_length=100, required=True)
 
 
 class IncidentSerializer(serializers.ModelSerializer):
@@ -57,8 +71,3 @@ class ShelterSerializer(serializers.ModelSerializer):
         model = Shelter
         fields = ('id', 'name', 'capacity', 'area', 'status', 'longitude', 'latitude')
 
-
-class WeatherSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Weather
-        fields = ('id', 'temperature', 'temperature_low', 'temperature_hi', 'weather', 'psi')
