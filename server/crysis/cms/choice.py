@@ -11,6 +11,11 @@ TYPE_CHOICE = (
     ('LAN', 'Land'),
     ('SEA', 'Sea'),
     ('AIR', 'Air'),
+)
+
+R_UNIT_TYPE_CHOICE = (
+    ('MIL', 'Military'),
+    ('POL', 'Police'),
     ('TRA', 'Trainer'),
 )
 

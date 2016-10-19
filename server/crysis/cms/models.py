@@ -18,18 +18,16 @@ def create_auth_token(sender, instance, created, **kwargs):
 class Incident(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, blank=True)
-    comment = models.TextField(max_length=300, blank=True)  # use as a string but should be split by '.' or '\n'
-    type = models.CharField(choices=TYPE_CHOICE, default='UN', max_length=5)
+    type = models.CharField(choices=TYPE_CHOICE, default='LAN', max_length=5)
     area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
-    level = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # NOTE: Is this data necessary? Can be expressed in comment or maybe even left out entirely.
-    witness = models.CharField(max_length=20, default='Public', blank=True)
+    # witness = models.CharField(max_length=20, default='Public', blank=True)
     longitude = models.FloatField(default=103.851959, blank=True)
     latitude = models.FloatField(default=1.290270, blank=True)
-    handle_by = models.ForeignKey('ResponseUnit', on_delete=models.CASCADE, default = 1)
-    status = models.BooleanField(default=False)
+    handle_by = models.ForeignKey('ResponseUnit', on_delete=models.CASCADE, blank=True, null=True)
+    resolved = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 
@@ -53,12 +51,12 @@ def execute_after_delete_incidnet(sender, instance, *args, **kwargs):
 class ResponseUnit(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=500, blank=True)
-    type = models.CharField(choices=TYPE_CHOICE, default='UN', max_length=5)
+    type = models.CharField(choices=R_UNIT_TYPE_CHOICE, default='POL', max_length=10)
     area = models.CharField(choices=AREA_CHOICE, default='UN', max_length=5)
     phone = models.CharField(max_length=10, blank=True)
     email = models.EmailField(max_length=50, blank=True)
     address = models.CharField(max_length=30, blank=True)
-    speciality = models.CharField(choices = TYPE_CHOICE, default='UN', max_length=5)
+    speciality = models.CharField(choices=TYPE_CHOICE, default='LAN', max_length=10)
 
     def __str__(self):
         return self.name
@@ -98,9 +96,8 @@ def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
 class Crisis(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, blank=True)
-    comment = models.TextField(max_length=300, blank=True)
-    status = models.CharField(choices= STATUS_CHOICE, default='UN', max_length=5) 
-    type = models.CharField(choices=TYPE_CHOICE, default='UN', max_length=5)
+    # comment = models.TextField(max_length=300, blank=True)
+    status = models.CharField(choices=STATUS_CHOICE, default='INA', max_length=10)
     level = models.IntegerField(default=0)
     threshold = models.IntegerField(default=5)
     created_at = models.DateTimeField(auto_now_add=True)
