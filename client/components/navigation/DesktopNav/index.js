@@ -5,8 +5,6 @@ import CSSModules from 'react-css-modules';
 // Styles
 import styles from './index.scss';
 
-// balaldpewfopewjfpiewjf
-
 const propTypes = {
   navItems: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
@@ -15,6 +13,7 @@ const propTypes = {
   })),
   brandImg: PropTypes.string,
 };
+
 
 const DesktopNav = ({ brandImg, navItems }) => (
   <div styleName='DesktopNav'>
@@ -27,9 +26,12 @@ const DesktopNav = ({ brandImg, navItems }) => (
         </div>
       }
       <ul>
-        {navItems.map((item, key) =>
+        {navItems.map(({ to, label, onClick }, key) =>
           <li key={key}>
-            <Link to={item.to}>{item.label}</Link>
+            {onClick ?
+              <Link to={to} onClick={() => onClick()}>{label}</Link> :
+              <Link to={to}>{label}</Link>
+            }
           </li>
         )}
       </ul>

@@ -44,9 +44,12 @@ const MobileNav = ({ navItems, brandImg, onClose, onOpen, isOpen }) => {
 
       <div styleName='navpanel' style={panelStyles}>
         <ul>
-          {navItems.map((item, key) =>
+          {navItems.map(({ to, label, onClick }, key) =>
             <li key={key}>
-              <Link to={item.to}>{item.label}</Link>
+              {onClick ?
+                <Link to={to} onClick={onClick}>{label}</Link> :
+                <Link to={to}>{label}</Link>
+              }
             </li>
           )}
         </ul>

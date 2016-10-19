@@ -1,12 +1,18 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import shallowCompare from 'react-addons-shallow-compare';
+
+// Actions
+import { doLogout } from '../../actions/index.actions';
 
 // Components
 import MobileNav from './MobileNav';
 import DesktopNav from './DesktopNav';
 
 const propTypes = {
-  something: PropTypes.object,
+  doLogout: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 };
 
 class NavigationContainer extends Component {
@@ -34,10 +40,18 @@ class NavigationContainer extends Component {
   }
 
   render() {
-    const navItems = [
-      { label: 'Report Incident', to: '/report-incident' },
-      { label: 'Logout', to: '/logout' },
-    ];
+    const { loggedIn } = this.props;
+
+    const navItems = [];
+
+    if (loggedIn) {
+      navItems.push(
+        { label: 'Report Incident', to: '/report-incident' },
+        { label: 'Logout', to: '/login', onClick: this.props.doLogout },
+      );
+    } else {
+      navItems.push({ label: 'Login', to: '/login' });
+    }
 
     return (
       <div className='NavigationContainer'>
@@ -59,6 +73,21 @@ class NavigationContainer extends Component {
 }
 
 NavigationContainer.propTypes = propTypes;
-// NavigationContainer.defaultProps = {};
 
-export default NavigationContainer;
+// This makes state objects available to the component via props!
+function mapStateToProps(state) {
+  return {
+    loggedIn: state.user.loggedIn,
+  };
+}
+
+// This adds action creators to components props
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    doLogout,
+  }, dispatch);
+}
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(NavigationContainer);
