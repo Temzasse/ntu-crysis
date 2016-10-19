@@ -19,6 +19,8 @@ export const LOAD_PAGE = 'LOAD_PAGE';
 export const DEBUG = 'DEBUG';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const REPORTINCIDENT = 'REPORTINCIDENT';
+export const CREATEINCIDENT = 'CREATEINCIDENT';
 export const ERRORS = createTypes('ERROR', ['CLEAR']);
 
 /* ---------- SOMETHING ---------- */

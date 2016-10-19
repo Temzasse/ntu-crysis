@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
+import Redirect from 'react-router/Redirect';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { Redirect } from 'react-router';
 
 /* eslint-disable max-len */
 // Component imports
@@ -10,7 +11,7 @@ import FlexLayout from '../components/layout/FlexLayout';
 // import LoginContainer from '../components/login/LoginContainer';
 // import callcenter from './CallCenter';
 import MapContainer from '../components/map/MapContainer';
-import ReportIncidentContainer from '../components/incident/ReportIncidentContainer';
+import ReportIncidentForm from '../components/incident/ReportIncidentForm';
 /* eslint-enable max-len */
 
 const propTypes = {
@@ -18,17 +19,51 @@ const propTypes = {
   currentUser: PropTypes.object.isRequired,
 };
 
-const ReportIncidentPage = () => {
-  return (
-    <FlexLayout direction='row'>
-      <ReportIncidentContainer />
-      <MapContainer />
-    </FlexLayout>
-  );
-};
+class ReportIncidentPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userIsAuthenticated: false,
+    };
+  }
+
+  componentWillMount() {
+    const { loggedIn, currentUser } = this.props;
+
+    // Don't require login when developing
+    const isDev = process.env.DEBUG;
+
+    if (loggedIn) {
+      if (currentUser.role === 'callcenter'
+      || currentUser.role === 'operator') {
+        this.setState({ userIsAuthenticated: true });
+      }
+    } else if (isDev) { // NOTE: This part is only for development
+      this.setState({ userIsAuthenticated: true });
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
+  render() {
+    const { userIsAuthenticated } = this.state;
+
+    if (!userIsAuthenticated) {
+      return <Redirect to='/login' />;
+    }
+
+    return (
+      <FlexLayout direction='row'>
+        <ReportIncidentForm />
+        <MapContainer />
+      </FlexLayout>
+    );
+  }
+}
 
 ReportIncidentPage.propTypes = propTypes;
-
 // This makes state objects available to the component via props!
 function mapStateToProps(state) {
   return {

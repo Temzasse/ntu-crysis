@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
+import { Redirect } from 'react-router';
+import { doReportIncident } from '../../actions/index.actions';
+
 
 // Components
 import ReportIncidentForm from './ReportIncidentForm';
+import MapContainer from '../../components/map/MapContainer';
 
 const propTypes = {
-  something: PropTypes.object,
+  doReportIncident: PropTypes.func.isRequired,
 };
 
 class ReportIncidentContainer extends Component {
@@ -14,6 +18,11 @@ class ReportIncidentContainer extends Component {
 
     this.handleArea = this.handleArea.bind(this);
     this.handleReportIncident = this.handleReportIncident.bind(this);
+
+    this.state = {
+      title: '',
+      area: '',
+    };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -21,11 +30,16 @@ class ReportIncidentContainer extends Component {
   }
 
   handleArea(area) {
-    console.log('Area', area);
+    this.setState({ area });
+    if (area === 'Choa Chu Kang') {
+      console.log('Area 111', area);
+    }
+    if (area === 'Bukit Batok') {
+      console.log('Area 222', this.state.area);
+    }
   }
 
   handleReportIncident() {
-    console.log('BOOM');
   }
 
   render() {
@@ -35,7 +49,9 @@ class ReportIncidentContainer extends Component {
           handleArea={this.handleArea}
           handleReportIncident={this.handleReportIncident}
         />
+        <MapContainer />
       </div>
+
     );
   }
 

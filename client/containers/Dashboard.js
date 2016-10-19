@@ -102,7 +102,7 @@ class Dashboard extends Component {
             </FlexLayout>
           </MainPanel>
 
-        </FlexLayout>
+        </FlexLayout>»
       </div>
     );
   }

@@ -79,9 +79,24 @@ function* doLogin({ payload }) {
   }
 }
 
+
 function* doLogout() {
   yield put(actions.clearUser());
   sessionStorage.removeItem('jwt-token');
+}
+
+function* doReportIncident({ payload }) {
+  yield delay(1000); // Simulate API call delay
+
+  const { Title } = payload;
+  let mockIncident = { Title: 'Pikachu Breakout', Type: 'Land', Long: '1.30563255', Lat: '103.98444641', Area: 'Bukit Batok', Description: '' };
+
+  // For testing the incident with titles
+  if (Title === 'Onyx') {
+    mockIncident = { Title: 'Onyx', Type: 'Land', Long: '1.31063255', Lat: '103.92444641', Area: 'Choa Chu Kang', Description: '' };
+  }
+
+  yield put(actions.CreateIncident(mockIncident));
 }
 
 
@@ -128,6 +143,10 @@ function* watchLogout() {
   yield* takeEvery(types.LOGOUT, doLogout);
 }
 
+function* watchReportIncident() {
+  yield* takeEvery(types.REPORTINCIDENT, doReportIncident);
+}
+
 
 export default function* root() {
   yield fork(watchInitApp);
@@ -136,5 +155,6 @@ export default function* root() {
   yield fork(watchDebug);
   yield fork(watchLogin);
   yield fork(watchLogout);
+  yield fork(watchReportIncident);
   yield fork(watchFetchIncidents);
 }
