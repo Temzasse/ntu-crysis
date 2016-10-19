@@ -47,21 +47,35 @@ function* unshiftMessage() {
 
 function* doLogin({ payload }) {
   yield delay(1000); // Simulate API call delay
+  const userData = yield call(api.login, payload);
 
-  const { username } = payload;
-  let mockUser = { username: 'Operator', role: 'operator' };
+  if (userData) {
+    const { username, groups } = userData;
 
-  // For testing the login with different roles
-  if (username === 'operator') {
-    mockUser = { username: 'Operator', role: 'operator' };
+    if (groups.indexOf('operator') !== -1) {
+      yield put(actions.setUser({ username, role: 'operator' }));
+    } else if (groups.indexOf('callcenter') !== -1) {
+      yield put(actions.setUser({ username, role: 'callcenter' }));
+    } else if (groups.indexOf('responseunit') !== -1) {
+      yield put(actions.setUser({ username, role: 'responseunit' }));
+    } else {
+      console.error('User role not recogniced!');
+    }
+  } else { // NOTE: for development
+    let mockUser = { username: 'Operator', role: 'operator' };
+
+    // For testing the login with different roles
+    if (payload.username === 'operator') {
+      mockUser = { username: 'Operator 1', role: 'operator' };
+    }
+    if (payload.username === 'callcenter') {
+      mockUser = { username: 'Call Center 1', role: 'callcenter' };
+    }
+    if (payload.username === 'response') {
+      mockUser = { username: 'Response Unit 1', role: 'response' };
+    }
+    yield put(actions.setUser(mockUser));
   }
-  if (username === 'callcentre') {
-    mockUser = { username: 'callcentre', role: 'callcentre' };
-  }
-  if (username === 'response') {
-    mockUser = { username: 'response', role: 'response' };
-  }
-  yield put(actions.setUser(mockUser));
 }
 
 function* fetchIncidents() {

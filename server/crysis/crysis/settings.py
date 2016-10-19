@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     # settings
     'cms.apps.CmsConfig',
     'channels',
-    'users',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',

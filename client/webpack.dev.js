@@ -70,7 +70,7 @@ webpackConfig.plugins.push(
     'process.env.DEBUG': true,
     'process.env.NEA_API_URL': JSON.stringify('http://api.nea.gov.sg/api/WebAPI/'),
     'process.env.NEA_API_KEY': JSON.stringify('781CF461BB6606AD1260F4D81345157FB37CFB554A5D5E6A'),
-    'process.env.API_URL': "''",
+    'process.env.API_URL': "'http://localhost:8000'",
     'process.env.API_ROOT': "''",
     __CLIENT__: true,
     __SERVER__: false,

@@ -4,7 +4,7 @@
 
 import { parseWeatherXMLtoJS } from './utils';
 
-const API_URL = `${process.env.API_BASE_PATH}`;
+const API_URL = `${process.env.API_URL}`;
 const NEA_API_KEY = `${process.env.NEA_API_KEY}`;
 const NEA_API_URL = `${process.env.NEA_API_URL}`;
 const NEA_DATASET = '2hr_nowcast';
@@ -64,6 +64,20 @@ export async function fetchWeatherData() {
   const weatherData = parseWeatherXMLtoJS(xml);
 
   return weatherData;
+}
+
+export async function login(userData) {
+  console.log('efnoewoewjfioewj');
+  const { response } = await callApi(`${API_URL}/login/`, 'post', userData);
+  console.log(response);
+  const { token, username, groups } = response;
+  // save token to session storage
+  sessionStorage.setItem('jwt-token', token);
+
+  return {
+    username,
+    groups: groups.map(g => g.name),
+  };
 }
 
 export async function fetchSomething() {

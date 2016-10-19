@@ -7,21 +7,13 @@ import json
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
+
 @receiver(models.signals.post_save, sender=User)
 def create_auth_token(sender, instance, created, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
 
-"""
-We should figure out the ER-diagram first before creating the models.
-That will make it much easier to understand the relationships between different
-entities and to get a good picture about the whole system.
-
-Take a look at the notes I added and see if they make sense :)
-
-Notes added by Teemu Taskula (3.10.2016)
-"""
 
 class Incident(models.Model):
     title = models.CharField(max_length=100)

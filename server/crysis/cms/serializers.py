@@ -11,6 +11,20 @@ class UserSerializer(serializers.ModelSerializer):
         field = ('id', 'username')
 
 
+# TODO: figure out why this does not work...
+# class LoginSerializer(serializers.ModelSerializer):
+#     # incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())
+#
+#     class Meta:
+#         model = User
+#         field = ('username', 'password')
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100, required=True)
+    password = serializers.CharField(max_length=100, required=True)
+
+
 class IncidentSerializer(serializers.ModelSerializer):
     # owner = serializers.ReadOnlyField(source='owner.username')
 
