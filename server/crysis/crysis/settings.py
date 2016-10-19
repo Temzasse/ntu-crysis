@@ -34,7 +34,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [("localhost", 6379)],
         },
-        #"BACKEND": "asgiref.inmemory.ChannelLayer",
+        # "BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "crysis.routing.channel_routing",
     },
 }
