@@ -94,7 +94,8 @@ def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
 
 
 class Crisis(models.Model):
-    title = models.CharField(max_length=100)
+    # NOTE: there's really no point of having a title to crisis
+    title = models.CharField(max_length=100, blank=True)
     description = models.TextField(max_length=500, blank=True)
     # comment = models.TextField(max_length=300, blank=True)
     status = models.CharField(choices=STATUS_CHOICE, default='INA', max_length=10)
