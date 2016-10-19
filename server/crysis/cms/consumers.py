@@ -12,7 +12,7 @@ import json
 # Send message by JavaScript socket.send(something)
 @channel_session
 def ws_message(message):
-    msg = json_loads(message['text']);
+    msg = json.loads(message['text']);
     Group("%s" % message.channel_session['room']).send({
         "text": message['text'] + message.channel_session['room'],
     })
