@@ -1,0 +1,64 @@
+[
+{
+  "model": "cms.crisis",
+  "pk": 1,
+  "fields": {
+    "title": "",
+    "description": "",
+    "status": "INA",
+    "level": 0,
+    "threshold": 5,
+    "created_at": "2016-10-19T13:44:08.478Z",
+    "updated_at": "2016-10-19T13:44:08.478Z",
+    "incidents": []
+  }
+},
+{
+  "model": "cms.incident",
+  "pk": 1,
+  "fields": {
+    "title": "Incident 1",
+    "description": "Physical computing actionable insight convergence disrupt pair programming driven personas iterate. Thought leader pitch deck driven viral SpaceTeam entrepreneur actionable insight engaging.",
+    "type": "LAN",
+    "area": "NE",
+    "created_at": "2016-10-19T13:45:28.856Z",
+    "updated_at": "2016-10-19T13:45:28.857Z",
+    "longitude": 103.75444641,
+    "latitude": 1.30063255,
+    "handle_by": null,
+    "resolved": false
+  }
+},
+{
+  "model": "cms.incident",
+  "pk": 2,
+  "fields": {
+    "title": "Incident 2",
+    "description": "Workflow user centered design ideate bootstrapping co-working pair programming agile hacker hacker SpaceTeam. Personas earned media pair programming 360 campaign personas viral user centered design entrepreneur user story.",
+    "type": "SEA",
+    "area": "SE",
+    "created_at": "2016-10-19T13:46:24.782Z",
+    "updated_at": "2016-10-19T13:46:24.782Z",
+    "longitude": 103.95444641,
+    "latitude": 1.30163255,
+    "handle_by": null,
+    "resolved": false
+  }
+},
+{
+  "model": "cms.incident",
+  "pk": 3,
+  "fields": {
+    "title": "Incident 3",
+    "description": "Steve Jobs quantitative vs. qualitative engaging responsive bootstrapping physical computing ship it innovate ship it workflow entrepreneur. Paradigm 360 campaign long shadow grok human-centered design disrupt latte user story co-working human-centered design prototype.",
+    "type": "AIR",
+    "area": "NS",
+    "created_at": "2016-10-19T13:46:56.931Z",
+    "updated_at": "2016-10-19T13:46:56.931Z",
+    "longitude": 103.75444641,
+    "latitude": 1.30263255,
+    "handle_by": null,
+    "resolved": false
+  }
+}
+]
