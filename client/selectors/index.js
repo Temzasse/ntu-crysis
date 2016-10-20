@@ -13,7 +13,10 @@ export const getWeatherMarkers = (state) => {
 
 
 export const getIncidentMarkers = (state) => {
-  return state.incident.all.map(({ lat, lng, title }) => (
-    { position: { lat, lng }, title }
+  return state.incident.all.map(({ latitude, longitude, title }) => (
+    {
+      position: { lat: latitude, lng: longitude },
+      title,
+    }
   ));
 };
