@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import * as types from '../actions/actiontypes';
 
 // Import constants and dummy data
+// mockIncidents,
 import {
-  mockIncidents,
   shelterMarkers,
   mapSectors,
 } from '../static/dummyData';
@@ -32,6 +32,7 @@ const incidentsInitialState = {
   // all: [...mockIncidents],
   all: [],
   selected: null,
+  active: null,
 };
 
 function incident(state = incidentsInitialState, action) {
@@ -40,10 +41,18 @@ function incident(state = incidentsInitialState, action) {
     const selected = state.all.find(i => i.id === action.payload) || null;
     return { ...state, selected };
   }
+  case types.INCIDENT.SET_ACTIVE: {
+    const active = state.all.find(i => i.id === action.payload) || null;
+    return { ...state, active };
+  }
+  case types.INCIDENT.CLEAR_ACTIVE:
+    return { ...state, active: null };
   case types.INCIDENT.CLEAR_SELECTED:
     return { ...state, selected: null };
   case types.INCIDENTS.RECEIVE:
     return { ...state, all: [...action.payload] };
+  case types.INCIDENT.NEW:
+    return { ...state, all: [...state.all, action.payload] };
   default:
     return state;
   }

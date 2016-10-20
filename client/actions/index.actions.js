@@ -20,6 +20,8 @@ export const failWeatherData = createAction(types.WEATHER.FAIL);
 
 export const setSelectedIncident = createAction(types.INCIDENT.SET_SELECTED);
 export const clearSelectedIncident = createAction(types.INCIDENT.CLEAR_SELECTED);
+export const setActiveIncident = createAction(types.INCIDENT.SET_ACTIVE);
+export const clearActiveIncident = createAction(types.INCIDENT.CLEAR_ACTIVE);
 export const fetchIncidents = createAction(types.INCIDENTS.FETCH);
 export const receiveIncidents = createAction(types.INCIDENTS.RECEIVE);
 

@@ -25,6 +25,7 @@ const propTypes = {
   sectors: PropTypes.arrayOf(PropTypes.shape({
     coords: PropTypes.array.isRequired,
   })),
+  activeIncident: PropTypes.object,
 };
 
 class MapView extends Component {
@@ -35,6 +36,8 @@ class MapView extends Component {
     this.createShelterMarkers = this.createShelterMarkers.bind(this);
     this.createWeatherMarkers = this.createWeatherMarkers.bind(this);
     this.createIncidentMarkers = this.createIncidentMarkers.bind(this);
+    this.openIncidentInfoWindow = this.openIncidentInfoWindow.bind(this);
+    this.closeIncidentInfoWindows = this.closeIncidentInfoWindows.bind(this);
   }
 
   componentDidMount() {
@@ -67,8 +70,10 @@ class MapView extends Component {
     this.markers = {
       shelters: [],
       weather: [],
-      incidents: [],
+      incidents: {},
     };
+
+    this.infoWindows = {};
 
     // Create initial markers and sectors
     this.createSectors(sectors);
@@ -94,6 +99,14 @@ class MapView extends Component {
     }
     if (nextProps.incidentMarkers.length !== incidentMarkers.length) {
       this.updateIncidentMarkers(nextProps.incidentMarkers);
+    }
+    if (nextProps.activeIncident) {
+      setTimeout(
+        () => this.openIncidentInfoWindow(nextProps.activeIncident.id),
+        200
+      );
+    } else {
+      this.closeIncidentInfoWindows();
     }
   }
 
@@ -145,7 +158,28 @@ class MapView extends Component {
   }
 
   createIncidentMarkers(markers) {
-    this.createMarkers(markers, '/images/icons/pin.png', 'incidents');
+    const { googleMaps } = this.props;
+
+    markers.forEach(({ title, position, id }) => {
+      const marker = new googleMaps.Marker({
+        position,
+        title,
+        map: this.map,
+        animation: googleMaps.Animation.DROP,
+        icon: '/images/icons/pin.png',
+      });
+
+      const infoWindow = new googleMaps.InfoWindow({
+        content: title,
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(this.map, marker);
+      });
+
+      this.infoWindows[id] = { infoWindow };
+      this.markers.incidents[id] = marker;
+    });
   }
 
   updateWeatherMarkers(markers) {
@@ -156,11 +190,21 @@ class MapView extends Component {
 
   updateIncidentMarkers(markers) {
     // TODO: rethink this method...
-    this.markers.incidents.forEach(m => m.setMap(null));
-    this.markers.incidents = [];
+    Object.values(this.markers.incidents).forEach(m => m.setMap(null));
+    this.markers.incidents = {};
     this.createIncidentMarkers(markers);
   }
 
+  openIncidentInfoWindow(id) {
+    const marker = this.markers.incidents[id];
+    this.infoWindows[id].infoWindow.open(this.map, marker);
+  }
+
+  closeIncidentInfoWindows() {
+    Object.values(this.infoWindows).forEach(
+      ({ infoWindow }) => infoWindow.close()
+    );
+  }
 
   render() {
     return (

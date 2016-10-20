@@ -16,6 +16,7 @@ const propTypes = {
   shelterMarkers: PropTypes.array.isRequired,
   mapSectors: PropTypes.array.isRequired,
   markerVisibility: PropTypes.object.isRequired,
+  activeIncident: PropTypes.object,
 };
 
 const MAP_MAX_TIMEOUT = 20 * 60;
@@ -86,7 +87,7 @@ class MapContainer extends Component {
     } = this.props;
 
     const { mapApiLoaded, googleMaps } = this.state;
-    const { markerVisibility } = this.props;
+    const { markerVisibility, activeIncident } = this.props;
 
     // Show / hide weather markers based on their visibility on the map
     const wMarkers = markerVisibility.weather ? weatherMarkers : [];
@@ -101,6 +102,7 @@ class MapContainer extends Component {
             weatherMarkers={wMarkers}
             incidentMarkers={incidentMarkers}
             sectors={mapSectors}
+            activeIncident={activeIncident}
           />
         }
       </div>
@@ -120,6 +122,7 @@ function mapStateToProps(state) {
     markerVisibility: state.controlMap.visibility,
     weatherMarkers: getWeatherMarkers(state),
     incidentMarkers: getIncidentMarkers(state),
+    activeIncident: state.incident.active,
   };
 }
 

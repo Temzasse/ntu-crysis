@@ -25,11 +25,21 @@ export const ERRORS = createTypes('ERROR', ['CLEAR']);
 
 /* ---------- SOMETHING ---------- */
 export const SOMETHING = createTypes('SOMETHING', [...fetchActions]);
-
-export const INCIDENT = createTypes('INCIDENT', [...fetchActions, 'SET_SELECTED', 'CLEAR_SELECTED']);
-export const INCIDENTS = createTypes('INCIDENTS', [...fetchActions]);
 export const WEATHER = createTypes('WEATHER', [...fetchActions]);
 export const MESSAGES = createTypes('MESSAGES', ['ADD', 'REMOVE']);
 export const USER = createTypes('USER', [...binaryActions]);
 export const MAP = createTypes('MAP', ['TOGGLE_MARKER']);
 export const INIT = createTypes('INIT', ['COMPLETE', 'START', 'ERROR']);
+
+export const INCIDENTS = createTypes('INCIDENTS', [...fetchActions]);
+export const INCIDENT = createTypes(
+  'INCIDENT',
+  [
+    ...fetchActions,
+    'SET_SELECTED',
+    'CLEAR_SELECTED',
+    'SET_ACTIVE',
+    'CLEAR_ACTIVE',
+    'NEW',
+  ]
+);

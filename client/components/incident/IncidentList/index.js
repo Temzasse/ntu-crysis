@@ -7,9 +7,12 @@ import styles from './index.scss';
 const propTypes = {
   incidents: PropTypes.array,
   selectIncident: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
 };
 
-const IncidentList = ({ incidents, selectIncident }) => (
+/* eslint-disable max-len */
+const IncidentList = ({ incidents, selectIncident, onMouseEnter, onMouseLeave }) => (
   <div styleName='IncidentList'>
     <h2>Active incidents</h2>
     <ul>
@@ -18,9 +21,11 @@ const IncidentList = ({ incidents, selectIncident }) => (
           key={id}
           styleName='card'
           onClick={() => selectIncident(id)}
+          onMouseEnter={() => onMouseEnter(id)}
+          onMouseLeave={() => onMouseLeave(id)}
         >
           <div styleName='card-content'>
-            {title}{id}
+            {title}
           </div>
           <i className='ion-ios-arrow-right' />
         </li>
@@ -31,3 +36,5 @@ const IncidentList = ({ incidents, selectIncident }) => (
 
 IncidentList.propTypes = propTypes;
 export default CSSModules(IncidentList, styles);
+
+/* eslint-enable max-len */

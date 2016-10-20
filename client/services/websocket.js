@@ -19,7 +19,7 @@ export const connect = (store) => {
       const json = JSON.parse(data);
       console.debug('[WEBSOCKET] Receive data', json);
       if (json.type && json.payload) {
-        console.debug('[WEBSOCKET] Dispatching action', data);
+        console.debug('[WEBSOCKET] Dispatching action', json);
         store.dispatch(json);
       } else {
         console.error('[WEBSOCKET] Data in wrong format!', json);
