@@ -1,10 +1,12 @@
 import json
 from django.dispatch import receiver
+from django.db.models import Q
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import User
 from django.core import serializers
 from .consumers import ws_send_notification
 from rest_framework.authtoken.models import Token
+
 from .models import Crisis, Incident
 
 
@@ -21,6 +23,11 @@ def create_auth_token(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Incident)
 def execute_after_save_incident(sender, instance, created, *args, **kwargs):
+    # Add newly created incident to current crisis
+    currentCrisis = Crisis.objects.filter(Q(status='INA') | Q(status='ACT'))[0]  # noqa
+    currentCrisis.incidents.add(instance.id)
+
+    # Send incident data to client
     data = serializers.serialize('json', [instance, ])
     data = json.loads(data)
     data = data[0]['fields']
