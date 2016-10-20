@@ -13,25 +13,43 @@ const ws = new WebSocket(`${scheme}://${url}`);
 
 
 export const connect = (store) => {
-  console.debug('[WEBSOCKET] ====> connect');
+  console.debug('[WEBSOCKET] Connect');
   ws.onmessage = ({ data }) => {
-    console.debug('[WEBSOCKET] ====> receive data', data);
     try {
       const json = JSON.parse(data);
+      console.debug('[WEBSOCKET] Receive data', json);
       if (json.type && json.payload) {
-        console.debug('[WEBSOCKET] ====> dispatching action', data);
+        console.debug('[WEBSOCKET] Dispatching action', data);
         store.dispatch(json);
       } else {
-        console.error('Websocket data in wrong format!', json);
+        console.error('[WEBSOCKET] Data in wrong format!', json);
       }
     } catch (e) {
       console.error(e);
     }
   };
+
+  ws.onclose = (e) => {
+    console.debug(
+      '[WEBSOCKET] Socket is closed. Reconnect will be attempted in 1 second.',
+      e.reason
+    );
+    setTimeout(() => {
+      connect();
+    }, 1000);
+  };
+
+  ws.onerror = (err) => {
+    console.error(
+      '[WEBSOCKET] Socket encountered error: ',
+      err.message, 'Closing socket'
+    );
+    ws.close();
+  };
 };
 
 export const send = (data) => {
-  console.debug('[WEBSOCKET] ====> sending data', data);
+  console.debug('[WEBSOCKET] Sending data', data);
   ws.send(JSON.stringify(data));
 };
 
