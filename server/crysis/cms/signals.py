@@ -23,16 +23,16 @@ def create_auth_token(sender, instance, created, **kwargs):
 def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     data = serializers.serialize('json', [instance, ])
     data = json.loads(data)
-    data = json.dumps(data[0]['fields'])
+    data = data[0]['fields']
     if created:
-        ws_send_notification('incident', 'CREATE', data)
+        ws_send_notification('INCIDENT_NEW', data)
     else:
-        ws_send_notification('incident', 'UPDATE', data)
+        ws_send_notification('INCIDENT_UPDATE', data)
 
 
 @receiver(post_delete, sender=Incident)
 def execute_after_delete_incidnet(sender, instance, *args, **kwargs):
-    ws_send_notification('incident', 'DELETE', 'deleted')
+    ws_send_notification('INCIDENT_DELETE', 'deleted')
 
 
 # @receiver(post_save, sender=Shelter)
@@ -49,11 +49,11 @@ def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
     data = json.loads(data)
     data = json.dumps(data[0]['fields'])
     if created:
-        ws_send_notification('crisis', 'CREATE', data)
+        ws_send_notification('CRISIS_NEW', data)
     else:
-        ws_send_notification('crisis', 'UPDATE', data)
+        ws_send_notification('CRISIS_UPDATE', data)
 
 
 @receiver(post_delete, sender=Crisis)
 def execute_after_delete_crisis(sender, instance, *args, **kwargs):
-    ws_send_notification('crisis', 'DELETE', 'deleted')
+    ws_send_notification('CRISIS_DELETE', 'deleted')

@@ -30,25 +30,25 @@ def ws_message(message):
     # TODO: do we need to send message to group channel?
     # Might be enought to just 'broadcast' it to all channels.
     # We probably don't need groups.
-    message.reply_channel.send({"text": json.dumps(data)})
+    Group('cms').send({"text": json.dumps(data)})
+    # message.reply_channel.send({"text": json.dumps(data)})
 
 
 @channel_session
 def ws_connect(message):
     print('WEBSOCKET CONNECTED!')
-    Group('incident').add(message.reply_channel)
+    Group('cms', channel_layer=message.channel_layer).add(message.reply_channel)  # noqa
 
 
 @channel_session
 def ws_disconnect(message):
     print('WEBSOCKET DISCONNECTED!')
-    Group('incident').discard(message.reply_channel)
+    Group('cms').discard(message.reply_channel)
 
 
-def ws_send_notification(group, change_type, data):
-    result = json.dumps({
+def ws_send_notification(change_type, data):
+    json_string = json.dumps({
         'type': change_type,
         'payload': data
     })
-    print('Websocket sending Group \'%s\' \'%s\'.' % (group, result))
-    Group("%s" % group).send({'text': result})
+    Group('cms').send({'text': json_string})
