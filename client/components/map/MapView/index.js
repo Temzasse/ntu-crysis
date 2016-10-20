@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
+import { mapNightModeStyles } from '../../../static/dummyData';
 
 // Styles
 import styles from './index.scss';
@@ -42,11 +43,25 @@ class MapView extends Component {
       incidentMarkers, shelterMarkers, weatherMarkers, sectors,
     } = this.props;
 
-    // render Google Map
+    // Create a new StyledMapType object, passing it an array of styles,
+    // and the name to be displayed on the map type control.
+    const darkMap = new googleMaps.StyledMapType(
+      mapNightModeStyles,
+      { name: 'Dark' },
+    );
+
+    // Create Google Map
     this.map = new googleMaps.Map(this.mapRef, {
       center: { lat, lng },
       zoom: zoomLevel,
+      mapTypeControlOptions: {
+        mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain', 'dark'],
+      },
     });
+
+    // Associate the styled map with the MapTypeId and set it to display.
+    this.map.mapTypes.set('dark', darkMap);
+    this.map.setMapTypeId('dark');
 
     // Create placeholder for markers
     this.markers = {
@@ -90,9 +105,9 @@ class MapView extends Component {
         paths: coords,
         strokeColor: strokeColor || '#FF0000',
         strokeOpacity: 0.6,
-        strokeWeight: 2,
+        strokeWeight: 1,
         fillColor: fillColor || '#FF0000',
-        fillOpacity: 0.2,
+        fillOpacity: 0.1,
         map: this.map,
       })
     );
@@ -122,7 +137,7 @@ class MapView extends Component {
   }
 
   createShelterMarkers(markers) {
-    this.createMarkers(markers, '/images/crysis-logo-marker.png', 'shelters');
+    this.createMarkers(markers, '/images/icons/shelter.png', 'shelters');
   }
 
   createWeatherMarkers(markers) {
@@ -130,7 +145,7 @@ class MapView extends Component {
   }
 
   createIncidentMarkers(markers) {
-    this.createMarkers(markers, '/images/crysis-logo-marker.png', 'incidents');
+    this.createMarkers(markers, '/images/icons/pin.png', 'incidents');
   }
 
   updateWeatherMarkers(markers) {
