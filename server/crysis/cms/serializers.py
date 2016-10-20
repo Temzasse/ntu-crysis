@@ -1,11 +1,9 @@
 from rest_framework import serializers
-from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter
+from .models import Incident, Crisis, ResponseUnit, Pokemon, PokemonDB, Trainer, Shelter  # noqa
 from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())
-
     class Meta:
         model = User
         field = ('id', 'username')
@@ -13,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 # TODO: figure out why this does not work...
 # class LoginSerializer(serializers.ModelSerializer):
-#     # incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())
+#     # incidents = serializers.PrimaryKeyRelatedField(many=True, queryset=Incident.objects.all())  # noqa
 #
 #     class Meta:
 #         model = User
@@ -26,26 +24,27 @@ class LoginSerializer(serializers.Serializer):
 
 
 class IncidentSerializer(serializers.ModelSerializer):
-    # owner = serializers.ReadOnlyField(source='owner.username')
-
     class Meta:
         model = Incident
         fields = (
-            'id', "title", 'description', 'comment', 'type', 'area', 'level', 'created_by', 'updated_by', 'witness',
-            'longitude', 'latitude')
+            'id', "title", 'description', 'type', 'area', 'created_at',
+            'updated_at', 'longitude', 'latitude', 'handle_by', 'resolved')
 
 
 class CrisisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crisis
-        fields = ('id', 'title', 'description', 'comment', 'area', 'level', 'created_by', 'updated_by', 'incident',
-                  'responseUnit', 'trainer', 'longitude', 'latitude')
+        fields = (
+            'id', 'title', 'description', 'status', 'level', 'threshold',
+            'created_at', 'updated_at', 'incidents')
 
 
 class ResponseUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResponseUnit
-        fields = ('id', 'name', 'description', 'area', 'phone', 'email', 'longitude', 'latitude')
+        fields = (
+            'id', 'name', 'description', 'type', 'area', 'phone',
+            'email', 'address', 'speciality')
 
 
 class PokemonSerializer(serializers.ModelSerializer):
@@ -69,5 +68,6 @@ class TrainerSerializer(serializers.ModelSerializer):
 class ShelterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shelter
-        fields = ('id', 'name', 'capacity', 'area', 'status', 'longitude', 'latitude')
-
+        fields = (
+            'id', 'name', 'capacity', 'area', 'status',
+            'longitude', 'latitude')

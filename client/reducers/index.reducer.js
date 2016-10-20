@@ -29,7 +29,8 @@ function appInit(state = appInitInitialState, action) {
 }
 
 const incidentsInitialState = {
-  all: [...mockIncidents],
+  // all: [...mockIncidents],
+  all: [],
   selected: null,
 };
 
@@ -41,6 +42,8 @@ function incident(state = incidentsInitialState, action) {
   }
   case types.INCIDENT.CLEAR_SELECTED:
     return { ...state, selected: null };
+  case types.INCIDENTS.RECEIVE:
+    return { ...state, all: [...action.payload] };
   default:
     return state;
   }

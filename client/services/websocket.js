@@ -15,11 +15,15 @@ const ws = new WebSocket(`${scheme}://${url}`);
 export const connect = (store) => {
   console.debug('[WEBSOCKET] ====> connect');
   ws.onmessage = ({ data }) => {
-    console.debug('[WEBSOCKET] ====> receive', data);
+    console.debug('[WEBSOCKET] ====> receive data', data);
     try {
       const json = JSON.parse(data);
-      if (data.type && data.payload) store.dispatch(data);
-      else console.error('Websocket data in wrong format!', json);
+      if (json.type && json.payload) {
+        console.debug('[WEBSOCKET] ====> dispatching action', data);
+        store.dispatch(json);
+      } else {
+        console.error('Websocket data in wrong format!', json);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -27,7 +31,7 @@ export const connect = (store) => {
 };
 
 export const send = (data) => {
-  console.debug('[WEBSOCKET] ====> sending', data);
+  console.debug('[WEBSOCKET] ====> sending data', data);
   ws.send(JSON.stringify(data));
 };
 

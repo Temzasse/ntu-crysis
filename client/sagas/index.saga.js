@@ -14,7 +14,6 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 ///////////
 */
 
-
 function* initApp() {
   const user = yield call(api.getCurrentUser);
 
@@ -102,7 +101,7 @@ function* doReportIncident({ payload }) {
 
 function* fetchIncidents() {
   yield delay(1000);
-  ws.send({ type: types.INCIDENT.FETCH });
+  ws.send({ type: types.INCIDENTS.FETCH });
 }
 
 
@@ -111,7 +110,6 @@ function* fetchIncidents() {
 // WATCHERS //
 //////////////
 */
-
 
 function* watchInitApp() {
   yield* takeEvery(types.INIT.START, initApp);
@@ -132,7 +130,7 @@ function* watchDebug() {
 }
 
 function* watchFetchIncidents() {
-  yield* takeEvery(types.INCIDENT.FETCH, fetchIncidents);
+  yield* takeEvery(types.INCIDENTS.FETCH, fetchIncidents);
 }
 
 function* watchLogin() {

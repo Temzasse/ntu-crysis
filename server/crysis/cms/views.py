@@ -1,11 +1,7 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter
+from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter  # noqa
 from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSerializer, PokemonSerializer, \
-    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer, LoginSerializer
-from rest_framework import mixins, generics
+    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer, LoginSerializer  # noqa
+from rest_framework import generics
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import permissions, status
@@ -13,8 +9,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.authtoken.models import Token
-from rest_framework.authentication import TokenAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication  # noqa
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated  # noqa
 from rest_framework.views import APIView
 
 
@@ -22,13 +18,14 @@ from rest_framework.views import APIView
 def api_root(request, format=None):
     return Response({
         'user': reverse('cms:user_list', request=request, format=format),
-        'incident': reverse('cms:incident_list', request=request, format=format),
+        'incident': reverse('cms:incident_list', request=request, format=format),  # noqa
         'crisis': reverse('cms:crisis_list', request=request, format=format),
-        'responseunit': reverse('cms:responseunit_list', request=request, format=format),
+        'responseunit': reverse('cms:responseunit_list', request=request, format=format),  # noqa
         'pokemon': reverse('cms:pokemon_list', request=request, format=format),
-        'pokemondb': reverse('cms:pokemondb_list', request=request, format=format),
+        'pokemondb': reverse('cms:pokemondb_list', request=request, format=format),  # noqa
         'shelter': reverse('cms:shelter_list', request=request, format=format),
     })
+
 
 class Auth(APIView):
     authentication_classes = (TokenAuthentication, BasicAuthentication)
@@ -36,46 +33,71 @@ class Auth(APIView):
 
     def get(self, request, format=None):
         content = {
-        'user': str(request.user),
-        'auth': str(request.auth)
+            'user': str(request.user),
+            'auth': str(request.auth)
         }
         return Response(content)
+
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-"""
-Get current user from request (based on Authorization token).
-=> Used to do re-login eg. after page reload.
-"""
 class CurrentUser(APIView):
+    """
+    Get current user from request (based on Authorization token).
+    => Used to do re-login eg. after page reload.
+    """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         currentUser = request.user
-        groups = currentUser.groups.all().values('name');
+        groups = currentUser.groups.all().values('name')
 
         if currentUser and groups:
-            group_names = [ v for v in groups.values() ]
-            return Response({'username': currentUser.username, 'groups': group_names}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            group_names = [v for v in groups.values()]
+            return Response(
+                {
+                    'username': currentUser.username,
+                    'groups': group_names
+                },
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            {'error': 'Could not get current user'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class LoginView(APIView):
     def post(self, request, format=None):
         serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = authenticate(username=serializer.validated_data['username'], password=serializer.validated_data['password'])
-            groups = user.groups.all().values('name');
-            if user and groups:
-                group_names = [ v for v in groups.values() ]
-                token, created = Token.objects.get_or_create(user=user)
-                return Response({'token': token.key, 'username': user.username, 'groups': group_names}, status=status.HTTP_200_OK)
 
-            return Response({'error': 'invalid username or password'}, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            user = authenticate(
+                username=serializer.validated_data['username'],
+                password=serializer.validated_data['password']
+            )
+
+            groups = user.groups.all().values('name')
+
+            if user and groups:
+                group_names = [v for v in groups.values()]
+                token, created = Token.objects.get_or_create(user=user)
+                return Response(
+                    {
+                        'token': token.key,
+                        'username': user.username,
+                        'groups': group_names
+                    },
+                    status=status.HTTP_200_OK
+                )
+            return Response(
+                {'error': 'invalid username or password'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
