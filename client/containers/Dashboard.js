@@ -16,6 +16,7 @@ import {
 
 // Component imports
 import MapContainer from '../components/map/MapContainer';
+import CrisisProgressBar from '../components/crisis/CrisisProgressBar';
 import Toolbar from '../components/map/Toolbar';
 import FlexLayout from '../components/layout/FlexLayout';
 import MainPanel from '../components/layout/MainPanel';
@@ -28,6 +29,7 @@ import Toast from '../components/utils/Toast';
 
 const propTypes = {
   selectedIncident: PropTypes.object,
+  allIncidents: PropTypes.array.isRequired,
   removeMessage: PropTypes.func.isRequired,
   fetchIncidents: PropTypes.func.isRequired,
   toggleMarkerVisibility: PropTypes.func.isRequired,
@@ -35,6 +37,7 @@ const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object,
   controlMap: PropTypes.object.isRequired,
+  currentCrisis: PropTypes.object.isRequired,
 };
 
 class Dashboard extends Component {
@@ -68,8 +71,10 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { toastMessages, selectedIncident, controlMap } = this.props;
     const { userIsAuthenticated } = this.state;
+    const {
+      toastMessages, selectedIncident, controlMap, currentCrisis, allIncidents,
+    } = this.props;
 
     if (!userIsAuthenticated) {
       return <Redirect to='/login' />;
@@ -93,7 +98,10 @@ class Dashboard extends Component {
 
           <MainPanel>
             <FlexLayout direction='column'>
-              <div>Crisis situation progress bar here...</div>
+              <CrisisProgressBar
+                current={allIncidents.length}
+                max={currentCrisis.threshold}
+              />
               <MapContainer />
               <Toolbar
                 toggleMarkerVisibility={this.props.toggleMarkerVisibility}
@@ -114,10 +122,12 @@ Dashboard.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     selectedIncident: state.incident.selected,
+    allIncidents: state.incident.all,
     toastMessages: state.messages,
     currentUser: state.user.user,
     loggedIn: state.user.loggedIn,
     controlMap: state.controlMap,
+    currentCrisis: state.crisis.current,
   };
 }
 

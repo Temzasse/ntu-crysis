@@ -1,0 +1,32 @@
+@import '../../../static/scss/theme';
+
+.CrisisProgressBar {
+  background-color: $grey;
+  position: relative;
+
+  .bar {
+    background-color: $green-success;
+    height: 30px;
+    z-index: 1;
+    width: 0;
+    transition: width 0.4s ease-out, background-color 0.3s ease;
+  }
+  .current, .max {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    margin: 5px;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+  }
+  .max {
+    right: 0;
+  }
+  .current {
+    left: 0;
+  }
+}

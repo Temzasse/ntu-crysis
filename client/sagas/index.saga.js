@@ -18,6 +18,7 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 function* fetchCurrentCrisis() {
   const crisis = yield call(api.getCurrentCrisis);
   yield put(actions.receiveCurrentCrisis(crisis));
+  console.log('2)');
 }
 
 function* initApp() {
@@ -27,7 +28,9 @@ function* initApp() {
     yield put(actions.setUser(user));
   }
 
+  console.log('1)');
   yield fetchCurrentCrisis();
+  console.log('3)');
 
   yield put(actions.completeInit());
 }

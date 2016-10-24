@@ -33,7 +33,7 @@ const crisisInitialState = {
 };
 function crisis(state = crisisInitialState, action) {
   switch (action.type) {
-  case types.CRISIS.RECEIVE: {
+  case types.CRISIS.RECEIVE_CURRENT: {
     return { ...state, current: action.payload };
   }
   default:
