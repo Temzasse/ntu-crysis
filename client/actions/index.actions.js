@@ -43,3 +43,6 @@ export const toggleMarkerVisibility = createAction(types.MAP.TOGGLE_MARKER);
 export const startInit = createAction(types.INIT.START);
 export const completeInit = createAction(types.INIT.COMPLETE);
 export const errorInit = createAction(types.INIT.ERROR);
+
+export const fetchCurrentCrisis = createAction(types.CRISIS.FETCH_CURRENT);
+export const receiveCurrentCrisis = createAction(types.CRISIS.RECEIVE_CURRENT);

@@ -134,6 +134,27 @@ class CrisisDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CrisisSerializer
 
 
+class CurrentCrisis(APIView):
+    """
+    Get the current crisis (inactive or active).
+    If crisis does not exist, create new current crisis.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        currentCrisis, created = Crisis.objects.get_or_create(
+            status='ACT',
+            defaults={
+                'title': 'crisis',
+                'description': 'automatically created crisis'
+            },
+        )
+        serializer = CrisisSerializer(currentCrisis)
+        print(serializer.data)
+        return Response(serializer.data)
+
+
 class ResponseUnitList(generics.ListCreateAPIView):
     queryset = ResponseUnit.objects.all()
     serializer_class = ResponseUnitSerializer

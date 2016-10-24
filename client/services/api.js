@@ -122,6 +122,11 @@ export async function getCurrentUser() {
   }
 }
 
+export async function getCurrentCrisis() {
+  const { response } = await callApi(`${API_URL}/crisis/current/`);
+  return response;
+}
+
 export async function fetchSomething() {
   const { response } = await callApi(`${API_URL}/something`);
   return response;

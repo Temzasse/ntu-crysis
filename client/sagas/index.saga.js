@@ -14,12 +14,20 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 ///////////
 */
 
+
+function* fetchCurrentCrisis() {
+  const crisis = yield call(api.getCurrentCrisis);
+  yield put(actions.receiveCurrentCrisis(crisis));
+}
+
 function* initApp() {
   const user = yield call(api.getCurrentUser);
 
   if (user) { // Do auto login
     yield put(actions.setUser(user));
   }
+
+  yield fetchCurrentCrisis();
 
   yield put(actions.completeInit());
 }
@@ -100,8 +108,7 @@ function* doReportIncident({ payload }) {
 
 
 function* fetchIncidents() {
-  yield delay(1000);
-  ws.send({ type: types.INCIDENTS.FETCH });
+  yield ws.send({ type: types.INCIDENTS.FETCH });
 }
 
 
@@ -133,6 +140,10 @@ function* watchFetchIncidents() {
   yield* takeEvery(types.INCIDENTS.FETCH, fetchIncidents);
 }
 
+function* watchFetchCurrentCrisis() {
+  yield* takeEvery(types.CRISIS.FETCH_CURRENT, fetchCurrentCrisis);
+}
+
 function* watchLogin() {
   yield* takeEvery(types.LOGIN, doLogin);
 }
@@ -155,4 +166,5 @@ export default function* root() {
   yield fork(watchLogout);
   yield fork(watchReportIncident);
   yield fork(watchFetchIncidents);
+  yield fork(watchFetchCurrentCrisis);
 }

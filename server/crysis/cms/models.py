@@ -64,7 +64,7 @@ class Crisis(models.Model):
     # NOTE: there's really no point of having a title to crisis
     title = models.CharField(max_length=100, blank=True)
     description = models.TextField(max_length=500, blank=True)
-    status = models.CharField(choices=STATUS_CHOICE, default='INA', max_length=10)  # noqa
+    status = models.CharField(choices=STATUS_CHOICE, default='ACT', max_length=10)  # noqa
     level = models.IntegerField(default=0)
     threshold = models.IntegerField(default=5)
     created_at = models.DateTimeField(auto_now_add=True)

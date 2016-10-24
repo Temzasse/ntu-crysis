@@ -58,8 +58,14 @@ SEX_CHOICE = (
 )
 
 STATUS_CHOICE = (
-    ('INA', 'Inactive'),
     ('ACT', 'Active'),
     ('PEN', 'Pending'),
     ('ARC', 'Archived'),
 )
+
+# STATUS_CHOICE = (
+#     ('INA', 'Inactive'),
+#     ('ACT', 'Active'),
+#     ('PEN', 'Pending'),
+#     ('ARC', 'Archived'),
+# )

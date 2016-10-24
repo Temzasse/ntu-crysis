@@ -17,8 +17,9 @@ urlpatterns = [
 
     url(r'^crisis/$', views.CrisisList.as_view(), name='crisis_list'),
     url(r'^crisis/(?P<pk>[0-9]+)/$', views.CrisisDetail.as_view()),
+    url(r'^crisis/current/$', views.CurrentCrisis.as_view(), name='crisis_current'),  # noqa
 
-    url(r'^responseunit/$', views.ResponseUnitList.as_view(), name='responseunit_list'),
+    url(r'^responseunit/$', views.ResponseUnitList.as_view(), name='responseunit_list'),  # noqa
     url(r'^responseunit/(?P<pk>[0-9]+)/$', views.ResponseUnitDetail.as_view()),
 
     url(r'^pokemon/$', views.PokemonList.as_view(), name='pokemon_list'),

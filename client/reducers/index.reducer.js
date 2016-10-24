@@ -28,6 +28,19 @@ function appInit(state = appInitInitialState, action) {
   }
 }
 
+const crisisInitialState = {
+  current: null,
+};
+function crisis(state = crisisInitialState, action) {
+  switch (action.type) {
+  case types.CRISIS.RECEIVE: {
+    return { ...state, current: action.payload };
+  }
+  default:
+    return state;
+  }
+}
+
 const incidentsInitialState = {
   // all: [...mockIncidents],
   all: [],
@@ -169,6 +182,7 @@ function errors(state = errorsInitialState, action) {
 
 const rootReducer = combineReducers({
   appInit,
+  crisis,
   controlMap,
   incident,
   weather,
