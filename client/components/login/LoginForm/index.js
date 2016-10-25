@@ -12,6 +12,11 @@ const propTypes = {
   doLogin: PropTypes.func.isRequired,
 };
 
+/**
+ * TODO
+ * Show error messages when user credentials are incorrect
+ */
+
 class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +45,7 @@ class LoginForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.username.lenght && this.state.password.lenght) {
+    if (this.state.username.length && this.state.password.length) {
       this.props.doLogin(this.state);
     }
   }
