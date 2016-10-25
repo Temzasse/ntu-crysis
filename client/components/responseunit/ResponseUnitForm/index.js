@@ -59,7 +59,6 @@ class ResponseUnitForm extends Component {
     const ruic = e.target.value;
     console.log('::', ruic);
     const [incId, ruId] = ruic.split('#');
-    console.debug('====> incId, ruId', incId, ruId);
 
     if (utils.isNormalInteger(incId) && utils.isNormalInteger(ruId)) {
       this.props.fetchIncident(parseInt(incId, 10));

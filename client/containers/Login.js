@@ -5,7 +5,7 @@ import { Redirect } from 'react-router';
 
 
 // Component imports
-import LoginContainer from '../components/login/LoginContainer';
+import LoginForm from '../components/login/LoginForm';
 
 const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
@@ -20,7 +20,7 @@ const Login = ({ currentUser, loggedIn }) => {
   }
   return (
     <div className='Login'>
-      <LoginContainer />
+      <LoginForm />
     </div>
   );
 };
