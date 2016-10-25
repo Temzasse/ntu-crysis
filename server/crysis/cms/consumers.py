@@ -14,23 +14,24 @@ def ws_message(message):
         # NOTE:
         # Current crisis is either 'inactive' or 'active'
         # All past crisises should be either 'pending' or 'archived'
-        currentCrisis = Crisis.objects.get(status='ACT')
+        currentCrisis, crisisCreated = Crisis.objects.get_or_create(
+            status='ACT',
+            defaults={
+                'title': 'crisis',
+                'description': 'automatically created crisis'
+            },
+        )
         incidents = currentCrisis.incidents.all()
-        serializer = IncidentSerializer(incidents, many=True)
-        data['payload'] = serializer.data
-        data['type'] = 'INCIDENTS_RECEIVE'
-
-    if msg['type'] == 'INCIDENT_UPDATE':
-        # NOTE:
-        # - attach response unit to incident
-        # - other stuff?
-        print('Update incident!')
+        if incidents:
+            serializer = IncidentSerializer(incidents, many=True)
+            data['payload'] = serializer.data
+            data['type'] = 'INCIDENTS_RECEIVE'
 
     # TODO: do we need to send message to group channel?
     # Might be enought to just 'broadcast' it to all channels.
     # We probably don't need groups.
-    Group('cms').send({"text": json.dumps(data)})
-    # message.reply_channel.send({"text": json.dumps(data)})
+    if data['type'] and data['payload']:
+        Group('cms').send({"text": json.dumps(data)})
 
 
 @channel_session

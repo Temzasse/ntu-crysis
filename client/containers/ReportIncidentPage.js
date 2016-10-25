@@ -14,6 +14,7 @@ import MapContainer from '../components/map/MapContainer';
 import ReportIncidentForm from '../components/incident/ReportIncidentForm';
 /* eslint-enable max-len */
 
+
 const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object.isRequired,

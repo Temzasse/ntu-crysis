@@ -117,21 +117,13 @@ function* doLogout() {
 }
 
 function* doReportIncident({ payload }) {
-  yield delay(1000);
+  // const test = ({ title: payload.title });
+  const test = yield call(api.addIncident, payload);
 
-  /* eslint-disable max-len */
-  const { Title } = payload;
-  let mockIncident = { Title: 'Pikachu Breakout', Type: 'Land', Long: '1.30563255', Lat: '103.98444641', Area: 'Bukit Batok', Description: '' };
-
-  // For testing the incident with titles
-  if (Title === 'Onyx') {
-    mockIncident = { Title: 'Onyx', Type: 'Land', Long: '1.31063255', Lat: '103.92444641', Area: 'Choa Chu Kang', Description: '' };
+  if (test) {
+    console.log('Go Home');
   }
-  /* eslint-enable max-len */
-
-  yield put(actions.CreateIncident(mockIncident));
 }
-
 
 function* fetchIncidents() {
   yield ws.send({ type: types.INCIDENTS.FETCH });

@@ -7,6 +7,7 @@ import * as types from '../actions/actiontypes';
 import {
   shelterMarkers,
   mapSectors,
+  mockIncidents,
 } from '../static/dummyData';
 
 
@@ -62,6 +63,7 @@ function responseunits(state = ruInitialState, action) {
 const incidentsInitialState = {
   // all: [...mockIncidents],
   all: {},
+
   selected: null,
   active: null,
 };
@@ -140,6 +142,7 @@ const mapInitialState = {
   sectors: [...mapSectors], // sectors are pre-defined
   markers: {
     shelters: [...shelterMarkers], // shelters are pre-defined
+    incidents: [...mockIncidents],
   },
 };
 function controlMap(state = mapInitialState, action) {
