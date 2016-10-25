@@ -23,8 +23,15 @@ def create_auth_token(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Incident)
 def execute_after_save_incident(sender, instance, created, *args, **kwargs):
-    # Add newly created incident to current crisis
-    currentCrisis = Crisis.objects.filter(Q(status='INA') | Q(status='ACT'))[0]  # noqa
+    # Add newly created incident to current crisis.
+    # Create new active crisis if it does not exist.
+    currentCrisis, crisisCreated = Crisis.objects.get_or_create(
+        status='ACT',
+        defaults={
+            'title': 'crisis',
+            'description': 'automatically created crisis'
+        },
+    )
     currentCrisis.incidents.add(instance.id)
 
     # Send incident data to client
@@ -34,11 +41,11 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     if created:
         ws_send_notification('INCIDENT_NEW', data)
     else:
-        ws_send_notification('INCIDENT_UPDATE', data)
+        ws_send_notification('INCIDENT_UPDATED', data)
 
 
 @receiver(post_delete, sender=Incident)
-def execute_after_delete_incidnet(sender, instance, *args, **kwargs):
+def execute_after_delete_incident(sender, instance, *args, **kwargs):
     ws_send_notification('INCIDENT_DELETE', 'deleted')
 
 

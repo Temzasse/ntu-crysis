@@ -1,7 +1,6 @@
 import json
 from channels import Group
 from channels.sessions import channel_session
-from django.db.models import Q
 from .models import Crisis
 from .serializers import IncidentSerializer
 
@@ -15,7 +14,7 @@ def ws_message(message):
         # NOTE:
         # Current crisis is either 'inactive' or 'active'
         # All past crisises should be either 'pending' or 'archived'
-        currentCrisis = Crisis.objects.filter(Q(status='INA') | Q(status='ACT'))[0]  # noqa
+        currentCrisis = Crisis.objects.get(status='ACT')
         incidents = currentCrisis.incidents.all()
         serializer = IncidentSerializer(incidents, many=True)
         data['payload'] = serializer.data
@@ -47,6 +46,7 @@ def ws_disconnect(message):
 
 
 def ws_send_notification(change_type, data):
+    print('WEBSOCKET NOTIFY CLIENT!')
     json_string = json.dumps({
         'type': change_type,
         'payload': data

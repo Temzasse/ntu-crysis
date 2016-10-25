@@ -7,8 +7,8 @@ urlpatterns = [
     url(r'^$', views.api_root),
 
     url(r'^incident/$', views.IncidentList.as_view(), name='incident_list'),
-    url(r'^incident/(?P<pk>[0-9]+)/$',
-        views.IncidentDetail.as_view()),
+    url(r'^incident/(?P<pk>[0-9]+)/$', views.IncidentDetail.as_view()),
+    url(r'^incident/(?P<pk>[0-9]+)/handle/$', views.HandleIncident.as_view()),
 
     url(r'^user/$', views.UserList.as_view(), name='user_list'),
     url(r'^user/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
@@ -17,8 +17,9 @@ urlpatterns = [
 
     url(r'^crisis/$', views.CrisisList.as_view(), name='crisis_list'),
     url(r'^crisis/(?P<pk>[0-9]+)/$', views.CrisisDetail.as_view()),
+    url(r'^crisis/current/$', views.CurrentCrisis.as_view(), name='crisis_current'),  # noqa
 
-    url(r'^responseunit/$', views.ResponseUnitList.as_view(), name='responseunit_list'),
+    url(r'^responseunit/$', views.ResponseUnitList.as_view(), name='responseunit_list'),  # noqa
     url(r'^responseunit/(?P<pk>[0-9]+)/$', views.ResponseUnitDetail.as_view()),
 
     url(r'^pokemon/$', views.PokemonList.as_view(), name='pokemon_list'),

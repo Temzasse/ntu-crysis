@@ -2,7 +2,11 @@
 const fetchActions = ['FETCH', 'RECEIVE', 'FAIL'];
 // const saveActions = ['SAVE', 'RESULT', 'FAIL'];
 const binaryActions = ['SET', 'CLEAR'];
-// const crudActions = [...binaryActions, 'ADD', 'UPDATE', 'REMOVE'];
+const crudActions = [
+  ...binaryActions,
+  'ADD', 'UPDATE', 'REMOVE',
+  'ADD_RECEIVE', 'UPDATE_RECEIVE', 'REMOVE_RECEIVE',
+];
 
 
 function createTypes(base, actionsArray = fetchActions) {
@@ -31,11 +35,31 @@ export const USER = createTypes('USER', [...binaryActions]);
 export const MAP = createTypes('MAP', ['TOGGLE_MARKER']);
 export const INIT = createTypes('INIT', ['COMPLETE', 'START', 'ERROR']);
 
+export const RESPONSEUNIT = createTypes(
+  'RESPONSEUNIT',
+  [
+    ...fetchActions,
+    'FETCH_ALL',
+    'RECEIVE_ALL',
+  ]
+);
+
+export const CRISIS = createTypes(
+  'CRISIS',
+  [
+    ...fetchActions,
+    'FETCH_CURRENT',
+    'RECEIVE_CURRENT',
+  ]
+);
+
 export const INCIDENTS = createTypes('INCIDENTS', [...fetchActions]);
 export const INCIDENT = createTypes(
   'INCIDENT',
   [
     ...fetchActions,
+    ...crudActions,
+    'HANDLE',
     'SET_SELECTED',
     'CLEAR_SELECTED',
     'SET_ACTIVE',

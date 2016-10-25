@@ -3,12 +3,15 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Redirect from 'react-router/Redirect';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getSelectedIncident, getIncidentsArray } from '../selectors';
 
 // Actions
 import {
   removeMessage,
   toggleMarkerVisibility,
   fetchIncidents,
+  fetchCurrentCrisis,
+  fetchResponseUnits,
 } from '../actions/index.actions';
 
 
@@ -16,6 +19,7 @@ import {
 
 // Component imports
 import MapContainer from '../components/map/MapContainer';
+import CrisisProgressBar from '../components/crisis/CrisisProgressBar';
 import Toolbar from '../components/map/Toolbar';
 import FlexLayout from '../components/layout/FlexLayout';
 import MainPanel from '../components/layout/MainPanel';
@@ -28,13 +32,17 @@ import Toast from '../components/utils/Toast';
 
 const propTypes = {
   selectedIncident: PropTypes.object,
+  allIncidents: PropTypes.array.isRequired,
   removeMessage: PropTypes.func.isRequired,
   fetchIncidents: PropTypes.func.isRequired,
+  fetchCurrentCrisis: PropTypes.func.isRequired,
+  fetchResponseUnits: PropTypes.func.isRequired,
   toggleMarkerVisibility: PropTypes.func.isRequired,
   toastMessages: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object,
   controlMap: PropTypes.object.isRequired,
+  currentCrisis: PropTypes.object,
 };
 
 class Dashboard extends Component {
@@ -53,7 +61,9 @@ class Dashboard extends Component {
 
     if (loggedIn) {
       if (currentUser.role === 'operator') {
+        this.props.fetchCurrentCrisis();
         this.props.fetchIncidents();
+        this.props.fetchResponseUnits();
         this.setState({ userIsAuthenticated: true });
       }
     }
@@ -68,8 +78,10 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { toastMessages, selectedIncident, controlMap } = this.props;
     const { userIsAuthenticated } = this.state;
+    const {
+      toastMessages, selectedIncident, controlMap, currentCrisis, allIncidents,
+    } = this.props;
 
     if (userIsAuthenticated) {
       return <Redirect to='/login' />;
@@ -83,26 +95,31 @@ class Dashboard extends Component {
           removeToastMsg={this.props.removeMessage}
         />
 
-        <FlexLayout direction='row'>
+        {!!currentCrisis &&
+          <FlexLayout direction='row'>
 
-          <Sidebar
-            leftPanelComponent={IncidentListContainer}
-            rightPanelComponent={IncidentDetailsContainer}
-            visiblePanel={selectedIncident ? 'right' : 'left'}
-          />
+            <Sidebar
+              leftPanelComponent={IncidentListContainer}
+              rightPanelComponent={IncidentDetailsContainer}
+              visiblePanel={selectedIncident ? 'right' : 'left'}
+            />
 
-          <MainPanel>
-            <FlexLayout direction='column'>
-              <div>Crisis situation progress bar here...</div>
-              <MapContainer />
-              <Toolbar
-                toggleMarkerVisibility={this.props.toggleMarkerVisibility}
-                controlMap={controlMap}
-              />
-            </FlexLayout>
-          </MainPanel>
+            <MainPanel>
+              <FlexLayout direction='column'>
+                <CrisisProgressBar
+                  current={allIncidents.length}
+                  max={currentCrisis.threshold}
+                />
+                <MapContainer />
+                <Toolbar
+                  toggleMarkerVisibility={this.props.toggleMarkerVisibility}
+                  controlMap={controlMap}
+                />
+              </FlexLayout>
+            </MainPanel>
 
-        </FlexLayout>»
+          </FlexLayout>
+        }
       </div>
     );
   }
@@ -113,11 +130,13 @@ Dashboard.propTypes = propTypes;
 // This makes state objects available to the component via props!
 function mapStateToProps(state) {
   return {
-    selectedIncident: state.incident.selected,
+    selectedIncident: getSelectedIncident(state),
+    allIncidents: getIncidentsArray(state),
     toastMessages: state.messages,
     currentUser: state.user.user,
     loggedIn: state.user.loggedIn,
     controlMap: state.controlMap,
+    currentCrisis: state.crisis.current,
   };
 }
 
@@ -127,6 +146,8 @@ function mapDispatchToProps(dispatch) {
     removeMessage,
     toggleMarkerVisibility,
     fetchIncidents,
+    fetchCurrentCrisis,
+    fetchResponseUnits,
   }, dispatch);
 }
 

@@ -3,7 +3,11 @@ import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWeatherData } from '../../actions/index.actions';
-import { getIncidentMarkers, getWeatherMarkers } from '../../selectors';
+
+// Selectors
+import {
+  getIncidentMarkers, getWeatherMarkers, getActiveIncident,
+} from '../../selectors';
 
 // Components
 import LoadingIndicator from '../utils/LoadingIndicator';
@@ -122,7 +126,7 @@ function mapStateToProps(state) {
     markerVisibility: state.controlMap.visibility,
     weatherMarkers: getWeatherMarkers(state),
     incidentMarkers: getIncidentMarkers(state),
-    activeIncident: state.incident.active,
+    activeIncident: getActiveIncident(state),
   };
 }
 

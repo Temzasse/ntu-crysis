@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getIncidentsArray } from '../../selectors';
 
 // Actions
 import {
@@ -31,12 +32,11 @@ class IncidentListContainer extends Component {
 
   render() {
     const { incidents } = this.props;
-    const reversed = incidents.reverse();
 
     return (
       <div className='IncidentListContainer'>
         <IncidentList
-          incidents={reversed}
+          incidents={incidents}
           selectIncident={this.props.setSelectedIncident}
           onMouseEnter={this.props.setActiveIncident}
           onMouseLeave={this.props.clearActiveIncident}
@@ -51,7 +51,7 @@ IncidentListContainer.propTypes = propTypes;
 // This makes state objects available to the component via props!
 function mapStateToProps(state) {
   return {
-    incidents: state.incident.all,
+    incidents: getIncidentsArray(state).reverse(),
   };
 }
 

@@ -4,6 +4,8 @@
 ///////////////////////
 */
 
+import * as actions from '../actions/index.actions';
+
 // TODO: these could be moved to config file.
 const wsPort = 2000;
 const wsEndpoint = 'cms';
@@ -14,13 +16,26 @@ const ws = new WebSocket(`${scheme}://${url}`);
 
 export const connect = (store) => {
   console.debug('[WEBSOCKET] Connect');
+
   ws.onmessage = ({ data }) => {
     try {
       const json = JSON.parse(data);
+
       console.debug('[WEBSOCKET] Receive data', json);
+
       if (json.type && json.payload) {
         console.debug('[WEBSOCKET] Dispatching action', json);
+
+        // Dispatch the action
         store.dispatch(json);
+
+        // Dispatch additional actions (show toast message etc.)
+        if (json.type === 'INCIDENT_NEW') {
+          store.dispatch(actions.addMessage({
+            type: 'info',
+            content: 'New incident!',
+          }));
+        }
       } else {
         console.error('[WEBSOCKET] Data in wrong format!', json);
       }
