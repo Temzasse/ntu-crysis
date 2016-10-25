@@ -118,7 +118,7 @@ function* doLogout() {
 
 function* doReportIncident({ payload }) {
   // const test = ({ title: payload.title });
-  const test = yield call(api.incident, payload);
+  const test = yield call(api.addIncident, payload);
 
   if (test) {
     console.log('Go Home');

@@ -15,8 +15,8 @@ const propTypes = {
   handleReportIncident: PropTypes.func.isRequired,
   handleTitle: PropTypes.func.isRequired,
   handleType: PropTypes.func.isRequired,
-  handleArea: PropTypes.func.isRequired,
-  handleComments: PropTypes.func.isRequired,
+  handleLocation: PropTypes.func.isRequired,
+  handleDescription: PropTypes.func.isRequired,
 };
 
 class ReportIncidentForm extends Component {
@@ -25,17 +25,17 @@ class ReportIncidentForm extends Component {
 
     this.handleReportIncident = this.handleReportIncident.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
-    this.handleArea = this.handleArea.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
     this.handleType = this.handleType.bind(this);
-    this.handleComments = this.handleComments.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
 
     this.state = {
       title: '',
-      type: '+default+',
-      long: '0',
-      lat: '0',
-      area: '+default+',
-      comments: '',
+      type: 'UN',
+      longitude: 0,
+      latitude: 0,
+      area: 'UN',
+      description: '',
     };
   }
 
@@ -46,9 +46,19 @@ class ReportIncidentForm extends Component {
   handleReportIncident(evnt) {
     console.log('HELP!');
     evnt.preventDefault();
-    const formNode = this.formRef;
-    formNode.reset();
-    this.props.doReportIncident(this.state);
+    if (this.state.title === '' ||
+      this.state.area === 'UN' ||
+      this.state.type === 'UN' ||
+      this.state.long === '0' ||
+      this.state.lat === '0' ||
+      this.state.description === ''
+    ) {
+      console.log('Incomplete field!');
+    } else {
+      const formNode = this.formRef;
+      formNode.reset();
+      this.props.doReportIncident(this.state);
+    }
   }
 
   handleTitle(title) {
@@ -61,30 +71,40 @@ class ReportIncidentForm extends Component {
     this.setState({ type });
   }
 
-  handleArea(area) {
-    if (area === '+default+') {
-      console.log('Area ', area);
-      this.setState({ area });
-      this.setState({ long: '0' });
-      this.setState({ lat: '0' });
+  handleLocation(location) {
+    if (location === 'UN') {
+      console.log('Location ', location);
+      this.setState({ area: 'UN', longitude: 0, latitude: 0 });
     }
-    if (area === 'Choa Chu Kang') {
-      console.log('Area 111', area);
-      this.setState({ area });
-      this.setState({ long: '1.3840' });
-      this.setState({ lat: '103.7470' });
+    if (location === 'Choa Chu Kang') {
+      console.log('location 111', location);
+      this.setState({
+        area: 'NW',
+        latitude: 1.3840.toFixed(4),
+        longitude: 103.7470.toFixed(4),
+      });
     }
-    if (area === 'Bukit Batok') {
-      console.log('Area 222', area);
-      this.setState({ area });
-      this.setState({ long: '1.3590' });
-      this.setState({ lat: '103.7637' });
+    if (location === 'Bukit Batok') {
+      console.log('location 222', location);
+      this.setState({
+        area: 'NW',
+        latitude: 1.3590.toFixed(4),
+        longitude: 103.7637.toFixed(4),
+      });
+    }
+    if (location === 'Changi') {
+      console.log('location 333', location);
+      this.setState({
+        area: 'NE',
+        latitude: 1.3450,
+        longitude: 103.9832.toFixed(4),
+      });
     }
   }
 
-  handleComments(comments) {
-    console.log('Comments', comments);
-    this.setState({ comments });
+  handleDescription(description) {
+    console.log('Description ', description);
+    this.setState({ description });
   }
 
   render() {
@@ -116,38 +136,43 @@ class ReportIncidentForm extends Component {
                 id='typeID'
                 onChange={event => this.handleType(event.target.value)}
               >
-                <option value='+default+' />
-                <option value='Land'>Land</option>
-                <option value='Sea'>Sea</option>
+                <option value='UN' />
+                <option value='LAN'>Land</option>
+                <option value='AIR'>Air</option>
+                <option value='SEA'>Sea</option>
               </select>
               </td>
+            </tr>
+            <td>Location</td>
+            <td><select
+              name='location'
+              onChange={event => this.handleLocation(event.target.value)}
+            >
+              <option value='UN' />
+              <option value='Bukit Batok' >Bukit Batok</option>
+              <option value='Changi' >Changi</option>
+              <option value='Choa Chu Kang'>Choa Chu Kang</option>
+            </select>
+            </td>
+            <tr>
+              <td>Lat</td>
+              <td><input name='latitude' disabled value={this.state.latitude} /></td>
             </tr>
             <tr>
               <td>Long</td>
-              <td><input name='long' disabled value={this.state.long} /></td>
-            </tr>
-            <tr>
-              <td>Lat</td>
-              <td><input name='lat' disabled value={this.state.lat} /></td>
+              <td><input name='longitude' disabled value={this.state.longitude} /></td>
             </tr>
             <tr>
               <td>Area</td>
-              <td><select
-                name='area'
-                onChange={event => this.handleArea(event.target.value)}
-              >
-                <option value='+default+' />
-                <option value='Bukit Batok' >Bukit Batok</option>
-                <option value='Choa Chu Kang'>Choa Chu Kang</option>
-              </select>
+              <td><input name='area' disabled value={this.state.area} />
               </td>
             </tr>
             <tr>
-              <td>Comments</td>
+              <td>Description</td>
               <td><textarea
                 rows='4'
                 cols='15'
-                onChange={event => this.handleComments(event.target.value)}
+                onChange={event => this.handleDescription(event.target.value)}
               /></td>
             </tr>
             <tr>
