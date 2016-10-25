@@ -1,10 +1,37 @@
 @import '../../../static/scss/theme';
+@import '../../../static/scss/mixins';
 
 $btn-color: $green-success;
 $btn-color-darker: darken($btn-color, 6%);
 
 .ResponseUnitAttacher {
   padding: 8px;
+
+  .ru-card {
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid $blue-light;
+    // box-shadow: 1px 1px 8px rgba(0,0,0,0.3);
+
+    .name {
+      font-weight: lighter;
+      color: $blue-dark;
+      margin-bottom: 6px;
+    }
+    .tag {
+      background-color: $blue-lightest;
+      color: $blue-dark;
+      border-radius: 3px;
+      padding: 3px 5px;
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+    i {
+      margin-right: 6px;
+      font-size: 22px;
+    }
+  }
 
   .attach-btn {
     margin: 32px auto 0px auto;

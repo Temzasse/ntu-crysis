@@ -10,10 +10,26 @@ const propTypes = {
   attach: PropTypes.func.isRequired,
 };
 
+const specialityMappings = {
+  'LAN': 'Land',
+  'SEA': 'Sea',
+  'AIR': 'Air',
+};
+
+const areaMappings = {
+  'NE': 'North-east',
+  'SE': 'South-east',
+  'NW': 'North-west',
+  'NS': 'North-west',
+};
+
 const renderRUCard = (ru) => (
-  <div>
-    <span>{ru.name}</span>
-    <span>{ru.speciality}</span>
+  <div styleName='ru-card'>
+    <div styleName='name'>
+      {ru.name}
+    </div>
+    <span styleName='tag'>{specialityMappings[ru.speciality]}</span>
+    <span styleName='tag'>{areaMappings[ru.area]}</span>
   </div>
 );
 
