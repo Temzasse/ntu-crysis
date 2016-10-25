@@ -1,0 +1,28 @@
+@import '../../../static/scss/theme';
+
+$btn-color: $green-success;
+$btn-color-darker: darken($btn-color, 6%);
+
+.ResponseUnitAttacher {
+  padding: 8px;
+
+  .attach-btn {
+    margin: 32px auto 0px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid $btn-color-darker;
+    background-color: $btn-color;
+    color: #fff;
+    font-size: 42px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $btn-color-darker;
+    }
+  }
+}

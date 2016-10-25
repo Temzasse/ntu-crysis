@@ -41,7 +41,7 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     if created:
         ws_send_notification('INCIDENT_NEW', data)
     else:
-        ws_send_notification('INCIDENT_UPDATE', data)
+        ws_send_notification('INCIDENT_UPDATED', data)
 
 
 @receiver(post_delete, sender=Incident)

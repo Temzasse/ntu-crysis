@@ -1,62 +1,61 @@
-import React, { Component, PropTypes } from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getSelectedIncident } from '../../selectors';
 
-import { clearSelectedIncident } from '../../actions/index.actions';
+import {
+  clearSelectedIncident, updateIncident,
+} from '../../actions/index.actions';
 
 // Components
 import IncidentDetails from './IncidentDetails';
+import ResponseUnitAttacher from './ResponseUnitAttacher';
 import BackBtnBar from '../layout/BackBtnBar';
 
 const propTypes = {
   selectedIncident: PropTypes.object,
-  clearSelectedIncident: PropTypes.func.isRequired,
+  allResponseunits: PropTypes.array.isRequired,
+  clearSelectedInc: PropTypes.func.isRequired,
+  updateInc: PropTypes.func.isRequired,
 };
 
-class IncidentDetailsContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+const IncidentDetailsContainer = (
+  { selectedIncident, allResponseunits, clearSelectedInc, updateInc }
+) => (
+  <div className='IncidentDetailsContainer'>
+    <BackBtnBar backBtnAction={clearSelectedInc} />
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
-  render() {
-    const { selectedIncident } = this.props;
-
-    return (
-      <div className='IncidentDetailsContainer'>
-
-        <BackBtnBar backBtnAction={this.props.clearSelectedIncident} />
-
-        {selectedIncident &&
-          <IncidentDetails
-            incident={selectedIncident}
-          />
-        }
-
+    {selectedIncident &&
+      <div>
+        <IncidentDetails
+          incident={selectedIncident}
+        />
+        <br />
+        <ResponseUnitAttacher
+          incident={selectedIncident}
+          attach={updateInc}
+          responseunits={allResponseunits}
+        />
       </div>
-    );
-  }
-
-}
+    }
+  </div>
+);
 
 IncidentDetailsContainer.propTypes = propTypes;
-// IncidentDetailsContainer.defaultProps = {};
 
 // This makes state objects available to the component via props!
 function mapStateToProps(state) {
   return {
-    selectedIncident: state.incident.selected,
+    selectedIncident: getSelectedIncident(state),
+    allResponseunits: state.responseunits.all,
   };
 }
 
 // This adds action creators to components props
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    clearSelectedIncident,
+    clearSelectedInc: clearSelectedIncident,
+    updateInc: updateIncident,
   }, dispatch);
 }
 

@@ -7,8 +7,8 @@ urlpatterns = [
     url(r'^$', views.api_root),
 
     url(r'^incident/$', views.IncidentList.as_view(), name='incident_list'),
-    url(r'^incident/(?P<pk>[0-9]+)/$',
-        views.IncidentDetail.as_view()),
+    url(r'^incident/(?P<pk>[0-9]+)/$', views.IncidentDetail.as_view()),
+    url(r'^incident/(?P<pk>[0-9]+)/handle/$', views.HandleIncident.as_view()),
 
     url(r'^user/$', views.UserList.as_view(), name='user_list'),
     url(r'^user/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),

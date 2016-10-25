@@ -124,6 +124,40 @@ class IncidentDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
+class HandleIncident(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, format=None):
+        incident = Incident.objects.get(pk=pk)
+        print(incident)
+        print(incident.area)
+        print(incident.type)
+
+        # First try to attach RU with same area and type
+        RUsByAreaAndType = ResponseUnit.objects.filter(area=incident.area, speciality=incident.type)  # noqa
+
+        if RUsByAreaAndType:
+            incident.handle_by = RUsByAreaAndType[0]
+            incident.save()
+            serializer = IncidentSerializer(incident)
+            return Response(serializer.data)
+
+        # Then by only type
+        RUsByType = ResponseUnit.objects.filter(speciality=incident.type)  # noqa
+
+        if RUsByType:
+            incident.handle_by = RUsByType[0]
+            incident.save()
+            serializer = IncidentSerializer(incident)
+            return Response(serializer.data)
+
+        return Response(
+            {'error': 'could not attach response unit'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
 class CrisisList(generics.ListCreateAPIView):
     queryset = Crisis.objects.all()
     serializer_class = CrisisSerializer
@@ -151,7 +185,6 @@ class CurrentCrisis(APIView):
             },
         )
         serializer = CrisisSerializer(currentCrisis)
-        print(serializer.data)
         return Response(serializer.data)
 
 

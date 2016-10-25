@@ -14,7 +14,6 @@ const IncidentDetails = ({ incident }) => (
       <h2>{incident.title}</h2>
       <strong>Description</strong>
       <p>{incident.description}</p>
-      <p>Here comes incidents Response unit related stuff too</p>
     </div>
   </div>
 );
