@@ -85,19 +85,43 @@ function* doLogout() {
 }
 
 function* doReportIncident({ payload }) {
+  // yield 'hello;';
+  // const test = ({ title: payload.title });
+  const test = yield call(api.incident, payload);
+
+  if (test) {
+    console.log('Go Home');
+  }
+}
+
+
+/*
+function* doReportIncident({ payload }) {
   yield delay(1000); // Simulate API call delay
 
   const { Title } = payload;
-  let mockIncident = { Title: 'Pikachu Breakout', Type: 'Land', Long: '1.30563255', Lat: '103.98444641', Area: 'Bukit Batok', Description: '' };
+  let mockIncident = {
+  Title: 'Pikachu Breakout',
+  Type: 'Land',
+  Long: '1.30563255',
+  Lat: '103.98444641',
+  Area: 'Bukit Batok',
+  Description: '' };
 
   // For testing the incident with titles
   if (Title === 'Onyx') {
-    mockIncident = { Title: 'Onyx', Type: 'Land', Long: '1.31063255', Lat: '103.92444641', Area: 'Choa Chu Kang', Description: '' };
+    mockIncident = {
+      Title: 'Onyx',
+      Type: 'Land',
+      Long: '1.31063255',
+      Lat: '103.92444641',
+      Area: 'Choa Chu Kang',
+      Description: '' };
   }
 
   yield put(actions.CreateIncident(mockIncident));
 }
-
+*/
 
 function* fetchIncidents() {
   yield delay(1000);
