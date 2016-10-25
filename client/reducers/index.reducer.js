@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { utils } from '../services';
 import * as types from '../actions/actiontypes';
 
 // Import constants and dummy data
@@ -41,35 +42,84 @@ function crisis(state = crisisInitialState, action) {
   }
 }
 
+const ruInitialState = {
+  all: [],
+};
+function responseunits(state = ruInitialState, action) {
+  switch (action.type) {
+  case types.RESPONSEUNIT.RECEIVE: {
+    return { ...state, all: action.payload };
+  }
+  default:
+    return state;
+  }
+}
+
 const incidentsInitialState = {
   // all: [...mockIncidents],
-  all: [],
+  all: {},
   selected: null,
   active: null,
 };
 
 function incident(state = incidentsInitialState, action) {
   switch (action.type) {
-  case types.INCIDENT.SET_SELECTED: {
-    const selected = state.all.find(i => i.id === action.payload) || null;
-    return { ...state, selected };
-  }
-  case types.INCIDENT.SET_ACTIVE: {
-    const active = state.all.find(i => i.id === action.payload) || null;
-    return { ...state, active };
-  }
+  case types.INCIDENT.SET_SELECTED:
+    return { ...state, selected: action.payload };
+  case types.INCIDENT.SET_ACTIVE:
+    return { ...state, active: action.payload };
   case types.INCIDENT.CLEAR_ACTIVE:
     return { ...state, active: null };
   case types.INCIDENT.CLEAR_SELECTED:
     return { ...state, selected: null };
   case types.INCIDENTS.RECEIVE:
-    return { ...state, all: [...action.payload] };
+    return { ...state, all: utils.arrayToObject(action.payload) };
   case types.INCIDENT.NEW:
-    return { ...state, all: [...state.all, action.payload] };
+    return {
+      ...state,
+      all: { ...state.all, [action.payload.id]: action.payload },
+    };
+  case types.INCIDENT.UPDATE_RECEIVE: {
+    return {
+      ...state,
+      all: { ...state.all, [action.payload.id]: action.payload },
+    };
+  }
   default:
     return state;
   }
 }
+
+
+// function incident(state = incidentsInitialState, action) {
+//   switch (action.type) {
+//   case types.INCIDENT.SET_SELECTED: {
+//     const selected = state.all.find(i => i.id === action.payload) || null;
+//     return { ...state, selected };
+//   }
+//   case types.INCIDENT.SET_ACTIVE: {
+//     const active = state.all.find(i => i.id === action.payload) || null;
+//     return { ...state, active };
+//   }
+//   case types.INCIDENT.UPDATE_RECEIVE: {
+//     const updatedIncident = action.payload;
+//     const idx = state.all.findIndex(i => i.id === updatedIncident.id);
+//     const newAll = [...state.all];
+//     newAll[idx] = updatedIncident;
+//     return { ...state, all: newAll };
+//   }
+//   case types.INCIDENT.CLEAR_ACTIVE:
+//     return { ...state, active: null };
+//   case types.INCIDENT.CLEAR_SELECTED:
+//     return { ...state, selected: null };
+//   case types.INCIDENTS.RECEIVE:
+//     return { ...state, all: [...action.payload] };
+//   case types.INCIDENT.NEW:
+//     return { ...state, all: [...state.all, action.payload] };
+//   default:
+//     return state;
+//   }
+// }
 
 
 const mapInitialState = {
@@ -185,6 +235,7 @@ const rootReducer = combineReducers({
   crisis,
   controlMap,
   incident,
+  responseunits,
   weather,
   messages,
   user,

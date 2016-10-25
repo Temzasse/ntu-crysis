@@ -18,21 +18,20 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 function* fetchCurrentCrisis() {
   const crisis = yield call(api.getCurrentCrisis);
   yield put(actions.receiveCurrentCrisis(crisis));
-  console.log('2)');
 }
 
 function* initApp() {
   const user = yield call(api.getCurrentUser);
-
   if (user) { // Do auto login
     yield put(actions.setUser(user));
   }
-
-  console.log('1)');
-  yield fetchCurrentCrisis();
-  console.log('3)');
-
   yield put(actions.completeInit());
+}
+
+function* updateIncident({ payload }) {
+  console.log('=====>', payload);
+  const incident = yield call(api.updateIncident, payload);
+  yield put(actions.receiveIncidentUpdate(incident));
 }
 
 
@@ -98,6 +97,7 @@ function* doLogout() {
 function* doReportIncident({ payload }) {
   yield delay(1000); // Simulate API call delay
 
+  /* eslint-disable max-len */
   const { Title } = payload;
   let mockIncident = { Title: 'Pikachu Breakout', Type: 'Land', Long: '1.30563255', Lat: '103.98444641', Area: 'Bukit Batok', Description: '' };
 
@@ -105,6 +105,7 @@ function* doReportIncident({ payload }) {
   if (Title === 'Onyx') {
     mockIncident = { Title: 'Onyx', Type: 'Land', Long: '1.31063255', Lat: '103.92444641', Area: 'Choa Chu Kang', Description: '' };
   }
+  /* eslint-enable max-len */
 
   yield put(actions.CreateIncident(mockIncident));
 }
@@ -112,6 +113,11 @@ function* doReportIncident({ payload }) {
 
 function* fetchIncidents() {
   yield ws.send({ type: types.INCIDENTS.FETCH });
+}
+
+function* fetchResponseUnits() {
+  const runits = yield call(api.fetchResponseUnits);
+  yield put(actions.receiveResponseUnits(runits));
 }
 
 
@@ -124,37 +130,35 @@ function* fetchIncidents() {
 function* watchInitApp() {
   yield* takeEvery(types.INIT.START, initApp);
 }
-
 function* watchFetchWeatherData() {
   yield* takeEvery(types.WEATHER.FETCH, fetchWeatherData);
 }
-
 function* watchAddMessage() {
   yield* takeEvery(types.MESSAGES.ADD, unshiftMessage);
 }
-
 function* watchDebug() {
   yield* takeEvery(
     types.DEBUG, (action) => console.debug('REDUX DEBUG', action.payload)
   );
 }
-
 function* watchFetchIncidents() {
   yield* takeEvery(types.INCIDENTS.FETCH, fetchIncidents);
 }
-
+function* watchFetchResponseUnits() {
+  yield* takeEvery(types.RESPONSEUNIT.FETCH, fetchResponseUnits);
+}
 function* watchFetchCurrentCrisis() {
   yield* takeEvery(types.CRISIS.FETCH_CURRENT, fetchCurrentCrisis);
 }
-
+function* watchUpdateIncident() {
+  yield* takeEvery(types.INCIDENT.UPDATE, updateIncident);
+}
 function* watchLogin() {
   yield* takeEvery(types.LOGIN, doLogin);
 }
-
 function* watchLogout() {
   yield* takeEvery(types.LOGOUT, doLogout);
 }
-
 function* watchReportIncident() {
   yield* takeEvery(types.REPORTINCIDENT, doReportIncident);
 }
@@ -170,4 +174,6 @@ export default function* root() {
   yield fork(watchReportIncident);
   yield fork(watchFetchIncidents);
   yield fork(watchFetchCurrentCrisis);
+  yield fork(watchUpdateIncident);
+  yield fork(watchFetchResponseUnits);
 }

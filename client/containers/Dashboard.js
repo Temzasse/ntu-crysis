@@ -3,12 +3,15 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Redirect from 'react-router/Redirect';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getSelectedIncident, getAllIncidents } from '../selectors';
 
 // Actions
 import {
   removeMessage,
   toggleMarkerVisibility,
   fetchIncidents,
+  fetchCurrentCrisis,
+  fetchResponseUnits,
 } from '../actions/index.actions';
 
 
@@ -32,12 +35,14 @@ const propTypes = {
   allIncidents: PropTypes.array.isRequired,
   removeMessage: PropTypes.func.isRequired,
   fetchIncidents: PropTypes.func.isRequired,
+  fetchCurrentCrisis: PropTypes.func.isRequired,
+  fetchResponseUnits: PropTypes.func.isRequired,
   toggleMarkerVisibility: PropTypes.func.isRequired,
   toastMessages: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object,
   controlMap: PropTypes.object.isRequired,
-  currentCrisis: PropTypes.object.isRequired,
+  currentCrisis: PropTypes.object,
 };
 
 class Dashboard extends Component {
@@ -56,7 +61,9 @@ class Dashboard extends Component {
 
     if (loggedIn) {
       if (currentUser.role === 'operator') {
+        this.props.fetchCurrentCrisis();
         this.props.fetchIncidents();
+        this.props.fetchResponseUnits();
         this.setState({ userIsAuthenticated: true });
       }
     }
@@ -88,29 +95,31 @@ class Dashboard extends Component {
           removeToastMsg={this.props.removeMessage}
         />
 
-        <FlexLayout direction='row'>
+        {!!currentCrisis &&
+          <FlexLayout direction='row'>
 
-          <Sidebar
-            leftPanelComponent={IncidentListContainer}
-            rightPanelComponent={IncidentDetailsContainer}
-            visiblePanel={selectedIncident ? 'right' : 'left'}
-          />
+            <Sidebar
+              leftPanelComponent={IncidentListContainer}
+              rightPanelComponent={IncidentDetailsContainer}
+              visiblePanel={selectedIncident ? 'right' : 'left'}
+            />
 
-          <MainPanel>
-            <FlexLayout direction='column'>
-              <CrisisProgressBar
-                current={allIncidents.length}
-                max={currentCrisis.threshold}
-              />
-              <MapContainer />
-              <Toolbar
-                toggleMarkerVisibility={this.props.toggleMarkerVisibility}
-                controlMap={controlMap}
-              />
-            </FlexLayout>
-          </MainPanel>
+            <MainPanel>
+              <FlexLayout direction='column'>
+                <CrisisProgressBar
+                  current={allIncidents.length}
+                  max={currentCrisis.threshold}
+                />
+                <MapContainer />
+                <Toolbar
+                  toggleMarkerVisibility={this.props.toggleMarkerVisibility}
+                  controlMap={controlMap}
+                />
+              </FlexLayout>
+            </MainPanel>
 
-        </FlexLayout>»
+          </FlexLayout>
+        }
       </div>
     );
   }
@@ -121,8 +130,8 @@ Dashboard.propTypes = propTypes;
 // This makes state objects available to the component via props!
 function mapStateToProps(state) {
   return {
-    selectedIncident: state.incident.selected,
-    allIncidents: state.incident.all,
+    selectedIncident: getSelectedIncident(state),
+    allIncidents: getAllIncidents(state),
     toastMessages: state.messages,
     currentUser: state.user.user,
     loggedIn: state.user.loggedIn,
@@ -137,6 +146,8 @@ function mapDispatchToProps(dispatch) {
     removeMessage,
     toggleMarkerVisibility,
     fetchIncidents,
+    fetchCurrentCrisis,
+    fetchResponseUnits,
   }, dispatch);
 }
 
