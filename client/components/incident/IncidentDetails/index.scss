@@ -1,3 +1,5 @@
+@import '../../../static/scss/theme';
+
 .IncidentDetails {
   flex: 1;
   border-top: 1px solid #ddd;
@@ -5,8 +7,33 @@
   .wrapper {
     padding: 8px;
 
+    .tags {
+      display: flex;
+
+      span {
+        padding: 3px 6px;
+        border-radius: 4px;
+        background-color: $blue-lightest;
+        color: $blue-darkest;
+        margin-right: 6px;
+        font-size: 12px;
+      }
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-top: 16px;
+      margin-bottom: 0px;
+    }
+
+    p {
+      font-weight: lighter;
+      margin: 6px 0px;
+    }
+
     h2 {
       margin-top: 0;
+      margin-bottom: 16px;
     }
   }
 }

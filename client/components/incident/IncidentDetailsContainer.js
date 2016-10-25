@@ -30,7 +30,7 @@ const IncidentDetailsContainer = (
         <IncidentDetails
           incident={selectedIncident}
         />
-        <br />
+        <hr />
         <ResponseUnitAttacher
           incident={selectedIncident}
           attach={handleInc}

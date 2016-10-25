@@ -4,6 +4,9 @@ import CSSModules from 'react-css-modules';
 // Styles
 import styles from './index.scss';
 
+// Components
+import Tooltip from '../../utils/Tooltip';
+
 const propTypes = {
   incident: PropTypes.object.isRequired,
   responseunits: PropTypes.array.isRequired,
@@ -42,12 +45,14 @@ const ResponseUnitAttacher = ({ incident, attach, responseunits }) => (
       </div> :
       <div>
         <h3>Attach response unit</h3>
-        <button
-          styleName='attach-btn'
-          onClick={() => attach(incident.id)}
-        >
-          <i className='ion-ios-unlocked-outline' />
-        </button>
+        <Tooltip content='Automatically attach response unit'>
+          <button
+            styleName='attach-btn'
+            onClick={() => attach(incident.id)}
+          >
+            <i className='ion-ios-unlocked-outline' />
+          </button>
+        </Tooltip>
       </div>
     }
   </div>
