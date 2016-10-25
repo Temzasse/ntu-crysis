@@ -16,7 +16,7 @@ const IncidentList = ({ incidents, selectIncident, onMouseEnter, onMouseLeave })
   <div styleName='IncidentList'>
     <h2>Active incidents</h2>
     <ul>
-      {incidents.map(({ id, title }) =>
+      {incidents.map(({ id, title, handle_by: handledBy }) =>
         <li
           key={id}
           styleName='card'
@@ -25,7 +25,10 @@ const IncidentList = ({ incidents, selectIncident, onMouseEnter, onMouseLeave })
           onMouseLeave={() => onMouseLeave(id)}
         >
           <div styleName='card-content'>
-            {title}
+            <span styleName='title'>{title}</span>
+            <span styleName={handledBy ? 'tag' : 'tag-err'}>
+              {handledBy ? 'being handled' : 'unhandled'}
+            </span>
           </div>
           <i className='ion-ios-arrow-right' />
         </li>

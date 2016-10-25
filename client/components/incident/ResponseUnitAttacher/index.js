@@ -42,7 +42,6 @@ const ResponseUnitAttacher = ({ incident, attach, responseunits }) => (
       </div> :
       <div>
         <h3>Attach response unit</h3>
-        {incident.id}
         <button
           styleName='attach-btn'
           onClick={() => attach(incident.id)}

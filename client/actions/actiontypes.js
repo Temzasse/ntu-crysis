@@ -65,5 +65,6 @@ export const INCIDENT = createTypes(
     'SET_ACTIVE',
     'CLEAR_ACTIVE',
     'NEW',
+    'UPDATED',
   ]
 );
