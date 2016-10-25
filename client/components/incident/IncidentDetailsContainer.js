@@ -14,7 +14,7 @@ import BackBtnBar from '../layout/BackBtnBar';
 
 const propTypes = {
   selectedIncident: PropTypes.object,
-  allResponseunits: PropTypes.array.isRequired,
+  allResponseunits: PropTypes.object.isRequired,
   clearSelectedInc: PropTypes.func.isRequired,
   handleInc: PropTypes.func.isRequired,
 };
