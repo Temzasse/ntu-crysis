@@ -37,12 +37,12 @@ class ResponseUnitForm extends Component {
   }
 
   handleSubmit(e) {
-    console.log('mepwfipwef');
     e.preventDefault();
+
     console.log(this.state);
     const { incidentMapping } = this.props;
     const { disableSubmit, ruic } = this.state;
-    const [incId, ruId] = ruic.split('#');
+    const incId = ruic.split('#')[0];
 
     if (utils.isNormalInteger(incId) && !disableSubmit) {
       const incident = incidentMapping[parseInt(10, incId)];
@@ -73,9 +73,7 @@ class ResponseUnitForm extends Component {
     const [incId, ruId] = ruic.split('#');
     const incidentDetails = incId ? incidentMapping[parseInt(10, incId)] : null;
     const ruDetails = ruId ? ruMapping[parseInt(10, ruId)] : null;
-    const submitDisabled = !!incidentDetails ?
-      incidentDetails.resolved :
-      true;
+    const submitDisabled = !incidentDetails ? true : incidentDetails.resolved;
 
     return (
       <div styleName='ResponseUnitForm'>
@@ -136,11 +134,7 @@ class ResponseUnitForm extends Component {
       </div>
     );
   }
-
 }
 
 ResponseUnitForm.propTypes = propTypes;
-
-// ResponseUnitForm.defaultProps = {};
-
-export default CSSModules(ResponseUnitForm, styles); // { allowMultiple: true }
+export default CSSModules(ResponseUnitForm, styles);
