@@ -71,7 +71,7 @@ class Dashboard extends Component {
     const { toastMessages, selectedIncident, controlMap } = this.props;
     const { userIsAuthenticated } = this.state;
 
-    if (!userIsAuthenticated) {
+    if (userIsAuthenticated) {
       return <Redirect to='/login' />;
     }
 

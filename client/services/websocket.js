@@ -5,7 +5,7 @@
 */
 
 // TODO: these could be moved to config file.
-const wsPort = 8000;
+const wsPort = 2000;
 const wsEndpoint = 'cms';
 const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const url = `localhost:${wsPort}/${wsEndpoint}`;
