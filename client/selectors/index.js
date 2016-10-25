@@ -11,7 +11,6 @@ export const getWeatherMarkers = (state) => {
   ));
 };
 
-
 export const getIncidentMarkers = (state) => {
   return Object.values(state.incident.all).map(
     ({ latitude, longitude, title, id }) => ({
@@ -21,9 +20,12 @@ export const getIncidentMarkers = (state) => {
     }));
 };
 
-
-export const getAllIncidents = (state) => {
+export const getIncidentsArray = (state) => {
   return Object.values(state.incident.all);
+};
+
+export const getResponseUnitsArray = (state) => {
+  return Object.values(state.responseunits.all);
 };
 
 export const getSelectedIncident = (state) => {

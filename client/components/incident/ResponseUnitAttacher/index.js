@@ -38,9 +38,7 @@ const ResponseUnitAttacher = ({ incident, attach, responseunits }) => (
     {Number.isFinite(incident.handle_by) ?
       <div>
         <h3>Incident handled by</h3>
-        {renderRUCard(
-          responseunits.find(ru => ru.id === incident.handle_by)
-        )}
+        {renderRUCard(responseunits[incident.handle_by])}
       </div> :
       <div>
         <h3>Attach response unit</h3>

@@ -91,8 +91,32 @@ function getUserRole(groupList) {
 */
 
 
-export async function updateIncident(id) {
+export async function handleIncident(id) {
   const { response } = await callApi(`${API_URL}/incident/${id}/handle/`);
+  return response;
+}
+
+export async function updateIncident(id, data) {
+  const { response } = await callApi(
+    `${API_URL}/incident/${id}/`,
+    'patch',
+    data,
+  );
+  return response;
+}
+
+export async function fetchIncident(id) {
+  const { response } = await callApi(`${API_URL}/incident/${id}/`);
+  return response;
+}
+
+export async function fetchResponseUnit(id) {
+  const { response } = await callApi(`${API_URL}/responseunit/${id}/`);
+  return response;
+}
+
+export async function fetchResponseUnits() {
+  const { response } = await callApi(`${API_URL}/responseunit/`);
   return response;
 }
 
@@ -130,11 +154,6 @@ export async function getCurrentUser() {
 
 export async function getCurrentCrisis() {
   const { response } = await callApi(`${API_URL}/crisis/current/`);
-  return response;
-}
-
-export async function fetchResponseUnits() {
-  const { response } = await callApi(`${API_URL}/responseunit/`);
   return response;
 }
 

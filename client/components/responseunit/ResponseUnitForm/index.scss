@@ -1,0 +1,97 @@
+@import '../../../static/scss/theme';
+@import '../../../static/scss/mixins';
+
+.ResponseUnitForm {
+  margin: 60px auto;
+  padding: 16px;
+  border-radius: 4px;
+  max-width: 360px;
+  background-color: #fff;
+  @include card(2);
+
+  .logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+
+    img {
+      width: 80px;
+      height: auto;
+    }
+  }
+
+  form {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      font-weight: lighter;
+      // margin-bottom: 16px;
+      width: 100%;
+
+      input {
+        margin-top: 12px;
+        border: 1px solid $grey-light;
+        border-radius: 4px;
+        background-color: $grey-lighest;
+        padding: 8px;
+        font-size: 16px;
+        width: 60%;
+      }
+    }
+    button {
+      background-color: $blue-dark;
+      border: 1px solid $blue-darkest;
+      border-radius: 4px;
+      color: #fff;
+      padding: 12px 16px;
+      width: 200px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $blue-darkest;
+      }
+      &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+     }
+
+     .inc-ru-details {
+       display: flex;
+       flex-direction: column;
+       align-items: flex-start;
+       width: 90%;
+       
+       .details {
+         .detail-title {
+           font-weight: 700;
+           margin-bottom: 8px;
+         }
+         .detail-row {
+           margin-bottom: 5px;
+           color: darken($grey-darkest, 10%);
+           font-size: 14px;
+
+           .resolved {
+             color: $green-success;
+           }
+           .not-resolved {
+             color: $red-error;
+           }
+         }
+       }
+     }
+  }
+  hr {
+   margin: 30px 0px;
+  }
+}

@@ -35,7 +35,14 @@ export const USER = createTypes('USER', [...binaryActions]);
 export const MAP = createTypes('MAP', ['TOGGLE_MARKER']);
 export const INIT = createTypes('INIT', ['COMPLETE', 'START', 'ERROR']);
 
-export const RESPONSEUNIT = createTypes('RESPONSEUNIT', [...fetchActions]);
+export const RESPONSEUNIT = createTypes(
+  'RESPONSEUNIT',
+  [
+    ...fetchActions,
+    'FETCH_ALL',
+    'RECEIVE_ALL',
+  ]
+);
 
 export const CRISIS = createTypes(
   'CRISIS',
@@ -52,6 +59,7 @@ export const INCIDENT = createTypes(
   [
     ...fetchActions,
     ...crudActions,
+    'HANDLE',
     'SET_SELECTED',
     'CLEAR_SELECTED',
     'SET_ACTIVE',

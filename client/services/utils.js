@@ -46,3 +46,7 @@ export function arrayToObject(arr) {
     return o;
   }, {});
 }
+
+export function isNormalInteger(str) {
+  return /^\+?(0|[1-9]\d*)$/.test(str);
+}
