@@ -8,7 +8,8 @@ import { bindActionCreators } from 'redux';
 // Component imports
 import FlexLayout from '../components/layout/FlexLayout';
 import MainPanel from '../components/layout/MainPanel';
-import MapContainer from '../components/map/MapContainer';
+import MapProvider from '../components/map/MapProvider';
+import CoordinatePicker from '../components/map/CoordinatePicker';
 import ReportIncidentForm from '../components/incident/ReportIncidentForm';
 /* eslint-enable max-len */
 
@@ -21,8 +22,12 @@ const propTypes = {
 class ReportIncidentPage extends Component {
   constructor(props) {
     super(props);
+    this.updateLatLng = this.updateLatLng.bind(this);
+
     this.state = {
       userIsAuthenticated: false,
+      lat: 0,
+      lng: 0,
     };
   }
 
@@ -46,8 +51,12 @@ class ReportIncidentPage extends Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
+  updateLatLng({ lat, lng }) {
+    this.setState({ lat: lat(), lng: lng() });
+  }
+
   render() {
-    const { userIsAuthenticated } = this.state;
+    const { userIsAuthenticated, lat, lng } = this.state;
 
     if (!userIsAuthenticated) {
       return <Redirect to='/login' />;
@@ -55,9 +64,14 @@ class ReportIncidentPage extends Component {
 
     return (
       <FlexLayout direction='row'>
-        <ReportIncidentForm />
+        <ReportIncidentForm
+          lat={lat}
+          lng={lng}
+        />
         <MainPanel>
-          <MapContainer />
+          <MapProvider>
+            <CoordinatePicker onClick={this.updateLatLng} />
+          </MapProvider>
         </MainPanel>
       </FlexLayout>
     );
