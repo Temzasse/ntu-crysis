@@ -1,0 +1,9 @@
+{% if incident_list %}
+    <ul>
+    {% for incident in incident_list %}
+        <li><p>{{ incident.title }}</p></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No incident happens in our country.</p>
+{% endif %}

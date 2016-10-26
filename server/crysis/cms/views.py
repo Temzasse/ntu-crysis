@@ -12,7 +12,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication  # noqa
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated  # noqa
 from rest_framework.views import APIView
-
+from django.http import HttpResponse
+from django.template import loader
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -233,3 +234,12 @@ class ShelterList(generics.ListAPIView):
 class ShelterDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
+
+
+def report(request):
+    incident_list = Incident.objects.all()
+    context = {
+        'incident_list': incident_list,
+    }
+    template = loader.get_template()
+    return HttpResponse(template.render(context, request))
