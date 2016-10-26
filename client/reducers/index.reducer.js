@@ -90,7 +90,8 @@ function incident(state = incidentsInitialState, action) {
       ...state,
       all: { ...state.all, [action.payload.id]: action.payload },
     };
-  case types.INCIDENT.UPDATE_RECEIVE: {
+  case types.INCIDENT.UPDATE_RECEIVE:
+  case types.INCIDENT.UPDATED: {
     return {
       ...state,
       all: { ...state.all, [action.payload.id]: action.payload },

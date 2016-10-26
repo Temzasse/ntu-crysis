@@ -21,7 +21,7 @@ export const getIncidentMarkers = (state) => {
 };
 
 export const getIncidentsArray = (state) => {
-  return Object.values(state.incident.all);
+  return Object.values(state.incident.all).filter(i => !i.resolved);
 };
 
 export const getResponseUnitsArray = (state) => {

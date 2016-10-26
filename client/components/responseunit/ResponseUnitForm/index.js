@@ -45,11 +45,11 @@ class ResponseUnitForm extends Component {
     const incId = ruic.split('#')[0];
 
     if (utils.isNormalInteger(incId) && !disableSubmit) {
-      const incident = incidentMapping[parseInt(10, incId)];
+      const incident = incidentMapping[parseInt(incId, 10)];
       incident.resolved = true;
 
       this.props.updateIncident({
-        id: parseInt(10, incId),
+        id: parseInt(incId, 10),
         data: incident,
       });
     }
@@ -57,11 +57,12 @@ class ResponseUnitForm extends Component {
 
   handleInputChange(e) {
     const ruic = e.target.value;
+    console.log('::', ruic);
     const [incId, ruId] = ruic.split('#');
 
     if (utils.isNormalInteger(incId) && utils.isNormalInteger(ruId)) {
-      this.props.fetchIncident(parseInt(10, incId));
-      this.props.fetchResponseUnit(parseInt(10, ruId));
+      this.props.fetchIncident(parseInt(incId, 10));
+      this.props.fetchResponseUnit(parseInt(ruId, 10));
     }
 
     this.setState({ ruic });
@@ -71,8 +72,8 @@ class ResponseUnitForm extends Component {
     const { incidentMapping, ruMapping } = this.props;
     const { ruic } = this.state;
     const [incId, ruId] = ruic.split('#');
-    const incidentDetails = incId ? incidentMapping[parseInt(10, incId)] : null;
-    const ruDetails = ruId ? ruMapping[parseInt(10, ruId)] : null;
+    const incidentDetails = incId ? incidentMapping[parseInt(incId, 10)] : null;
+    const ruDetails = ruId ? ruMapping[parseInt(ruId, 10)] : null;
     const submitDisabled = !incidentDetails ? true : incidentDetails.resolved;
 
     return (

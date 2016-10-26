@@ -1,21 +1,72 @@
+@import '../../../static/scss/theme';
+@import '../../../static/scss/mixins';
+
 .LoginForm {
-  background-color: #aaa;
-  height: 95vh;
-}
+  margin: 60px auto;
+  padding: 16px;
+  border-radius: 4px;
+  max-width: 360px;
+  background-color: #fff;
+  @include card(2);
 
-.LoginField {
-  background-color: #faa;
-  height: 40vh;
-  text-align: center;
-  line-height: 20px;
-  vertical-align: middle;
+  hr {
+   margin: 30px 0px;
+  }
 
-}
+  .logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
 
-input{
-  height:10px;
-}
+    img {
+      width: 80px;
+      height: auto;
+    }
+  }
 
-button{
-padding-top:5px;
+  form {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      font-weight: lighter;
+      width: 100%;
+      margin-bottom: 16px;
+
+      input {
+        margin-top: 12px;
+        border: 1px solid $grey-light;
+        border-radius: 4px;
+        background-color: $grey-lighest;
+        padding: 8px;
+        font-size: 16px;
+        width: 60%;
+      }
+    }
+    button {
+      background-color: $blue-dark;
+      border: 1px solid $blue-darkest;
+      border-radius: 4px;
+      color: #fff;
+      padding: 12px 16px;
+      width: 200px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $blue-darkest;
+      }
+      &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
 }
