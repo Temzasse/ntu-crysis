@@ -1,24 +1,34 @@
 import React, { Component, PropTypes } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-// import ReactDOM from 'react-dom';
-// import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import CSSModules from 'react-css-modules';
+import { doReportIncident } from '../../../actions/index.actions';
 
 // Styles
 import styles from './index.scss';
 
 const propTypes = {
   doReportIncident: PropTypes.func.isRequired,
+  handleReportIncident: PropTypes.func.isRequired,
+  handleTitle: PropTypes.func.isRequired,
+  handleType: PropTypes.func.isRequired,
+  handleLocation: PropTypes.func.isRequired,
+  handleDescription: PropTypes.func.isRequired,
 };
 
 class ReportIncidentForm extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
-    this.handleReportIncident = this.handleReportIncident.bind(this);
-    this.handleArea = this.handleArea.bind(this);
     this.state = {
-      long: '0',
+      title: '',
+      type: '',
+      longitude: 0,
+      latitude: 0,
+      area: '',
+      description: '',
     };
   }
 
@@ -26,85 +36,121 @@ class ReportIncidentForm extends Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  handleReportIncident(evnt) {
-    console.log('HELP!');
+  handleSubmit(evnt) {
     evnt.preventDefault();
-    const formNode = this.formRef;
-    formNode.reset();
-  //  const area  = this.state.long;
-  }
 
-  handleArea(area) {
-    if (area === 'Choa Chu Kang') {
-      console.log('Area 111', area);
-    }
-    if (area === 'Bukit Batok') {
-      console.log('Area 222', area);
+    if (!this.state.title ||
+        !this.state.area ||
+        !this.state.type ||
+        !this.state.long ||
+        !this.state.lat ||
+        !this.state.description
+    ) {
+      console.log('Incomplete field!');
+    } else {
+      this.props.doReportIncident(this.state);
+      const formNode = this.formRef;
+      formNode.reset();
     }
   }
 
   render() {
     return (
-      <form
-        className='ReportIncidentForm'
-        ref={ref => { this.formRef = ref; }}
-        onSubmit={this.handleReportIncident}
-      >
-        <div styleName='IncidentField'>
-          <div styleName='c1'>
-            <img
-              id='test1'
-              src='/images/crysis-logo.png' alt='brand logo' height='70'
+      <div styleName='ReportIncidentForm'>
+        <h2>Report incident</h2>
+
+        <form
+          ref={ref => { this.formRef = ref; }}
+          onSubmit={this.handleSubmit}
+        >
+          <label htmlFor='title'>
+            Title
+            <input
+              onChange={ev => this.setState({ title: ev.target.value })}
+              name='title'
+              required
             />
-          </div>
-          <table>
-            <tr>
-              <td>Title</td>
-              <td><input /></td>
-            </tr>
-            <tr>
-              <td>Type</td>
-              <td><select name='type'>
-                <option value='Land'>Land</option>
-                <option value='Sea'>Sea</option>
-              </select>
-              </td>
-            </tr>
-            <tr>
-              <td>Long</td>
-              <td><input name='long' disabled value='0' /></td>
-            </tr>
-            <tr>
-              <td>Lat</td>
-              <td><input name='lat' disabled value='0' /></td>
-            </tr>
-            <tr>
-              <td>Area</td>
-              <td><select
-                name='area'
-                onChange={event => this.handleArea(event.target.value)}
-              >
-                <option value='Bukit Batok' >Bukit Batok</option>
-                <option value='Choa Chu Kang'>Choa Chu Kang</option>
-              </select>
-              </td>
-            </tr>
-            <tr>
-              <td>Comments</td>
-              <td><textarea rows='4' cols='15' /></td>
-            </tr>
-            <tr>
-              <td />
-              <td><button type='submit'>Report</button></td>
-            </tr>
-          </table>
-        </div>
-      </form>
+          </label>
+
+          <label htmlFor='type'>
+            Type
+            <select
+              name='type'
+              onChange={ev => this.setState({ type: ev.target.value })}
+              required
+            >
+              <option value='LAN'>Land</option>
+              <option value='AIR'>Air</option>
+              <option value='SEA'>Sea</option>
+            </select>
+          </label>
+
+          <label htmlFor='area'>
+            Area
+            <select
+              name='area'
+              onChange={ev => this.setState({ location: ev.target.value })}
+              required
+            >
+              <option value='NE'>North-East</option>
+              <option value='NW'>North-West</option>
+              <option value='SE'>South-East</option>
+              <option value='SW'>South-West</option>
+            </select>
+          </label>
+
+          <label htmlFor='latitude'>
+            Latitude
+            <input
+              name='latitude'
+              disabled
+              value={this.state.latitude}
+              required
+            />
+          </label>
+
+          <label htmlFor='longitude'>
+            Longitude
+            <input
+              name='longitude'
+              disabled
+              value={this.state.longitude}
+              required
+            />
+          </label>
+
+          <label htmlFor='description'>
+            Description
+            <textarea
+              rows='4'
+              cols='15'
+              name='description'
+              onChange={ev => this.setState({ description: ev.target.value })}
+              required
+            />
+          </label>
+
+          <button type='submit'>Send report</button>
+        </form>
+      </div>
     );
   }
 }
 ReportIncidentForm.propTypes = propTypes;
-// ReportIncidentForm.defaultProps = {};
 
-export default
-CSSModules(ReportIncidentForm, styles); // { allowMultiple: true }
+function mapStateToProps(state) {
+  return {
+    incidents: state.incident.all,
+  };
+}
+
+// This adds action creators to components props
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    doReportIncident,
+  }, dispatch);
+}
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(CSSModules(ReportIncidentForm, styles));

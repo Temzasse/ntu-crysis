@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { getSelectedIncident } from '../../selectors';
 
 import {
-  clearSelectedIncident, updateIncident,
+  clearSelectedIncident, handleIncident,
 } from '../../actions/index.actions';
 
 // Components
@@ -14,13 +14,13 @@ import BackBtnBar from '../layout/BackBtnBar';
 
 const propTypes = {
   selectedIncident: PropTypes.object,
-  allResponseunits: PropTypes.array.isRequired,
+  allResponseunits: PropTypes.object.isRequired,
   clearSelectedInc: PropTypes.func.isRequired,
-  updateInc: PropTypes.func.isRequired,
+  handleInc: PropTypes.func.isRequired,
 };
 
 const IncidentDetailsContainer = (
-  { selectedIncident, allResponseunits, clearSelectedInc, updateInc }
+  { selectedIncident, allResponseunits, clearSelectedInc, handleInc }
 ) => (
   <div className='IncidentDetailsContainer'>
     <BackBtnBar backBtnAction={clearSelectedInc} />
@@ -30,10 +30,10 @@ const IncidentDetailsContainer = (
         <IncidentDetails
           incident={selectedIncident}
         />
-        <br />
+        <hr />
         <ResponseUnitAttacher
           incident={selectedIncident}
-          attach={updateInc}
+          attach={handleInc}
           responseunits={allResponseunits}
         />
       </div>
@@ -55,7 +55,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     clearSelectedInc: clearSelectedIncident,
-    updateInc: updateIncident,
+    handleInc: handleIncident,
   }, dispatch);
 }
 

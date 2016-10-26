@@ -7,6 +7,7 @@ import * as types from '../actions/actiontypes';
 import {
   shelterMarkers,
   mapSectors,
+  mockIncidents,
 } from '../static/dummyData';
 
 
@@ -43,12 +44,16 @@ function crisis(state = crisisInitialState, action) {
 }
 
 const ruInitialState = {
-  all: [],
+  all: {},
 };
 function responseunits(state = ruInitialState, action) {
   switch (action.type) {
+  case types.RESPONSEUNIT.RECEIVE_ALL:
+    return { ...state, all: utils.arrayToObject(action.payload) };
   case types.RESPONSEUNIT.RECEIVE: {
-    return { ...state, all: action.payload };
+    const newAll = { ...state.all };
+    newAll[action.payload.id] = action.payload;
+    return { ...state, all: newAll };
   }
   default:
     return state;
@@ -58,6 +63,7 @@ function responseunits(state = ruInitialState, action) {
 const incidentsInitialState = {
   // all: [...mockIncidents],
   all: {},
+
   selected: null,
   active: null,
 };
@@ -74,12 +80,18 @@ function incident(state = incidentsInitialState, action) {
     return { ...state, selected: null };
   case types.INCIDENTS.RECEIVE:
     return { ...state, all: utils.arrayToObject(action.payload) };
+  case types.INCIDENT.RECEIVE: {
+    const newAll = { ...state.all };
+    newAll[action.payload.id] = action.payload;
+    return { ...state, all: newAll };
+  }
   case types.INCIDENT.NEW:
     return {
       ...state,
       all: { ...state.all, [action.payload.id]: action.payload },
     };
-  case types.INCIDENT.UPDATE_RECEIVE: {
+  case types.INCIDENT.UPDATE_RECEIVE:
+  case types.INCIDENT.UPDATED: {
     return {
       ...state,
       all: { ...state.all, [action.payload.id]: action.payload },
@@ -130,6 +142,7 @@ const mapInitialState = {
   sectors: [...mapSectors], // sectors are pre-defined
   markers: {
     shelters: [...shelterMarkers], // shelters are pre-defined
+    incidents: [...mockIncidents],
   },
 };
 function controlMap(state = mapInitialState, action) {

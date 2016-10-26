@@ -97,7 +97,10 @@ class MapContainer extends Component {
     const wMarkers = markerVisibility.weather ? weatherMarkers : [];
 
     return (
-      <div className='MapContainer' style={{ width: '100%' }}>
+      <div
+        className='MapContainer'
+        style={{ width: '100%' }}
+      >
         {!mapApiLoaded ?
           <LoadingIndicator /> :
           <MapView

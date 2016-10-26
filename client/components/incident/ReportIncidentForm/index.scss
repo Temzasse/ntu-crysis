@@ -1,34 +1,62 @@
+@import '../../../static/scss/theme';
+
 .ReportIncidentForm {
-  background-color: #aaa;
-  height: 95vh;
-  width: 290px;
-}
+  background-color: #fff;
+  width: 420px;
+  height: $content-height;
+  padding: 16px;
 
-.IncidentField {
-  background-color: #9cabc9;
-  height: 100vh;
-  line-height: 20px;
-}
+  h2 {
+    margin-top: 0;
+  }
 
-.c1{
-  text-align: center;
-  padding-top: 20px;
-}
+  form {
+    display: flex;
+    flex-direction: column;
 
-input{
-  height:15px;
-  width:138px;
-}
+    label {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      font-size: 18px;
+      font-weight: lighter;
+      width: 100%;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: $blue;
 
-select{
-  width:141px;
-}
+      input, textarea {
+        margin-top: 6px;
+        border: 1px solid $grey-light;
+        border-radius: 4px;
+        background-color: $grey-lighest;
+        padding: 6px;
+        font-size: 16px;
+        width: 90%;
+      }
+      select {
+        margin-top: 6px;
+        width: 90%;
+      }
+    }
+    button {
+      background-color: $blue-dark;
+      border: 1px solid $blue-darkest;
+      border-radius: 4px;
+      color: #fff;
+      padding: 8px 12px;
+      width: 300px;
+      cursor: pointer;
+      margin: 0px auto;
 
-table{
-
-}
-
-td {
-    padding-left: 15px;
-    padding-right: 10px;
+      &:hover {
+        background-color: $blue-darkest;
+      }
+      &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
 }

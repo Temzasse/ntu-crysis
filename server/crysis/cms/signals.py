@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from .consumers import ws_send_notification
 from rest_framework.authtoken.models import Token
-
 from .models import Crisis, Incident
+from .serializers import IncidentSerializer
 
 
 # NOTE:
@@ -35,13 +35,11 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     currentCrisis.incidents.add(instance.id)
 
     # Send incident data to client
-    data = serializers.serialize('json', [instance, ])
-    data = json.loads(data)
-    data = data[0]['fields']
+    serializer = IncidentSerializer(instance)
     if created:
-        ws_send_notification('INCIDENT_NEW', data)
+        ws_send_notification('INCIDENT_NEW', serializer.data)
     else:
-        ws_send_notification('INCIDENT_UPDATED', data)
+        ws_send_notification('INCIDENT_UPDATED', serializer.data)
 
 
 @receiver(post_delete, sender=Incident)

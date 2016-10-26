@@ -3,7 +3,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Redirect from 'react-router/Redirect';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getSelectedIncident, getAllIncidents } from '../selectors';
+import { getSelectedIncident, getIncidentsArray } from '../selectors';
 
 // Actions
 import {
@@ -131,7 +131,7 @@ Dashboard.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     selectedIncident: getSelectedIncident(state),
-    allIncidents: getAllIncidents(state),
+    allIncidents: getIncidentsArray(state),
     toastMessages: state.messages,
     currentUser: state.user.user,
     loggedIn: state.user.loggedIn,

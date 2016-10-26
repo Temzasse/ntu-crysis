@@ -1,4 +1,5 @@
-import { takeEvery, delay } from 'redux-saga';
+import { takeEvery, takeLatest, delay } from 'redux-saga';
+// import { throttle } from 'redux-saga/recipes';
 import { put, call, fork } from 'redux-saga/effects';
 import { api, websocket as ws } from '../services';
 import * as actions from '../actions/index.actions';
@@ -28,12 +29,33 @@ function* initApp() {
   yield put(actions.completeInit());
 }
 
-function* updateIncident({ payload }) {
-  console.log('=====>', payload);
-  const incident = yield call(api.updateIncident, payload);
+function* handleIncident({ payload }) {
+  const incident = yield call(api.handleIncident, payload);
   yield put(actions.receiveIncidentUpdate(incident));
 }
 
+function* updateIncident({ payload }) {
+  const { id, data } = payload;
+  const incident = yield call(api.updateIncident, id, data);
+  yield put(actions.receiveIncidentUpdate(incident));
+}
+
+function* fetchIncident({ payload }) {
+  yield delay(1000);
+  const incident = yield call(api.fetchIncident, payload);
+  yield put(actions.receiveIncident(incident));
+}
+
+function* fetchResponseUnits() {
+  const runits = yield call(api.fetchResponseUnits);
+  yield put(actions.receiveResponseUnits(runits));
+}
+
+function* fetchResponseUnit({ payload }) {
+  yield delay(1000);
+  const runit = yield call(api.fetchResponseUnit, payload);
+  yield put(actions.receiveResponseUnit(runit));
+}
 
 function* fetchWeatherData() {
   try {
@@ -95,29 +117,16 @@ function* doLogout() {
 }
 
 function* doReportIncident({ payload }) {
-  yield delay(1000); // Simulate API call delay
+  // const test = ({ title: payload.title });
+  const test = yield call(api.addIncident, payload);
 
-  /* eslint-disable max-len */
-  const { Title } = payload;
-  let mockIncident = { Title: 'Pikachu Breakout', Type: 'Land', Long: '1.30563255', Lat: '103.98444641', Area: 'Bukit Batok', Description: '' };
-
-  // For testing the incident with titles
-  if (Title === 'Onyx') {
-    mockIncident = { Title: 'Onyx', Type: 'Land', Long: '1.31063255', Lat: '103.92444641', Area: 'Choa Chu Kang', Description: '' };
+  if (test) {
+    console.log('Go Home');
   }
-  /* eslint-enable max-len */
-
-  yield put(actions.CreateIncident(mockIncident));
 }
-
 
 function* fetchIncidents() {
   yield ws.send({ type: types.INCIDENTS.FETCH });
-}
-
-function* fetchResponseUnits() {
-  const runits = yield call(api.fetchResponseUnits);
-  yield put(actions.receiveResponseUnits(runits));
 }
 
 
@@ -144,11 +153,20 @@ function* watchDebug() {
 function* watchFetchIncidents() {
   yield* takeEvery(types.INCIDENTS.FETCH, fetchIncidents);
 }
+function* watchFetchIncident() {
+  yield takeLatest(types.INCIDENT.FETCH, fetchIncident);
+}
 function* watchFetchResponseUnits() {
-  yield* takeEvery(types.RESPONSEUNIT.FETCH, fetchResponseUnits);
+  yield* takeEvery(types.RESPONSEUNIT.FETCH_ALL, fetchResponseUnits);
+}
+function* watchFetchResponseUnit() {
+  yield* takeLatest(types.RESPONSEUNIT.FETCH, fetchResponseUnit);
 }
 function* watchFetchCurrentCrisis() {
   yield* takeEvery(types.CRISIS.FETCH_CURRENT, fetchCurrentCrisis);
+}
+function* watchHandleIncident() {
+  yield* takeEvery(types.INCIDENT.HANDLE, handleIncident);
 }
 function* watchUpdateIncident() {
   yield* takeEvery(types.INCIDENT.UPDATE, updateIncident);
@@ -173,7 +191,10 @@ export default function* root() {
   yield fork(watchLogout);
   yield fork(watchReportIncident);
   yield fork(watchFetchIncidents);
+  yield fork(watchFetchIncident);
   yield fork(watchFetchCurrentCrisis);
   yield fork(watchUpdateIncident);
+  yield fork(watchHandleIncident);
   yield fork(watchFetchResponseUnits);
+  yield fork(watchFetchResponseUnit);
 }

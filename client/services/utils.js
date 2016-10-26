@@ -40,9 +40,12 @@ export function parseWeatherXMLtoJS(xml) {
 }
 
 export function arrayToObject(arr) {
-  return arr.reduce((o, v, i) => {
-    console.log(o, v, i);
+  return arr.reduce((o, v) => {
     o[v.id] = v; // eslint-disable-line
     return o;
   }, {});
+}
+
+export function isNormalInteger(str) {
+  return /^\+?(0|[1-9]\d*)$/.test(str);
 }

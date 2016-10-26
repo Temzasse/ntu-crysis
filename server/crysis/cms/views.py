@@ -131,9 +131,6 @@ class HandleIncident(APIView):
 
     def get(self, request, pk, format=None):
         incident = Incident.objects.get(pk=pk)
-        print(incident)
-        print(incident.area)
-        print(incident.type)
 
         # First try to attach RU with same area and type
         RUsByAreaAndType = ResponseUnit.objects.filter(area=incident.area, speciality=incident.type)  # noqa

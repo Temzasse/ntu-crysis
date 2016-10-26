@@ -7,12 +7,11 @@ import { bindActionCreators } from 'redux';
 /* eslint-disable max-len */
 // Component imports
 import FlexLayout from '../components/layout/FlexLayout';
-// import Toast from '../components/utils/Toast';
-// import LoginContainer from '../components/login/LoginContainer';
-// import callcenter from './CallCenter';
+import MainPanel from '../components/layout/MainPanel';
 import MapContainer from '../components/map/MapContainer';
 import ReportIncidentForm from '../components/incident/ReportIncidentForm';
 /* eslint-enable max-len */
+
 
 const propTypes = {
   loggedIn: PropTypes.bool.isRequired,
@@ -57,7 +56,9 @@ class ReportIncidentPage extends Component {
     return (
       <FlexLayout direction='row'>
         <ReportIncidentForm />
-        <MapContainer />
+        <MainPanel>
+          <MapContainer />
+        </MainPanel>
       </FlexLayout>
     );
   }
