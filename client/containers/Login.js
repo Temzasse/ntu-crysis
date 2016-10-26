@@ -14,9 +14,15 @@ const propTypes = {
 
 const Login = ({ currentUser, loggedIn }) => {
   if (loggedIn) {
-    if (currentUser.role === 'operator') return <Redirect to='/' />;
-    if (currentUser.role === 'callcenter') return <Redirect to='/callcenter' />;
-    if (currentUser.role === 'response') return <Redirect to='/response' />;
+    if (currentUser.role === 'operator') {
+      return <Redirect to='/' />;
+    }
+    if (currentUser.role === 'callcenter') {
+      return <Redirect to='/callcenter' />;
+    }
+    if (currentUser.role === 'responseunit') {
+      return <Redirect to='/responseunit' />;
+    }
   }
   return (
     <div className='Login'>

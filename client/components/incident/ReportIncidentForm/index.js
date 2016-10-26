@@ -10,11 +10,8 @@ import styles from './index.scss';
 
 const propTypes = {
   doReportIncident: PropTypes.func.isRequired,
-  handleReportIncident: PropTypes.func.isRequired,
-  handleTitle: PropTypes.func.isRequired,
-  handleType: PropTypes.func.isRequired,
-  handleLocation: PropTypes.func.isRequired,
-  handleDescription: PropTypes.func.isRequired,
+  lat: PropTypes.number.isRequired,
+  lng: PropTypes.number.isRequired,
 };
 
 class ReportIncidentForm extends Component {
@@ -25,8 +22,6 @@ class ReportIncidentForm extends Component {
     this.state = {
       title: '',
       type: '',
-      longitude: 0,
-      latitude: 0,
       area: '',
       description: '',
     };
@@ -104,7 +99,7 @@ class ReportIncidentForm extends Component {
             <input
               name='latitude'
               disabled
-              value={this.state.latitude}
+              value={this.props.lat}
               required
             />
           </label>
@@ -114,7 +109,7 @@ class ReportIncidentForm extends Component {
             <input
               name='longitude'
               disabled
-              value={this.state.longitude}
+              value={this.props.lng}
               required
             />
           </label>
