@@ -3,8 +3,7 @@ from facepy import GraphAPI
 # Initialize the Graph API with a valid access token (optional,
 # but will allow you to do all sorts of fun stuff).
 
-oauth_access_token = 'EAACEdEose0cBAG3kdmZAmFHUtxaoZB12qGLWyZB3LP0nCQlIn5kpgXueDdhGqMaPm2QmOMQwVSMCFnQNUQCwMLa3uCwqZAkj3ZALkK3m8SgFEzA4OsLQf0rTVoRBgrSZCFInWnuYsN29rlpjzIiZCTesJVGHTxZAuHb3RNsYbh61zNVvoZC8zsS0M'
-graph = GraphAPI(oauth_access_token)
+oauth_access_token = 'EAABZC0OOt2wQBAH9wUdWaIJdsiHyCbNOunFy2F8Wv1AuKZBEJL9Y4J0JtuDZCfF5Hv0au75bgo86hUpknaCjQCfAzbnJeZCplbmhTLaJCMb4drYcZAaGjjQC6m8VuiBesRn7YEEIua2xXChwQBDEqakCoQlBwCI8ZD'
 
 
 def updateFacebook():
