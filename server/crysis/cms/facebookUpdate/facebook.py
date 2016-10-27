@@ -5,6 +5,7 @@ from facepy import GraphAPI
 
 oauth_access_token = 'EAABZC0OOt2wQBAPYwGWmZB1WPHJInqpFlj59D3XjLrAXlGLWGaPpu8z1VeXNSlJdgBHTu3QYxZBEBwaLoql52GVVg9xamVjfIhEHBZCaokm4ks5BSH5SYFeXw8ktJE37PVAvDHLmWkDG7kR2fmCuqtleJuOEGIwSBgIZB102sTQZDZD'
 
+graph = GraphAPI(oauth_access_token)
 
 def updateFacebook():
 #Post a photo of a parrot
@@ -15,7 +16,7 @@ def updateFacebook():
 
     graph.post(
          path = 'me/feed',
-         message="hello",
+         message='plz dont fail ... 1',
     )
 
-    return TRUE
+    return True

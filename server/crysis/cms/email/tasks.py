@@ -2,7 +2,8 @@ from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 from celery import Celery
-from .email import Mail
+from .email import send_mail
+from django.conf import settings
 
 
 logger = get_task_logger(__name__)
@@ -13,4 +14,7 @@ logger = get_task_logger(__name__)
 	ignore_result=True,
 )
 def send_email_to_pm():
-	Mail.send_mail()
+	from django.conf import settings
+	recipient_list = {"cz3003.crysis@gmail.com"}
+	API_KEY, API_BASE_URL = settings.MAILGUN_API_KEY, settings.MAILGUN_BASE_URL
+	send_mail(API_BASE_URL, API_KEY, recipient_list)

@@ -15,7 +15,9 @@ Django==1.10
 django-celery==3.1.17
 django-cors-headers==1.2.2
 django-filter==0.15.0
+django-mailgun==0.9.1
 djangorestframework==3.4.6
+facepy==1.0.8
 future==0.15.2
 httpie==0.9.6
 itypes==1.1.0
