@@ -68,8 +68,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'celery',
     'tweepy',
+    #newly added for facebookUpdate
+    'facepy'
     'cms.twitterUpdate',
     'cms.email',
+    #newly added for facebookUpdate
+    'cms.facebookUpdate'
 ]
 
 MIDDLEWARE = [
