@@ -17,11 +17,11 @@ const NEA_DATASET = '2hr_nowcast';
 function getAuthHeaders() {
   // get token from session storage
   const token = sessionStorage.getItem('jwt-token');
-  return token ? { 'Authorization': `Token ${token}` } : null;
+  return token ? { 'Authorization': `Token ${token}` } : {};
 }
 
 
-async function callApi(url, method = 'get', bodyData = null) {
+async function callApi(url, method = 'get', bodyData = null, auth = true) {
   let reqOptions;
 
   // Dynamically determine request options
@@ -38,14 +38,12 @@ async function callApi(url, method = 'get', bodyData = null) {
     };
   } else throw new Error('Unsupported method');
 
-  const authHeaders = getAuthHeaders();
-
   // Add auth headers if needed
-  if (authHeaders) {
+  if (auth) {
     const currHeaders = reqOptions.headers;
     reqOptions.headers = {
       ...currHeaders,
-      ...authHeaders,
+      ...getAuthHeaders(),
     };
   }
   // Fetch the resource
@@ -172,7 +170,10 @@ export async function fetchSomething() {
 
 export async function fetchWeatherData() {
   const { response } = await callApi(
-    `${NEA_API_URL}?dataset=${NEA_DATASET}&keyref=${NEA_API_KEY}`
+    `${NEA_API_URL}?dataset=${NEA_DATASET}&keyref=${NEA_API_KEY}`,
+    'get',  // method
+    null,   // body content
+    false,  // use auth
   );
   // Use the DOMParser browser API to convert text to a XML Document
   const xml = new DOMParser().parseFromString(response, 'text/xml');

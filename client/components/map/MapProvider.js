@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { mapNightModeStyles } from '../../static/dummyData';
+import { mapTheme2 } from '../../static/dummyData';
 
 // Components
 import LoadingIndicator from '../utils/LoadingIndicator';
@@ -42,7 +42,7 @@ class MapProvider extends Component {
       const { lat, lng, zoomLevel } = this.props;
 
       const darkMap = new window.google.maps.StyledMapType(
-        mapNightModeStyles,
+        mapTheme2,
         { name: 'Dark' },
       );
 
@@ -81,7 +81,7 @@ class MapProvider extends Component {
 
     return (
       <div className='MapProvider' style={{ width: '100%', height: '100%' }}>
-        {mapApiLoaded ?
+        {(mapApiLoaded && googleMaps && mapRef) ?
           // Provide Google Maps and reference to map node to child components
           React.Children.map(children,
             (child) => React.cloneElement(child, { googleMaps, mapRef })

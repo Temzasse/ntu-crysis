@@ -12,8 +12,9 @@ export const getWeatherMarkers = (state) => {
 };
 
 export const getIncidentMarkers = (state) => {
-  return Object.values(state.incident.all).map(
-    ({ latitude, longitude, title, id }) => ({
+  return Object.values(state.incident.all)
+    .filter(i => !i.resolved)
+    .map(({ latitude, longitude, title, id }) => ({
       position: { lat: latitude, lng: longitude },
       title,
       id,

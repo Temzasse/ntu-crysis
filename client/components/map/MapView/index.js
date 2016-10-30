@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
-import { mapNightModeStyles } from '../../../static/dummyData';
+// import { mapNightModeStyles } from '../../../static/dummyData';
+import { mapTheme } from '../../../static/dummyData';
 
 // Styles
 import styles from './index.scss';
@@ -49,7 +50,7 @@ class MapView extends Component {
     // Create a new StyledMapType object, passing it an array of styles,
     // and the name to be displayed on the map type control.
     const darkMap = new googleMaps.StyledMapType(
-      mapNightModeStyles,
+      mapTheme,
       { name: 'Dark' },
     );
 

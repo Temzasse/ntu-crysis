@@ -19,6 +19,7 @@ import {
 
 // Component imports
 import MapContainer from '../components/map/MapContainer';
+import MapProvider from '../components/map/MapProvider';
 import CrisisProgressBar from '../components/crisis/CrisisProgressBar';
 import Toolbar from '../components/map/Toolbar';
 import FlexLayout from '../components/layout/FlexLayout';
@@ -110,7 +111,11 @@ class Dashboard extends Component {
                   current={allIncidents.length}
                   max={currentCrisis.threshold}
                 />
-                <MapContainer />
+                <div style={{ flex: 1 }}>
+                  <MapProvider>
+                    <MapContainer />
+                  </MapProvider>
+                </div>
                 <Toolbar
                   toggleMarkerVisibility={this.props.toggleMarkerVisibility}
                   controlMap={controlMap}

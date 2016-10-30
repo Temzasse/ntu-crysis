@@ -46,6 +46,11 @@ function* fetchIncident({ payload }) {
   yield put(actions.receiveIncident(incident));
 }
 
+function* addIncident({ payload }) {
+  const newIncident = yield call(api.addIncident, payload);
+  console.debug('====> newIncident', newIncident);
+}
+
 function* fetchResponseUnits() {
   const runits = yield call(api.fetchResponseUnits);
   yield put(actions.receiveResponseUnits(runits));
@@ -116,15 +121,6 @@ function* doLogout() {
   sessionStorage.removeItem('jwt-token');
 }
 
-function* doReportIncident({ payload }) {
-  // const test = ({ title: payload.title });
-  const test = yield call(api.addIncident, payload);
-
-  if (test) {
-    console.log('Go Home');
-  }
-}
-
 function* fetchIncidents() {
   yield ws.send({ type: types.INCIDENTS.FETCH });
 }
@@ -171,14 +167,14 @@ function* watchHandleIncident() {
 function* watchUpdateIncident() {
   yield* takeEvery(types.INCIDENT.UPDATE, updateIncident);
 }
+function* watchAddIncident() {
+  yield* takeEvery(types.INCIDENT.ADD, addIncident);
+}
 function* watchLogin() {
   yield* takeEvery(types.LOGIN, doLogin);
 }
 function* watchLogout() {
   yield* takeEvery(types.LOGOUT, doLogout);
-}
-function* watchReportIncident() {
-  yield* takeEvery(types.REPORTINCIDENT, doReportIncident);
 }
 
 
@@ -189,7 +185,7 @@ export default function* root() {
   yield fork(watchDebug);
   yield fork(watchLogin);
   yield fork(watchLogout);
-  yield fork(watchReportIncident);
+  yield fork(watchAddIncident);
   yield fork(watchFetchIncidents);
   yield fork(watchFetchIncident);
   yield fork(watchFetchCurrentCrisis);
