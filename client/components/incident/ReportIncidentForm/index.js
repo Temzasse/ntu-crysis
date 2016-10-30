@@ -3,13 +3,16 @@ import shallowCompare from 'react-addons-shallow-compare';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CSSModules from 'react-css-modules';
-import { doReportIncident } from '../../../actions/index.actions';
+import { addIncident } from '../../../actions/index.actions';
+
+// Components
+import Tooltip from '../../utils/Tooltip';
 
 // Styles
 import styles from './index.scss';
 
 const propTypes = {
-  doReportIncident: PropTypes.func.isRequired,
+  addIncident: PropTypes.func.isRequired,
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
 };
@@ -21,8 +24,8 @@ class ReportIncidentForm extends Component {
 
     this.state = {
       title: '',
-      type: '',
-      area: '',
+      type: 'LAN',
+      area: 'NE',
       description: '',
     };
   }
@@ -37,19 +40,31 @@ class ReportIncidentForm extends Component {
     if (!this.state.title ||
         !this.state.area ||
         !this.state.type ||
-        !this.state.long ||
-        !this.state.lat ||
+        !this.props.lng ||
+        !this.props.lat ||
         !this.state.description
     ) {
-      console.log('Incomplete field!');
+      console.debug('====> form not complete!');
     } else {
-      this.props.doReportIncident(this.state);
+      this.props.addIncident({
+        title: this.state.title,
+        type: this.state.type,
+        area: this.state.area,
+        description: this.state.description,
+        latitude: this.props.lat,
+        longitude: this.props.lng,
+      });
       const formNode = this.formRef;
       formNode.reset();
     }
   }
 
   render() {
+    const { title, type, area, description } = this.state;
+    const { lat, lng } = this.props;
+
+    const submitDisabled = !title || !type || !area || !lat || !lng || !description; // eslint-disable-line
+
     return (
       <div styleName='ReportIncidentForm'>
         <h2>Report incident</h2>
@@ -84,7 +99,7 @@ class ReportIncidentForm extends Component {
             Area
             <select
               name='area'
-              onChange={ev => this.setState({ location: ev.target.value })}
+              onChange={ev => this.setState({ area: ev.target.value })}
               required
             >
               <option value='NE'>North-East</option>
@@ -95,21 +110,37 @@ class ReportIncidentForm extends Component {
           </label>
 
           <label htmlFor='latitude'>
-            Latitude
+            <span>
+              Latitude&nbsp;
+              <Tooltip
+                content='Click the map to update lat / lng.'
+                style={{ display: 'inline-block' }}
+              >
+                <i className='ion-ios-information-outline' />
+              </Tooltip>
+            </span>
             <input
               name='latitude'
               disabled
-              value={this.props.lat}
+              value={lat}
               required
             />
           </label>
 
           <label htmlFor='longitude'>
-            Longitude
+            <span>
+              Longitude&nbsp;
+              <Tooltip
+                content='Click the map to update lat / lng.'
+                style={{ display: 'inline-block' }}
+              >
+                <i className='ion-ios-information-outline' />
+              </Tooltip>
+            </span>
             <input
               name='longitude'
               disabled
-              value={this.props.lng}
+              value={lng}
               required
             />
           </label>
@@ -125,7 +156,12 @@ class ReportIncidentForm extends Component {
             />
           </label>
 
-          <button type='submit'>Send report</button>
+          <button
+            type='submit'
+            disabled={submitDisabled}
+          >
+            Send report
+          </button>
         </form>
       </div>
     );
@@ -139,10 +175,9 @@ function mapStateToProps(state) {
   };
 }
 
-// This adds action creators to components props
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    doReportIncident,
+    addIncident,
   }, dispatch);
 }
 

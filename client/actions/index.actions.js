@@ -31,8 +31,12 @@ export const receiveIncident = createAction(types.INCIDENT.RECEIVE);
 export const updateIncident = createAction(types.INCIDENT.UPDATE);
 export const handleIncident = createAction(types.INCIDENT.HANDLE);
 export const receiveIncidentUpdate = createAction(types.INCIDENT.UPDATE_RECEIVE);
+// MULTIPLE INCIDENTS
 export const fetchIncidents = createAction(types.INCIDENTS.FETCH);
 export const receiveIncidents = createAction(types.INCIDENTS.RECEIVE);
+// REPORTING
+export const reportIncident = createAction(types.INCIDENT.REPORT);
+export const addIncident = createAction(types.INCIDENT.ADD);
 
 // CRISIS
 export const fetchCurrentCrisis = createAction(types.CRISIS.FETCH_CURRENT);
@@ -53,10 +57,6 @@ export const doLogin = createAction(types.LOGIN);
 export const doLogout = createAction(types.LOGOUT);
 export const setUser = createAction(types.USER.SET);
 export const clearUser = createAction(types.USER.CLEAR);
-
-// REPORTING
-export const doReportIncident = createAction(types.REPORTINCIDENT);
-export const CreateIncident = createAction(types.CREATEINCIDENT);
 
 // INIT
 export const startInit = createAction(types.INIT.START);
