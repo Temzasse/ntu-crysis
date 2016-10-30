@@ -37,24 +37,30 @@ $btn-color-darker: $blue-dark;
   }
 
   .attach-btn {
-    margin: 32px auto 0px auto;
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid $btn-color-darker;
-    background-color: $btn-color;
-    // background: linear-gradient(135deg, $green-success 0%, lighten($green-success, 7%) 50%, $green-success 100%);
-    color: #fff;
-    font-size: 42px;
-    transition: color 0.3s ease;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    justify-content: center;
+    padding: 12px 0px;
 
-    &:hover {
-      background-color: $btn-color-darker;
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid $btn-color-darker;
+      background-color: $btn-color;
+      // background: linear-gradient(135deg, $green-success 0%, lighten($green-success, 7%) 50%, $green-success 100%);
+      color: #fff;
+      font-size: 42px;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: $btn-color-darker;
+      }
     }
   }
 }

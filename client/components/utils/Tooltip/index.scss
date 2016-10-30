@@ -3,7 +3,8 @@ $tooltip-arrow-height: 6px;
 $tooltip-z: 999;
 
 .Tooltip {
-  display: block;
+  //display: block;
+  display: inline-block;
 
   .tooltip-wrapper {
     display: block;

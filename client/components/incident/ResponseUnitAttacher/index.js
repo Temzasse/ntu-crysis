@@ -9,7 +9,7 @@ import Tooltip from '../../utils/Tooltip';
 
 const propTypes = {
   incident: PropTypes.object.isRequired,
-  responseunits: PropTypes.array.isRequired,
+  responseunits: PropTypes.object.isRequired,
   attach: PropTypes.func.isRequired,
 };
 
@@ -45,14 +45,13 @@ const ResponseUnitAttacher = ({ incident, attach, responseunits }) => (
       </div> :
       <div>
         <h3>Attach response unit</h3>
-        <Tooltip content='Automatically attach response unit'>
-          <button
-            styleName='attach-btn'
-            onClick={() => attach(incident.id)}
-          >
-            <i className='ion-ios-unlocked-outline' />
-          </button>
-        </Tooltip>
+        <div styleName='attach-btn'>
+          <Tooltip content='Automatically attach response unit'>
+            <button onClick={() => attach(incident.id)}>
+              <i className='ion-ios-unlocked-outline' />
+            </button>
+          </Tooltip>
+        </div>
       </div>
     }
   </div>
