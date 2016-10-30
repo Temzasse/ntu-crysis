@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-
+from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -66,7 +66,25 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'celery',
+    'tweepy',
+    'facepy',
+    'cms.twitterUpdate',
+    'cms.email',
+    'cms.facebookUpdate',
 ]
+
+# Email configuration
+# MAILGUN_API_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
+# MAILGUN_BASE_URL = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
+#'https://api.mailgun.net/v2/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org/messages'
+
+MAILGUN_API_KEY = 'key-4745d5bb1df7897d7cc9866769c74df3'
+MAILGUN_BASE_URL = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
+
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -98,6 +116,21 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'crysis.wsgi.application'
+
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Singapore'
+# CELERYBEAT_SCHEDULE = {
+#     'update-twitter-every-30-mins': {
+#         'task': 'twitterUpdate.tasks.update_twitter',
+#         'schedule': timedelta(seconds=60),
+#         # 'args': (16, 16)
+#     },
+# }
 
 
 # Database
