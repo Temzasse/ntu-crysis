@@ -103,6 +103,15 @@ export async function updateIncident(id, data) {
   return response;
 }
 
+export async function updateCrisis(id, data) {
+  const { response } = await callApi(
+    `${API_URL}/crisis/${id}/`,
+    'patch',
+    data,
+  );
+  return response;
+}
+
 export async function fetchIncident(id) {
   const { response } = await callApi(`${API_URL}/incident/${id}/`);
   return response;

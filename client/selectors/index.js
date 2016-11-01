@@ -40,3 +40,7 @@ export const getActiveIncident = (state) => {
     state.incident.all[state.incident.active] :
     null;
 };
+
+export const getCurrentCrisis = (state) => {
+  return state.crisis.current;
+};

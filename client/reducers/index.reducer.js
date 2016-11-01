@@ -35,7 +35,8 @@ const crisisInitialState = {
 };
 function crisis(state = crisisInitialState, action) {
   switch (action.type) {
-  case types.CRISIS.RECEIVE_CURRENT: {
+  case types.CRISIS.RECEIVE_CURRENT:
+  case types.CRISIS.RECEIVE_NEW: {
     return { ...state, current: action.payload };
   }
   default:
@@ -63,7 +64,6 @@ function responseunits(state = ruInitialState, action) {
 const incidentsInitialState = {
   // all: [...mockIncidents],
   all: {},
-
   selected: null,
   active: null,
 };
@@ -97,42 +97,12 @@ function incident(state = incidentsInitialState, action) {
       all: { ...state.all, [action.payload.id]: action.payload },
     };
   }
+  case types.CRISIS.RECEIVE_NEW:
+    return { ...incidentsInitialState };
   default:
     return state;
   }
 }
-
-
-// function incident(state = incidentsInitialState, action) {
-//   switch (action.type) {
-//   case types.INCIDENT.SET_SELECTED: {
-//     const selected = state.all.find(i => i.id === action.payload) || null;
-//     return { ...state, selected };
-//   }
-//   case types.INCIDENT.SET_ACTIVE: {
-//     const active = state.all.find(i => i.id === action.payload) || null;
-//     return { ...state, active };
-//   }
-//   case types.INCIDENT.UPDATE_RECEIVE: {
-//     const updatedIncident = action.payload;
-//     const idx = state.all.findIndex(i => i.id === updatedIncident.id);
-//     const newAll = [...state.all];
-//     newAll[idx] = updatedIncident;
-//     return { ...state, all: newAll };
-//   }
-//   case types.INCIDENT.CLEAR_ACTIVE:
-//     return { ...state, active: null };
-//   case types.INCIDENT.CLEAR_SELECTED:
-//     return { ...state, selected: null };
-//   case types.INCIDENTS.RECEIVE:
-//     return { ...state, all: [...action.payload] };
-//   case types.INCIDENT.NEW:
-//     return { ...state, all: [...state.all, action.payload] };
-//   default:
-//     return state;
-//   }
-// }
-
 
 const mapInitialState = {
   visibility: {
@@ -155,6 +125,8 @@ function controlMap(state = mapInitialState, action) {
       },
     };
   }
+  case types.CRISIS.RECEIVE_NEW:
+    return { ...mapInitialState };
   default:
     return state;
   }
