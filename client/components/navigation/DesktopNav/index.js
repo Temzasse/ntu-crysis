@@ -12,10 +12,11 @@ const propTypes = {
     onClick: PropTypes.func,
   })),
   brandImg: PropTypes.string,
+  title: PropTypes.string,
 };
 
 
-const DesktopNav = ({ brandImg, navItems }) => (
+const DesktopNav = ({ brandImg, navItems, title }) => (
   <div styleName='DesktopNav'>
     <nav>
       {brandImg &&
@@ -23,6 +24,9 @@ const DesktopNav = ({ brandImg, navItems }) => (
           <Link to='/'>
             <img src={brandImg} alt='brand logo' height='40' />
           </Link>
+          <div styleName='title'>
+            {title}
+          </div>
         </div>
       }
       <ul>

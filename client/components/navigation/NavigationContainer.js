@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import shallowCompare from 'react-addons-shallow-compare';
+import { getCurrentCrisis } from '../../selectors';
 
 // Actions
 import { doLogout } from '../../actions/index.actions';
@@ -13,6 +14,7 @@ import DesktopNav from './DesktopNav';
 const propTypes = {
   doLogout: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
+  currentCrisis: PropTypes.object.isRequired,
 };
 
 class NavigationContainer extends Component {
@@ -40,7 +42,7 @@ class NavigationContainer extends Component {
   }
 
   render() {
-    const { loggedIn } = this.props;
+    const { loggedIn, currentCrisis } = this.props;
 
     const navItems = [];
 
@@ -56,10 +58,12 @@ class NavigationContainer extends Component {
     return (
       <div className='NavigationContainer'>
         <DesktopNav
+          title={currentCrisis ? currentCrisis.title : ''}
           navItems={navItems}
           brandImg='/images/crysis-logo.png'
         />
         <MobileNav
+          title={currentCrisis ? currentCrisis.title : ''}
           navItems={navItems}
           brandImg='/images/crysis-logo.png'
           onClose={this.closeNavPanel}
@@ -78,6 +82,7 @@ NavigationContainer.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     loggedIn: state.user.loggedIn,
+    currentCrisis: getCurrentCrisis(state),
   };
 }
 
