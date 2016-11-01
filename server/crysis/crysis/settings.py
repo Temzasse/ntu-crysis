@@ -75,8 +75,8 @@ INSTALLED_APPS = [
 ]
 
 # Email configuration
-# MAILGUN_API_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
-# MAILGUN_BASE_URL = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
+MAILGUN_API_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
+MAILGUN_BASE_URL = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
 #'https://api.mailgun.net/v2/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org/messages'
 
 # MAILGUN_API_KEY = 'key-4745d5bb1df7897d7cc9866769c74df3'
