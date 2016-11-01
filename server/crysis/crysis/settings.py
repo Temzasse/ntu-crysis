@@ -69,9 +69,9 @@ INSTALLED_APPS = [
     'celery',
     'tweepy',
     'facepy',
-    'cms.twitterUpdate',
+    # 'cms.twitterUpdate',
     'cms.email',
-    'cms.facebookUpdate',
+    # 'cms.facebookUpdate',
 ]
 
 # Email configuration
@@ -79,10 +79,12 @@ INSTALLED_APPS = [
 # MAILGUN_BASE_URL = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
 #'https://api.mailgun.net/v2/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org/messages'
 
-MAILGUN_API_KEY = 'key-4745d5bb1df7897d7cc9866769c74df3'
-MAILGUN_BASE_URL = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
+# MAILGUN_API_KEY = 'key-4745d5bb1df7897d7cc9866769c74df3'
+# MAILGUN_BASE_URL = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
 
-
+EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+MAILGUN_ACCESS_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
+MAILGUN_SERVER_NAME = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
 
 
 
