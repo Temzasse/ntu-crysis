@@ -1,0 +1,22 @@
+{% if incident_list %}
+    <ul>
+    <table>	
+    	 <tr>
+		    <th>Title</th>
+		    <th>Description</th>
+		    <th>area</th>
+		  </tr>
+		    {% for incident in incident_list %}
+		    <tr>
+		    	<!-- {% cycle '<tr>' '' '' '' %} -->
+		    		<td>{{ incident.title }}</td>
+		        	<td>{{ incident.description }}</td>
+		        	<td>{{ incident.area }}</td>
+		    	<!-- {% cycle '' '' '' '</tr>' %} -->
+		    </tr>
+		    {% endfor %}
+    </table>
+    </ul>
+{% else %}
+    <p>No incident happens in our country.</p>
+{% endif %}

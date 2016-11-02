@@ -1,0 +1,9 @@
+{% if incident_list %}
+    {% for incident in incident_list %}
+{{ incident.title }}
+    {% endfor %}
+
+{% else %}
+
+	No incident happens in our country.
+{% endif %}
