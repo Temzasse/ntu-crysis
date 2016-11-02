@@ -103,15 +103,6 @@ export async function updateIncident(id, data) {
   return response;
 }
 
-export async function updateCrisis(id, data) {
-  const { response } = await callApi(
-    `${API_URL}/crisis/${id}/`,
-    'patch',
-    data,
-  );
-  return response;
-}
-
 export async function fetchIncident(id) {
   const { response } = await callApi(`${API_URL}/incident/${id}/`);
   return response;
@@ -159,7 +150,6 @@ export async function getCurrentUser() {
   }
 }
 
-
 export async function addIncident(incidentData) {
   const { response } = await callApi(
     `${API_URL}/incident/`, 'post', incidentData
@@ -172,8 +162,17 @@ export async function getCurrentCrisis() {
   return response;
 }
 
-export async function fetchSomething() {
-  const { response } = await callApi(`${API_URL}/something`);
+export async function getCrises() {
+  const { response } = await callApi(`${API_URL}/crisis/`);
+  return response;
+}
+
+export async function updateCrisis(id, data) {
+  const { response } = await callApi(
+    `${API_URL}/crisis/${id}/`,
+    'patch',
+    data,
+  );
   return response;
 }
 
@@ -190,4 +189,9 @@ export async function fetchWeatherData() {
   const weatherData = parseWeatherXMLtoJS(xml);
 
   return weatherData;
+}
+
+export async function fetchSomething() {
+  const { response } = await callApi(`${API_URL}/something`);
+  return response;
 }

@@ -16,6 +16,7 @@ import Login from './Login';
 import CallCenter from './CallCenter';
 import ReportIncidentPage from './ReportIncidentPage';
 import ResponseUnitPage from './ResponseUnitPage';
+import Archives from './Archives';
 
 const propTypes = {
   startInit: PropTypes.func.isRequired,
@@ -47,6 +48,7 @@ class App extends Component {
               <Match pattern='/callcenter' component={CallCenter} />
               <Match pattern='/report-incident' component={ReportIncidentPage} />
               <Match pattern='/responseunit' component={ResponseUnitPage} />
+              <Match pattern='/archives' component={Archives} />
               <Miss component={NoMatchPage} />
               {/* eslint-enable max-len */}
 

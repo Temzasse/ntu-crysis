@@ -14,7 +14,7 @@ import DesktopNav from './DesktopNav';
 const propTypes = {
   doLogout: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-  currentCrisis: PropTypes.object.isRequired,
+  currentCrisis: PropTypes.object,
 };
 
 class NavigationContainer extends Component {
@@ -49,6 +49,7 @@ class NavigationContainer extends Component {
     if (loggedIn) {
       navItems.push(
         { label: 'Report Incident', to: '/report-incident' },
+        { label: 'Archives', to: '/archives' },
         { label: 'Logout', to: '/login', onClick: this.props.doLogout },
       );
     } else {

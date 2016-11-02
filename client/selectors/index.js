@@ -29,6 +29,11 @@ export const getResponseUnitsArray = (state) => {
   return Object.values(state.responseunits.all);
 };
 
+export const getCrisisArray = (state) => {
+  return Object.values(state.crisis.all)
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+};
+
 export const getSelectedIncident = (state) => {
   return Number.isFinite(state.incident.selected) ?
     state.incident.all[state.incident.selected] :

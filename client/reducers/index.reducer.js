@@ -32,6 +32,7 @@ function appInit(state = appInitInitialState, action) {
 
 const crisisInitialState = {
   current: null,
+  all: {},
 };
 function crisis(state = crisisInitialState, action) {
   switch (action.type) {
@@ -39,6 +40,12 @@ function crisis(state = crisisInitialState, action) {
   case types.CRISIS.RECEIVE_NEW: {
     return { ...state, current: action.payload };
   }
+  case types.CRISIS.RECEIVE_ALL:
+    return {
+      ...state,
+      all: utils.arrayToObject(action.payload),
+      current: action.payload.find(c => c.status === 'ACT'),
+    };
   default:
     return state;
   }

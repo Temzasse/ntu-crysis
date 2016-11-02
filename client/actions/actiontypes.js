@@ -51,6 +51,8 @@ export const CRISIS = createTypes(
     'FETCH_CURRENT',
     'RECEIVE_CURRENT',
     'RECEIVE_NEW',
+    'FETCH_ALL',
+    'RECEIVE_ALL',
     'ARCHIVE',
   ]
 );

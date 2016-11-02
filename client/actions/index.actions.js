@@ -42,6 +42,8 @@ export const addIncident = createAction(types.INCIDENT.ADD);
 export const fetchCurrentCrisis = createAction(types.CRISIS.FETCH_CURRENT);
 export const receiveCurrentCrisis = createAction(types.CRISIS.RECEIVE_CURRENT);
 export const archiveCurrentCrisis = createAction(types.CRISIS.ARCHIVE);
+export const fetchAllCrises = createAction(types.CRISIS.FETCH_ALL);
+export const receiveAllCrises = createAction(types.CRISIS.RECEIVE_ALL);
 
 // RESPONSE UNIT
 export const fetchResponseUnits = createAction(types.RESPONSEUNIT.FETCH_ALL);

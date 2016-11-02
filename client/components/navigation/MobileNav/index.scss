@@ -7,7 +7,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid $grey-light;
+    background-color: $blue-darkest;
+    // border-bottom: 1px solid $grey-light;
 
     .brand {
       height: 35px;

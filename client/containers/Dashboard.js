@@ -90,8 +90,7 @@ class Dashboard extends Component {
       return <Redirect to='/login' />;
     }
 
-    const disableArchiving = allIncidents.filter(i => !i.resolved).length;
-    console.debug('====> disableArchiving', disableArchiving);
+    const disableArchiving = !!allIncidents.filter(i => !i.resolved).length;
 
     return (
       <div className='Dashboard'>
