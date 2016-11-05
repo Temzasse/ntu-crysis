@@ -15,6 +15,7 @@ const propTypes = {
   doLogout: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   currentCrisis: PropTypes.object,
+  currentUser: PropTypes.object,
 };
 
 class NavigationContainer extends Component {
@@ -23,6 +24,7 @@ class NavigationContainer extends Component {
 
     this.closeNavPanel = this.closeNavPanel.bind(this);
     this.openNavPanel = this.openNavPanel.bind(this);
+    this.getCrisisTitleElement = this.getCrisisTitleElement.bind(this);
 
     this.state = {
       mobileNavOpen: false,
@@ -31,6 +33,28 @@ class NavigationContainer extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
+  }
+
+  getCrisisTitleElement() {
+    const { loggedIn, currentUser, currentCrisis } = this.props;
+
+    // Early escape
+    if (!loggedIn || !currentCrisis || (currentUser.role !== 'operator')) {
+      return null;
+    }
+
+    return (
+      <div>
+        {currentCrisis.title}
+        {currentCrisis.ongoing &&
+          <span>
+            &nbsp;&nbsp;<i className='ion-minus-round' />&nbsp;&nbsp;
+            <i className='ion-android-warning' />&nbsp;
+            <span>crisis is active</span>
+          </span>
+        }
+      </div>
+    );
   }
 
   closeNavPanel() {
@@ -42,29 +66,43 @@ class NavigationContainer extends Component {
   }
 
   render() {
-    const { loggedIn, currentCrisis } = this.props;
+    const { loggedIn, currentUser } = this.props;
 
     const navItems = [];
 
     if (loggedIn) {
+      // Determine nav items based on users role
+      if (currentUser.role === 'operator') {
+        navItems.push(
+          { label: 'Map', to: '/' },
+          { label: 'Report Incident', to: '/report-incident' },
+          { label: 'Archives', to: '/archives' },
+        );
+      } else if (currentUser.role === 'responseunit') {
+        navItems.push(
+          { label: 'Response Unit', to: '/response-unit' },
+        );
+      } else if (currentUser.role === 'callcenter') {
+        navItems.push(
+          { label: 'Report Incident', to: '/report-incident' },
+        );
+      }
       navItems.push(
-        { label: 'Report Incident', to: '/report-incident' },
-        { label: 'Archives', to: '/archives' },
         { label: 'Logout', to: '/login', onClick: this.props.doLogout },
       );
     } else {
       navItems.push({ label: 'Login', to: '/login' });
     }
 
+
     return (
       <div className='NavigationContainer'>
         <DesktopNav
-          title={currentCrisis ? currentCrisis.title : ''}
+          title={this.getCrisisTitleElement()}
           navItems={navItems}
           brandImg='/images/crysis-logo.png'
         />
         <MobileNav
-          title={currentCrisis ? currentCrisis.title : ''}
           navItems={navItems}
           brandImg='/images/crysis-logo.png'
           onClose={this.closeNavPanel}
@@ -83,6 +121,7 @@ NavigationContainer.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     loggedIn: state.user.loggedIn,
+    currentUser: state.user.user,
     currentCrisis: getCurrentCrisis(state),
   };
 }

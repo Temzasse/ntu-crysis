@@ -35,6 +35,16 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     )
     currentCrisis.incidents.add(instance.id)
 
+    level = currentCrisis.incidents.count()
+
+    if level >= currentCrisis.threshold and not currentCrisis.ongoing:
+        # Now we are in crisis mode
+        currentCrisis.ongoing = True
+
+        # Send update notification to client
+        crisis_serializer = CrisisSerializer(currentCrisis)
+        ws_send_notification('CRISIS_RECEIVE_UPDATED', crisis_serializer.data)
+
     # Send incident data to client
     serializer = IncidentSerializer(instance)
     if created:
@@ -62,9 +72,6 @@ def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
         # Let's create a new crisis since previous one was archived
         newCrisis = Crisis(title="Crisis ({:%B-%d-%Y})".format(datetime.now()))
         newCrisis.save()
-        # data = serializers.serialize('json', [newCrisis, ])
-        # data = json.loads(data)
-        # data = json.dumps(data[0]['fields'])
         serializer = CrisisSerializer(newCrisis)
         ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
 

@@ -37,6 +37,7 @@ const crisisInitialState = {
 function crisis(state = crisisInitialState, action) {
   switch (action.type) {
   case types.CRISIS.RECEIVE_CURRENT:
+  case types.CRISIS.RECEIVE_UPDATED:
   case types.CRISIS.RECEIVE_NEW: {
     return { ...state, current: action.payload };
   }

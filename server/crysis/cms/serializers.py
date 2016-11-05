@@ -35,7 +35,7 @@ class CrisisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crisis
         fields = (
-            'id', 'title', 'description', 'status', 'level', 'threshold',
+            'id', 'title', 'description', 'status', 'ongoing', 'threshold',
             'created_at', 'updated_at', 'incidents')
 
 

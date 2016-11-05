@@ -12,7 +12,7 @@ const propTypes = {
     onClick: PropTypes.func,
   })),
   brandImg: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.any,
 };
 
 
@@ -24,9 +24,11 @@ const DesktopNav = ({ brandImg, navItems, title }) => (
           <Link to='/'>
             <img src={brandImg} alt='brand logo' height='40' />
           </Link>
-          <div styleName='title'>
-            {title}
-          </div>
+          {title &&
+            <div styleName='title'>
+              {title}
+            </div>
+          }
         </div>
       }
       <ul>
