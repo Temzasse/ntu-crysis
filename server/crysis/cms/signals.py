@@ -40,6 +40,7 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     if level >= currentCrisis.threshold and not currentCrisis.ongoing:
         # Now we are in crisis mode
         currentCrisis.ongoing = True
+        currentCrisis.save()
 
         # Send update notification to client
         crisis_serializer = CrisisSerializer(currentCrisis)
