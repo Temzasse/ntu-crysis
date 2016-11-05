@@ -40,6 +40,15 @@ export const connect = (store) => {
             type: 'info',
             content: 'Incident updated!',
           }));
+        } else if (json.type === 'CRISIS_RECEIVE_NEW') {
+          store.dispatch(actions.addMessage({
+            type: 'info',
+            content: 'Crisis archived!',
+          }));
+          store.dispatch(actions.addMessage({
+            type: 'info',
+            content: 'Initialized new one',
+          }));
         }
       } else {
         console.error('[WEBSOCKET] Data in wrong format!', json);

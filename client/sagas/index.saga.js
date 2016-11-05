@@ -1,9 +1,10 @@
 import { takeEvery, takeLatest, delay } from 'redux-saga';
 // import { throttle } from 'redux-saga/recipes';
-import { put, call, fork } from 'redux-saga/effects';
+import { put, call, fork, select } from 'redux-saga/effects';
 import { api, websocket as ws } from '../services';
 import * as actions from '../actions/index.actions';
 import * as types from '../actions/actiontypes';
+import { getCurrentCrisis } from '../selectors';
 
 // Constants
 const TOAST_VISIBLE_TIME = 5000; // 5 seconds
@@ -16,17 +17,29 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 */
 
 
-function* fetchCurrentCrisis() {
-  const crisis = yield call(api.getCurrentCrisis);
-  yield put(actions.receiveCurrentCrisis(crisis));
-}
-
 function* initApp() {
   const user = yield call(api.getCurrentUser);
   if (user) { // Do auto login
     yield put(actions.setUser(user));
   }
   yield put(actions.completeInit());
+}
+
+function* fetchCurrentCrisis() {
+  const crisis = yield call(api.getCurrentCrisis);
+  yield put(actions.receiveCurrentCrisis(crisis));
+}
+
+function* fetchAllCrises() {
+  const crises = yield call(api.getCrises);
+  yield put(actions.receiveAllCrises(crises));
+}
+
+function* archiveCrisis() {
+  const current = yield select(getCurrentCrisis);
+  current.status = 'ARC';
+  const archivedCrisis = yield call(api.updateCrisis, current.id, current);
+  console.debug('====> archivedCrisis', archivedCrisis);
 }
 
 function* handleIncident({ payload }) {
@@ -167,6 +180,12 @@ function* watchHandleIncident() {
 function* watchUpdateIncident() {
   yield* takeEvery(types.INCIDENT.UPDATE, updateIncident);
 }
+function* watchArchiveCrisis() {
+  yield* takeEvery(types.CRISIS.ARCHIVE, archiveCrisis);
+}
+function* watchFetchCrises() {
+  yield* takeEvery(types.CRISIS.FETCH_ALL, fetchAllCrises);
+}
 function* watchAddIncident() {
   yield* takeEvery(types.INCIDENT.ADD, addIncident);
 }
@@ -193,4 +212,6 @@ export default function* root() {
   yield fork(watchHandleIncident);
   yield fork(watchFetchResponseUnits);
   yield fork(watchFetchResponseUnit);
+  yield fork(watchArchiveCrisis);
+  yield fork(watchFetchCrises);
 }

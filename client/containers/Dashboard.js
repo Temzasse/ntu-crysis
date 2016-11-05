@@ -12,6 +12,7 @@ import {
   fetchIncidents,
   fetchCurrentCrisis,
   fetchResponseUnits,
+  archiveCurrentCrisis,
 } from '../actions/index.actions';
 
 
@@ -39,6 +40,7 @@ const propTypes = {
   fetchCurrentCrisis: PropTypes.func.isRequired,
   fetchResponseUnits: PropTypes.func.isRequired,
   toggleMarkerVisibility: PropTypes.func.isRequired,
+  archiveCurrentCrisis: PropTypes.func.isRequired,
   toastMessages: PropTypes.array.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   currentUser: PropTypes.object,
@@ -88,6 +90,8 @@ class Dashboard extends Component {
       return <Redirect to='/login' />;
     }
 
+    const disableArchiving = !!allIncidents.filter(i => !i.resolved).length;
+
     return (
       <div className='Dashboard'>
 
@@ -118,6 +122,8 @@ class Dashboard extends Component {
                 </div>
                 <Toolbar
                   toggleMarkerVisibility={this.props.toggleMarkerVisibility}
+                  archiveCurrentCrisis={this.props.archiveCurrentCrisis}
+                  disableArchiving={disableArchiving}
                   controlMap={controlMap}
                 />
               </FlexLayout>
@@ -153,6 +159,7 @@ function mapDispatchToProps(dispatch) {
     fetchIncidents,
     fetchCurrentCrisis,
     fetchResponseUnits,
+    archiveCurrentCrisis,
   }, dispatch);
 }
 

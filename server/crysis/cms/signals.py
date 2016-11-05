@@ -1,13 +1,14 @@
-import json
+# import json
+from datetime import datetime
 from django.dispatch import receiver
-from django.db.models import Q
+# from django.db.models import Q
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import User
-from django.core import serializers
+# from django.core import serializers
 from .consumers import ws_send_notification
 from rest_framework.authtoken.models import Token
 from .models import Crisis, Incident
-from .serializers import IncidentSerializer
+from .serializers import IncidentSerializer, CrisisSerializer
 
 
 # NOTE:
@@ -57,13 +58,15 @@ def execute_after_delete_incident(sender, instance, *args, **kwargs):
 
 @receiver(post_save, sender=Crisis)
 def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
-    data = serializers.serialize('json', [instance, ])
-    data = json.loads(data)
-    data = json.dumps(data[0]['fields'])
-    if created:
-        ws_send_notification('CRISIS_NEW', data)
-    else:
-        ws_send_notification('CRISIS_UPDATE', data)
+    if not created and instance.status == 'ARC':
+        # Let's create a new crisis since previous one was archived
+        newCrisis = Crisis(title="Crisis ({:%B-%d-%Y})".format(datetime.now()))
+        newCrisis.save()
+        # data = serializers.serialize('json', [newCrisis, ])
+        # data = json.loads(data)
+        # data = json.dumps(data[0]['fields'])
+        serializer = CrisisSerializer(newCrisis)
+        ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
 
 
 @receiver(post_delete, sender=Crisis)

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { mapTheme2 } from '../../static/dummyData';
+import { mapTheme3 } from '../../static/dummyData';
 
 // Components
 import LoadingIndicator from '../utils/LoadingIndicator';
@@ -42,7 +42,7 @@ class MapProvider extends Component {
       const { lat, lng, zoomLevel } = this.props;
 
       const darkMap = new window.google.maps.StyledMapType(
-        mapTheme2,
+        mapTheme3,
         { name: 'Dark' },
       );
 
