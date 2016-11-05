@@ -133,7 +133,8 @@ CELERY_TIMEZONE = 'Asia/Singapore'
 #         # 'args': (16, 16)
 #     },
 # }
-
+import datetime
+SERVER_START_TIME = datetime.datetime.now()
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
