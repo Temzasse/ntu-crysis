@@ -1,6 +1,3 @@
-{{from crysis.cms.choice import TYPE_CHOICE, AREA_CHOICE}}
-{{from crysis.cms.models import Incident}}
-{{from datetime import datetime}}
 Incident index:
 {{ incident.id  }}
 Incident title:
@@ -8,10 +5,10 @@ Incident title:
 Incident description:
 {{ incident.description }}
 Time:
-{{ incident.created_at.strftime('%d %b %Y, %H%') }}
+{{ time }}
 Type:
-{{ dict(TYPE_CHOICE)[incident.type] }}
+{{ type }}
 Area:
-{{ dict(AREA_CHOICE)[incident.area] }}
+{{ area }}
 Map:
 Use HTML to see the map.
