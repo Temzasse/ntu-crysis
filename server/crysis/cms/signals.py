@@ -9,6 +9,7 @@ from .consumers import ws_send_notification
 from rest_framework.authtoken.models import Token
 from .models import Crisis, Incident
 from .serializers import IncidentSerializer, CrisisSerializer
+import .email.email
 
 
 # NOTE:
@@ -38,6 +39,7 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     # Send incident data to client
     serializer = IncidentSerializer(instance)
     if created:
+
         ws_send_notification('INCIDENT_NEW', serializer.data)
     else:
         ws_send_notification('INCIDENT_UPDATED', serializer.data)
