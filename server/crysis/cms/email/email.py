@@ -5,6 +5,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from cms import views
+import cms.choice
+from datetime import datetime
 
 
 def send_mail(API_BASE_URL, API_KEY, recipient_list):
@@ -161,13 +163,16 @@ def send_mailv4_to_responseunit(incident, recipient_list):
 	import datetime,time
 	from django.conf import settings
 	plaintxt_ly = get_template('reponseunit_email.txt')
-	# html_ly = get_template('report_to_PM.html')
-	# html_ly = get_template('report.html')
 	html_ly = get_template('responseunit_email.html')
 	subject = "New Incident Assigned"
-
+    time = incident.created_at.strftime('%d %b %Y, %H%')
+    area = dict(AREA_CHOICE)[incident.area]
+    type = dict(TYPE_CHOICE)[incident.type]
 	d = Context({
-        'incident': incident
+        'incident': incident,
+        'time': time,
+        'area': area,
+        'type': type
     })
 
 
