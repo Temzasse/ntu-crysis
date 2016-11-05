@@ -40,65 +40,8 @@ def send_mail(API_BASE_URL, API_KEY, recipient_list):
 
 
 # send email in text format with html attachement
-def send_mailv2(API_BASE_URL, API_KEY, recipient_list):
-	# https://api.mailgun.net/v3/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org
-	# key = API_KEY 
-	# sandbox = API_BASE_URL
 
-
-	# key = 'key-4745d5bb1df7897d7cc9866769c74df3'
-	# sandbox = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
-	
-	plaintxt_ly = get_template('report_to_PM.txt')
-	html_ly = get_template('report_to_PM.html')
-	subject = "Incident report"
-
-	incident_list = Incident.objects.all()
-	d = Context({
-        'incident_list': incident_list
-    })
-
-
-	text_content = plaintxt_ly.render(d)
-	html_content = html_ly.render(d)
-
-	sender = "alone@fromtheotherside.com"
-
-	msg = EmailMultiAlternatives(subject, text_content, sender, recipient_list)
-	msg.attach_alternative(html_content, "text/html")
-	respone = msg.send()
-	
-def send_mailv3(API_BASE_URL, API_KEY, recipient_list):
-	# https://api.mailgun.net/v3/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org
-	# key = API_KEY 
-	# sandbox = API_BASE_URL
-
-
-	# key = 'key-4745d5bb1df7897d7cc9866769c74df3'
-	# sandbox = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
-	
-	plaintxt_ly = get_template('report_to_PM.txt')
-	# html_ly = get_template('report_to_PM.html')
-	html_ly = get_template('report.html')
-	subject = "Incident report"
-
-	incident_list = Incident.objects.all()
-	d = Context({
-        'incident_list': incident_list
-    })
-
-
-	text_content = plaintxt_ly.render(d)
-	html_content = html_ly.render(d)
-
-	sender = "alone@fromtheotherside.com"
-
-	msg = EmailMultiAlternatives(subject, text_content, sender, recipient_list)
-	msg.attach_alternative(html_content, "text/html")
-	respone = msg.send()
-	
-
-def send_mailv4(API_BASE_URL, API_KEY, recipient_list):
+def send_mailv4(recipient_list):
 	import datetime,time
 	from django.conf import settings
 	plaintxt_ly = get_template('report_to_PM.txt')
@@ -157,7 +100,7 @@ def send_mailv4(API_BASE_URL, API_KEY, recipient_list):
 	incident_ph_SW_resolved = incident_ph_SW.filter(resolved=True)
 
 	d = Context({
-		'server_starttime':server_starttime,
+		'time_now':now,
 		'incident_list' :incident_list,
 		'incident_ongoing' :incident_ongoing,
 		'incident_resolved' :incident_resolved,
@@ -182,8 +125,6 @@ def send_mailv4(API_BASE_URL, API_KEY, recipient_list):
 		'incident_ph_NW_ongoing':incident_ph_NW_ongoing,
 		'incident_ph_SE_ongoing':incident_ph_SE_ongoing,
 		'incident_ph_SW_ongoing':incident_ph_SW_ongoing,
-
-
 
 		'incident_NE': incident_NE,
 		'incident_NW': incident_NW,
