@@ -9,17 +9,23 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-test = []
-y = 0
+
+
 
 def updateTwitter():
-    with open('../templates/shelter.txt') as f:
-        for line in f:
-            test.append(line)
-    f.close()
+	from django.conf import settings
+	import os
+	y = 0
+	test = []
+	filename = os.path.join(settings.BASE_DIR,'cms/templates/shelter.txt')
 
-    while (y < 5):
-        api.update_status(status=test[y])
-        y = y + 1
+	with open(filename) as f:
+		for line in f:
+			test.append(line)
+	f.close()
 
-    return True
+	while (y < 5):
+	    api.update_status(status=test[y])
+	    y = y + 1
+
+	return True
