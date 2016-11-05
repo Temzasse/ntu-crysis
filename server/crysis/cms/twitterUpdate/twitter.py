@@ -9,8 +9,17 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-def updateTwitter():
-	status = "Testing 26/10/2016  (test 2!)"
+test = []
+y = 0
 
-	api.update_status(status=status)
-	return TRUE
+def updateTwitter():
+    with open('../templates/shelter.txt') as f:
+        for line in f:
+            test.append(line)
+    f.close()
+
+    while (y < 5):
+        api.update_status(status=test[y])
+        y = y + 1
+
+    return True

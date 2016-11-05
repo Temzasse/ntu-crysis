@@ -1,0 +1,4 @@
+Shelter 1 : SE shelter 1 : 30 Rowell Rd, Singapore 207985
+Shelter 2 : NE shelter 1 : 827 Tampines Street 81, #01-150, Singapore 520827
+Shelter 3 : NW Shelter 1 : 48 Sungei Kadut Avenue, Singapore 729671
+Shelter 4 : SE Shelter 1 : 8 Gul Circle, Singapore 629564
