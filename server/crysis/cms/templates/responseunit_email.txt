@@ -1,0 +1,15 @@
+{{import cms.choice}}
+Incident index:
+{{ incident.id  }}
+Incident title:
+{{ incident.title }}
+Incident description:
+{{ incident.description }}
+Time:
+{{ incident.created_at.strftime('%d %b %Y, %H%') }}
+Type:
+{{ dict(TYPE_CHOICE)[incident.type] }}
+Area:
+{{ dict(AREA_CHOICE)[incident.area] }}
+Map:
+Use HTML to see the map.
