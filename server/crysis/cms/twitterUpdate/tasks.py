@@ -2,7 +2,7 @@ from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 from celery import Celery
-from .twitter import updateTwitter
+from .twitter import updateTwitter,updateTwitterv2
 
 logger = get_task_logger(__name__)
 
@@ -14,4 +14,5 @@ logger = get_task_logger(__name__)
 )
 def update_twitter():
 	logger.info("Tweeted test")
-	return updateTwitter()
+	# return updateTwitter()
+	return updateTwitterv2()

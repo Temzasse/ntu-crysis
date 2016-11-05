@@ -1,0 +1,14 @@
+Incident index:
+{{ incident.id  }}
+Incident title:
+{{ incident.title }}
+Incident description:
+{{ incident.description }}
+Time:
+{{ time }}
+Type:
+{{ type }}
+Area:
+{{ area }}
+Map:
+Use HTML to see the map.

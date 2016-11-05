@@ -1,5 +1,6 @@
 from facepy import GraphAPI
 
+
 # Initialize the Graph API with a valid access token (optional,
 # but will allow you to do all sorts of fun stuff).
 
@@ -16,7 +17,20 @@ graph = GraphAPI(oauth_access_token)
 #)
 def updateFacebook():
     
-    file = open('shelter.txt', 'r')
+    file = open('../templates/shelter.txt', 'r')
+
+    graph.post(
+    path = 'me/feed',
+    message=file.read(),
+   
+    ) 
+
+    return True
+
+def updateFacebookv2():
+    from django.conf import settings
+    import os
+    file = open(os.path.join(settings.BASE_DIR,'cms/templates/shelter.txt'), 'r')
 
     graph.post(
     path = 'me/feed',
