@@ -82,9 +82,8 @@ class LoginView(APIView):
                 password=serializer.validated_data['password']
             )
 
-            groups = user.groups.all().values('name')
-
-            if user and groups:
+            if user:
+                groups = user.groups.all().values('name')
                 group_names = [v for v in groups.values()]
                 token, created = Token.objects.get_or_create(user=user)
                 return Response(
@@ -96,7 +95,7 @@ class LoginView(APIView):
                     status=status.HTTP_200_OK
                 )
             return Response(
-                {'error': 'invalid username or password'},
+                {'error': 'LOGIN_INVALID_CREDENTIALS'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

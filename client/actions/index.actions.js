@@ -56,7 +56,8 @@ export const addMessage = createAction(types.MESSAGES.ADD);
 export const removeMessage = createAction(types.MESSAGES.REMOVE);
 
 // LOGIN
-export const doLogin = createAction(types.LOGIN);
+export const doLogin = createAction(types.LOGIN.START);
+export const failLogin = createAction(types.LOGIN.FAIL);
 export const doLogout = createAction(types.LOGOUT);
 export const setUser = createAction(types.USER.SET);
 export const clearUser = createAction(types.USER.CLEAR);
@@ -65,3 +66,6 @@ export const clearUser = createAction(types.USER.CLEAR);
 export const startInit = createAction(types.INIT.START);
 export const completeInit = createAction(types.INIT.COMPLETE);
 export const errorInit = createAction(types.INIT.ERROR);
+
+// ERROR MESSAGES
+export const clearErrors = createAction(types.ERRORS.CLEAR);

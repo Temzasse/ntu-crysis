@@ -10,6 +10,7 @@ import styles from './index.scss';
 
 const propTypes = {
   doLogin: PropTypes.func.isRequired,
+  loginFailed: PropTypes.bool.isRequired,
 };
 
 /**
@@ -52,6 +53,7 @@ class LoginForm extends Component {
 
   render() {
     const { username, password } = this.state;
+    const { loginFailed } = this.props;
     const submitDisabled = !username || !password;
 
     return (
@@ -66,6 +68,7 @@ class LoginForm extends Component {
             <input
               onChange={event => this.handleUsername(event.target.value)}
               name='username'
+              styleName={loginFailed ? 'invalid' : ''}
             />
           </label>
           <label htmlFor='password'>
@@ -74,12 +77,18 @@ class LoginForm extends Component {
               onChange={event => this.handlePassword(event.target.value)}
               name='password'
               type='password'
+              styleName={loginFailed ? 'invalid' : ''}
             />
           </label>
           <hr />
           <button type='submit' disabled={submitDisabled}>
             Login
           </button>
+          <small>
+            {loginFailed &&
+              <p>Login failed. Check username and password.</p>
+            }
+          </small>
         </form>
       </div>
     );
@@ -91,7 +100,7 @@ LoginForm.propTypes = propTypes;
 // This makes state objects available to the component via props!
 function mapStateToProps(state) {
   return {
-    incidents: state.incident.all,
+    loginFailed: state.errors.login,
   };
 }
 

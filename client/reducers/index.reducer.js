@@ -208,12 +208,17 @@ function loading(state = loadingInitialState, action) {
 
 const errorsInitialState = {
   weather: false,
+  login: false,
 };
 
 function errors(state = errorsInitialState, action) {
   switch (action.type) {
   case types.WEATHER.FAIL:
     return { ...state, weather: true };
+  case types.LOGIN.FAIL:
+    return { ...state, login: true };
+  case types.USER.SET:
+    return { ...state, login: false };
   case types.ERRORS.CLEAR:
     return { ...errorsInitialState };
   default:

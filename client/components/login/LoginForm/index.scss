@@ -49,6 +49,10 @@
         padding: 8px;
         font-size: 16px;
         width: 60%;
+
+        &.invalid {
+          border: 1px solid $red-error;
+        }
       }
     }
     button {

@@ -21,11 +21,11 @@ function createTypes(base, actionsArray = fetchActions) {
 export const NAVIGATE = 'NAVIGATE';
 export const LOAD_PAGE = 'LOAD_PAGE';
 export const DEBUG = 'DEBUG';
-export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const REPORTINCIDENT = 'REPORTINCIDENT';
 export const CREATEINCIDENT = 'CREATEINCIDENT';
 export const ERRORS = createTypes('ERROR', ['CLEAR']);
+export const LOGIN = createTypes('LOGIN', ['START', 'FAIL']);
 
 /* ---------- SOMETHING ---------- */
 export const SOMETHING = createTypes('SOMETHING', [...fetchActions]);

@@ -11,6 +11,28 @@ const TOAST_VISIBLE_TIME = 5000; // 5 seconds
 
 
 /*
+/////////////
+// HELPERS //
+/////////////
+*/
+function* handleApiErrors({ body }) {
+  if (!body) console.log('Uknown API error');
+
+  // TODO: move these types to action types file
+  switch (body.error) {
+  case 'LOGIN_INVALID_CREDENTIALS': {
+    yield put(actions.failLogin());
+    // yield delay(3000);
+    // yield put(actions.clearErrors());
+    break;
+  }
+  default:
+    console.log(`Error ${body.error}`);
+  }
+}
+
+
+/*
 ///////////
 // TASKS //
 ///////////
@@ -107,24 +129,28 @@ function* unshiftMessage() {
 
 
 function* doLogin({ payload }) {
-  const userData = yield call(api.login, payload);
+  try {
+    const userData = yield call(api.login, payload);
 
-  if (userData) {
-    yield put(actions.setUser(userData));
-  } else { // NOTE: for development
-    let mockUser = { username: 'Operator', role: 'operator' };
+    if (userData) {
+      yield put(actions.setUser(userData));
+    } else { // NOTE: for development
+      let mockUser = { username: 'Operator', role: 'operator' };
 
-    // For testing the login with different roles
-    if (payload.username === 'operator') {
-      mockUser = { username: 'Operator 1', role: 'operator' };
+      // For testing the login with different roles
+      if (payload.username === 'operator') {
+        mockUser = { username: 'Operator 1', role: 'operator' };
+      }
+      if (payload.username === 'callcenter') {
+        mockUser = { username: 'Call Center 1', role: 'callcenter' };
+      }
+      if (payload.username === 'response') {
+        mockUser = { username: 'Response Unit 1', role: 'response' };
+      }
+      yield put(actions.setUser(mockUser));
     }
-    if (payload.username === 'callcenter') {
-      mockUser = { username: 'Call Center 1', role: 'callcenter' };
-    }
-    if (payload.username === 'response') {
-      mockUser = { username: 'Response Unit 1', role: 'response' };
-    }
-    yield put(actions.setUser(mockUser));
+  } catch (e) {
+    yield handleApiErrors(e);
   }
 }
 
@@ -190,7 +216,7 @@ function* watchAddIncident() {
   yield* takeEvery(types.INCIDENT.ADD, addIncident);
 }
 function* watchLogin() {
-  yield* takeEvery(types.LOGIN, doLogin);
+  yield* takeEvery(types.LOGIN.START, doLogin);
 }
 function* watchLogout() {
   yield* takeEvery(types.LOGOUT, doLogout);
