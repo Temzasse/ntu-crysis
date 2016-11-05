@@ -22,8 +22,8 @@ function* handleApiErrors({ body }) {
   switch (body.error) {
   case 'LOGIN_INVALID_CREDENTIALS': {
     yield put(actions.failLogin());
-    // yield delay(3000);
-    // yield put(actions.clearErrors());
+    yield delay(3000);
+    yield put(actions.clearErrors());
     break;
   }
   default:
