@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'celery',
     'tweepy',
     'facepy',
-     'cms.twitterUpdate',
+     # 'cms.twitterUpdate',
     # 'cms.email',
     # 'cms.facebookUpdate',
 ]
