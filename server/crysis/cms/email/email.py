@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from django.template import Context
 from cms import views
 
+
 def send_mail(API_BASE_URL, API_KEY, recipient_list):
 	# https://api.mailgun.net/v3/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org
 	key = API_KEY
@@ -40,6 +41,7 @@ def send_mail(API_BASE_URL, API_KEY, recipient_list):
 
 
 # send email in text format with html attachement
+
 
 def send_mailv4(recipient_list):
 	import datetime,time
@@ -142,6 +144,30 @@ def send_mailv4(recipient_list):
 		'incident_SE_resolved': incident_SE_resolved,
 		'incident_SW_resolved': incident_SW_resolved,
 
+    })
+
+
+	text_content = plaintxt_ly.render(d)
+	html_content = html_ly.render(d)
+
+	sender = "reportgenerator@crysis.com"
+
+	msg = EmailMultiAlternatives(subject, text_content, sender, recipient_list)
+	msg.attach_alternative(html_content, "text/html")
+	respone = msg.send()
+
+
+def send_mailv4_to_responseunit(incident, recipient_list):
+	import datetime,time
+	from django.conf import settings
+	plaintxt_ly = get_template('reponseunit_email.txt')
+	# html_ly = get_template('report_to_PM.html')
+	# html_ly = get_template('report.html')
+	html_ly = get_template('responseunit_email.html')
+	subject = "New Incident Assigned"
+
+	d = Context({
+        'incident': incident
     })
 
 

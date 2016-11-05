@@ -1,4 +1,6 @@
-{{import cms.choice}}
+{{from crysis.cms.choice import TYPE_CHOICE, AREA_CHOICE}}
+{{from crysis.cms.models import Incident}}
+{{from datetime import datetime}}
 Incident index:
 {{ incident.id  }}
 Incident title:
