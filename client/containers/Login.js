@@ -18,7 +18,7 @@ const Login = ({ currentUser, loggedIn }) => {
       return <Redirect to='/' />;
     }
     if (currentUser.role === 'callcenter') {
-      return <Redirect to='/callcenter' />;
+      return <Redirect to='/report-incident' />;
     }
     if (currentUser.role === 'responseunit') {
       return <Redirect to='/responseunit' />;
