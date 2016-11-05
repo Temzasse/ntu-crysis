@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWeatherData } from '../../actions/index.actions';
+import weatherIcons from '../../static/weatherIcons';
 
 // Selectors
 import {
@@ -39,6 +40,11 @@ class MapContainer extends Component {
     this.weatherIntervalId = window.setInterval(
       this.props.fetchWeatherData, WEATHER_UPDATE_INTERVAL
     );
+  }
+
+  getWeatherIcon(weatherData) {
+    return weatherIcons[weatherData.abbrev] ||
+      '/images/icons/weather/white/nil.png';
   }
 
   render() {
@@ -87,7 +93,7 @@ class MapContainer extends Component {
         {wMarkers.map(m =>
           <Marker
             marker={m}
-            markerIcon={'/images/icons/pin.png'}
+            markerIcon={this.getWeatherIcon(m)}
             googleMaps={googleMaps}
             mapRef={mapRef}
             key={m.title}
