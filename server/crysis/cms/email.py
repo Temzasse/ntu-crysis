@@ -1,5 +1,4 @@
 import requests
-from .models import Incident
 
 
 class Mail:
@@ -11,4 +10,10 @@ class Mail:
         requests.post(
             self.url,
             auth=("api", self.apiKey),
-            data={"from": self.sender, "to": to_name + " <" + to_address + ">", "subject": subject, "text": text, "html": html})
+            data={
+                "from": self.sender,
+                "to": to_name + " <" + to_address + ">",
+                "subject": subject,
+                "text": text,
+                "html": html}
+        )

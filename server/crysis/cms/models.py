@@ -1,5 +1,14 @@
 from django.db import models
-from .choice import *  # noqa
+from .choice import (
+    AREA_CHOICE,
+    NATIONALITY_CHOICE,
+    POKEMON_TYPE_CHOICE,
+    R_UNIT_TYPE_CHOICE,
+    SEX_CHOICE,
+    STATUS_CHOICE,
+    TRAINER_TYPE_CHOICE,
+    TYPE_CHOICE,
+    )
 
 
 class Incident(models.Model):

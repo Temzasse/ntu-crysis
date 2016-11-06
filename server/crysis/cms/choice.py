@@ -2,9 +2,9 @@
 # Takes quite the time to draw them on the map.
 AREA_CHOICE = (
     ('NE', 'North-east'),
-    ('SE', 'South-east'),
     ('NW', 'North-west'),
-    ('NS', 'North-west'),
+    ('SE', 'South-east'),
+    ('SW', 'South-west'),
 )
 
 TYPE_CHOICE = (

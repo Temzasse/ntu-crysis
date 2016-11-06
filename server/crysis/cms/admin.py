@@ -1,18 +1,29 @@
 from django.contrib import admin
-from .models import Incident, Crisis, ResponseUnit, Trainer, PokemonDB, Pokemon, Shelter
+from .models import (
+    Incident,
+    Crisis,
+    ResponseUnit,
+    Trainer,
+    PokemonDB,
+    Pokemon,
+    Shelter,
+    )
 
 
 class IncidentAdmin(admin.ModelAdmin):
     list_display = ('title', 'area')
 
+
 class CrisisAdmin(admin.ModelAdmin):
     list_display = ('title', 'area')
 
+
 class ResponseUnitAdmin(admin.ModelAdmin):
-    list_display = ('name','area')
-    fieldsets =[
-    (None, {'fields': ['name']}),
-    ('Contact information', {'fields': ['phone'], 'classes': ['collapse']}),
+    list_display = ('name', 'area')
+    fieldsets = [
+        (None, {'fields': ['name']}),
+        ('Contact information',
+            {'fields': ['phone'], 'classes': ['collapse']}),
     ]
 
 

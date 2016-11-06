@@ -129,6 +129,14 @@ $ python manage.py loaddata fixtures/initial_usergroup.json
  $ python manage.py runserver
 ```
 
+**Run celery task**
+```
+    - run worker on one terminal
+        $ python manage.py celery worker --loglevel=INFO
+    - run beat on another terminal
+        $ python manage.py celery beat --loglevel=INFO
+```
+
 **Test API**
 
    - test API([example](http://127.0.0.1:8000/cms/api-root)) in your browser    
