@@ -5,7 +5,7 @@ import CSSModules from 'react-css-modules';
 import styles from './index.scss';
 
 const propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.any,
   direction: PropTypes.oneOf(['row', 'column']),
 };
 

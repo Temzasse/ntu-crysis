@@ -13,10 +13,10 @@ import NavigationContainer from '../components/navigation/NavigationContainer';
 import Dashboard from './Dashboard';
 import NoMatchPage from './NoMatchPage';
 import Login from './Login';
-import CallCenter from './CallCenter';
 import ReportIncidentPage from './ReportIncidentPage';
 import ResponseUnitPage from './ResponseUnitPage';
 import Archives from './Archives';
+import PublicMap from './PublicMap';
 
 const propTypes = {
   startInit: PropTypes.func.isRequired,
@@ -45,10 +45,10 @@ class App extends Component {
               {/* eslint-disable max-len */}
               <Match exactly pattern='/' component={Dashboard} />
               <Match pattern='/login' component={Login} />
-              <Match pattern='/callcenter' component={CallCenter} />
               <Match pattern='/report-incident' component={ReportIncidentPage} />
               <Match pattern='/responseunit' component={ResponseUnitPage} />
               <Match pattern='/archives' component={Archives} />
+              <Match pattern='/map' component={PublicMap} />
               <Miss component={NoMatchPage} />
               {/* eslint-enable max-len */}
 

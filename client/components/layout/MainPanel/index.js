@@ -9,13 +9,22 @@ const propTypes = {
     PropTypes.object,
     PropTypes.array,
   ]),
+  fullsize: PropTypes.bool,
 };
 
-const MainPanel = ({ children }) => (
-  <div styleName='MainPanel'>{children}</div>
-);
+const MainPanel = ({ children, fullsize }) => {
+  const panelStyles = fullsize ? { width: '100vw' } : {};
+
+  return (
+    <div styleName='MainPanel' style={panelStyles}>
+      {children}
+    </div>
+  );
+};
 
 MainPanel.propTypes = propTypes;
-// MainPanel.defaultProps = {};
+MainPanel.defaultProps = {
+  fullsize: false,
+};
 
 export default CSSModules(MainPanel, styles); // { allowMultiple: true }
