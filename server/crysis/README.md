@@ -131,6 +131,8 @@ $ python manage.py loaddata fixtures/initial_usergroup.json
 
 **Run celery task**
 ```
+    - to clear pending task
+        $ python manage.py celery purge
     - run worker on one terminal
         $ python manage.py celery worker --loglevel=INFO
     - run beat on another terminal

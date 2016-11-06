@@ -86,4 +86,4 @@ def send_mailv4_to_responseunit(incident, recipient_list):
 
     msg = EmailMultiAlternatives(subject, text_content, sender, recipient_list)
     msg.attach_alternative(html_content, "text/html")
-    # msg.send()
+    msg.send()
