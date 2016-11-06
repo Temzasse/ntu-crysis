@@ -1,19 +1,21 @@
 import requests
-from cms.models import Incident
+import datetime
+# import time
+
 # for html templates
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
-from cms import views
-import cms.choice
-from datetime import datetime
+from cms.models import Incident
+from cms.choice import AREA_CHOICE, TYPE_CHOICE
+# from cms import views
+# from django.conf import settings
 
 
 def send_mail(API_BASE_URL, API_KEY, recipient_list):
     # https://api.mailgun.net/v3/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org
     key = API_KEY
     sandbox = API_BASE_URL
-
 
     # key = 'key-4745d5bb1df7897d7cc9866769c74df3'
     # sandbox = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
@@ -26,7 +28,7 @@ def send_mail(API_BASE_URL, API_KEY, recipient_list):
               'to': recipient_list,
               'subject': 'nite test!',
               'text': 'Thanks!!Spamming test!.'
-    })
+              })
     # key = 'key-4745d5bb1df7897d7cc9866769c74df3'
     # sandbox = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
 
@@ -38,16 +40,14 @@ def send_mail(API_BASE_URL, API_KEY, recipient_list):
     #     'subject': 'test 1',
     #     'text': 'test Mailgun'
     # })
-    print ('Status: {0}'.format(request.status_code))
-    print ('Body:   {0}'.format(request.text))
+    print('Status: {0}'.format(request.status_code))
+    print('Body:   {0}'.format(request.text))
 
 
 # send email in text format with html attachement
 
 
 def send_mailv4(recipient_list):
-    import datetime,time
-    from django.conf import settings
     plaintxt_ly = get_template('report_to_PM.txt')
     # html_ly = get_template('report_to_PM.html')
     # html_ly = get_template('report.html')
@@ -56,7 +56,7 @@ def send_mailv4(recipient_list):
 
     incident_list = Incident.objects.all()
 
-    server_starttime = settings.SERVER_START_TIME
+    # server_starttime = settings.SERVER_START_TIME
 
     now = datetime.datetime.now()
     time_min_before = now - datetime.timedelta(minutes=30)
@@ -69,7 +69,6 @@ def send_mailv4(recipient_list):
     incident_SE = incident_list.filter(area="SE")
     incident_SW = incident_list.filter(area="SW")
 
-
     incident_NE_ongoing = incident_NE.filter(resolved=False)
     incident_NW_ongoing = incident_NW.filter(resolved=False)
     incident_SE_ongoing = incident_SE.filter(resolved=False)
@@ -80,13 +79,11 @@ def send_mailv4(recipient_list):
     incident_SE_resolved = incident_SE.filter(resolved=True)
     incident_SW_resolved = incident_SW.filter(resolved=True)
 
-    incident_ph = incident_list.filter(updated_at__lt=now,updated_at__gt=time_min_before)
-
+    incident_ph = incident_list.filter(
+        updated_at__lt=now, updated_at__gt=time_min_before)
 
     incident_ph_ongoing = incident_ph.filter(resolved=False)
     incident_ph_resolved = incident_ph.filter(resolved=True)
-
-
 
     incident_ph_NE = incident_ph.filter(area="NE")
     incident_ph_NW = incident_ph.filter(area="NW")
@@ -94,7 +91,7 @@ def send_mailv4(recipient_list):
     incident_ph_SW = incident_ph.filter(area="SW")
 
     incident_ph_NE_ongoing = incident_ph_NE.filter(resolved=False)
-    incident_ph_NW_ongoing  = incident_ph_NW.filter(resolved=False)
+    incident_ph_NW_ongoing = incident_ph_NW.filter(resolved=False)
     incident_ph_SE_ongoing = incident_ph_SE.filter(resolved=False)
     incident_ph_SW_ongoing = incident_ph_SW.filter(resolved=False)
 
@@ -104,37 +101,34 @@ def send_mailv4(recipient_list):
     incident_ph_SW_resolved = incident_ph_SW.filter(resolved=True)
 
     d = Context({
-        'time_now':now,
-        'incident_list' :incident_list,
-        'incident_ongoing' :incident_ongoing,
-        'incident_resolved' :incident_resolved,
-
+        'time_now': now,
+        'incident_list': incident_list,
+        'incident_ongoing': incident_ongoing,
+        'incident_resolved': incident_resolved,
 
         'incident_ph': incident_ph,
-        'incident_ph_ongoing':incident_ph_ongoing,
-        'incident_ph_resolved':incident_ph_resolved,
+        'incident_ph_ongoing': incident_ph_ongoing,
+        'incident_ph_resolved': incident_ph_resolved,
 
+        'incident_ph_NE': incident_ph_NE,
+        'incident_ph_NW': incident_ph_NW,
+        'incident_ph_SE': incident_ph_SE,
+        'incident_ph_SW': incident_ph_SW,
 
-        'incident_ph_NE':incident_ph_NE,
-        'incident_ph_NW':incident_ph_NW,
-        'incident_ph_SE':incident_ph_SE,
-        'incident_ph_SW':incident_ph_SW,
+        'incident_ph_NE_resolved': incident_ph_NE_resolved,
+        'incident_ph_NW_resolved': incident_ph_NW_resolved,
+        'incident_ph_SE_resolved': incident_ph_SE_resolved,
+        'incident_ph_SW_resolved': incident_ph_SW_resolved,
 
-        'incident_ph_NE_resolved':incident_ph_NE_resolved,
-        'incident_ph_NW_resolved':incident_ph_NW_resolved,
-        'incident_ph_SE_resolved':incident_ph_SE_resolved,
-        'incident_ph_SW_resolved':incident_ph_SW_resolved,
-
-        'incident_ph_NE_ongoing':incident_ph_NE_ongoing,
-        'incident_ph_NW_ongoing':incident_ph_NW_ongoing,
-        'incident_ph_SE_ongoing':incident_ph_SE_ongoing,
-        'incident_ph_SW_ongoing':incident_ph_SW_ongoing,
+        'incident_ph_NE_ongoing': incident_ph_NE_ongoing,
+        'incident_ph_NW_ongoing': incident_ph_NW_ongoing,
+        'incident_ph_SE_ongoing': incident_ph_SE_ongoing,
+        'incident_ph_SW_ongoing': incident_ph_SW_ongoing,
 
         'incident_NE': incident_NE,
         'incident_NW': incident_NW,
         'incident_SE': incident_SE,
         'incident_SW': incident_SW,
-
 
         'incident_NE_ongoing': incident_NE_ongoing,
         'incident_NW_ongoing': incident_NW_ongoing,
@@ -145,9 +139,7 @@ def send_mailv4(recipient_list):
         'incident_NW_resolved': incident_NW_resolved,
         'incident_SE_resolved': incident_SE_resolved,
         'incident_SW_resolved': incident_SW_resolved,
-
     })
-
 
     text_content = plaintxt_ly.render(d)
     html_content = html_ly.render(d)
@@ -156,31 +148,38 @@ def send_mailv4(recipient_list):
 
     msg = EmailMultiAlternatives(subject, text_content, sender, recipient_list)
     msg.attach_alternative(html_content, "text/html")
-    respone = msg.send()
+    msg.send()
+    # respone = msg.send()
 
 
 def send_mailv4_to_responseunit(incident, recipient_list):
-    import datetime,time
-    from django.conf import settings
-    plaintxt_ly = get_template('reponseunit_email.txt')
+    plaintxt_ly = get_template('responseunit_email.txt')
     html_ly = get_template('responseunit_email.html')
     subject = "New Incident Assigned"
-    time = incident.created_at.strftime('%d %b %Y, %H%')
+    created_at_time = incident.created_at.strftime('%d %b %Y, %H%M')
     area = dict(AREA_CHOICE)[incident.area]
     type = dict(TYPE_CHOICE)[incident.type]
+    map_url = """
+        https://maps.googleapis.com/maps/api/staticmap
+        ?center={lat},{lng}
+        &zoom=14&size=400x400
+        &markers=color:red%7Clabel:S%7C{lat},{lng}""".format(
+        lat=(incident.latitude), lng=(incident.longitude)
+    )
+
     d = Context({
         'incident': incident,
-        'time': time,
+        'time': created_at_time,
         'area': area,
-        'type': type
+        'type': type,
+        'map_url': map_url
     })
-
 
     text_content = plaintxt_ly.render(d)
     html_content = html_ly.render(d)
-
     sender = "reportgenerator@crysis.com"
 
     msg = EmailMultiAlternatives(subject, text_content, sender, recipient_list)
     msg.attach_alternative(html_content, "text/html")
-    respone = msg.send()
+    msg.send()
+    # response = msg.send()

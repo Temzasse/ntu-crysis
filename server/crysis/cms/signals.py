@@ -50,7 +50,11 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     # Send incident data to client
     serializer = IncidentSerializer(instance)
     if created:
-        send_mailv4_to_responseunit(instance, ["ntu.fuqiang@gmail.com"])
+        try:
+            send_mailv4_to_responseunit(instance, instance.handle_by.email)
+        except Exception as e:
+            print(e)
+            print("response unit email not sending")
         ws_send_notification('INCIDENT_NEW', serializer.data)
     else:
         ws_send_notification('INCIDENT_UPDATED', serializer.data)

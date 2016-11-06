@@ -7,6 +7,7 @@ export const getWeatherMarkers = (state) => {
         lng: parseFloat(item.lon),
       },
       title: `${item.forecast.value} - (${item.name})`,
+      abbrev: item.forecast.abbrev,
     }
   ));
 };
