@@ -74,7 +74,7 @@ class NavigationContainer extends Component {
       // Determine nav items based on users role
       if (currentUser.role === 'operator') {
         navItems.push(
-          { label: 'Dashboard', to: '/map' },
+          { label: 'Dashboard', to: '/' },
           { label: 'Report Incident', to: '/report-incident' },
           { label: 'Archives', to: '/archives' },
         );
@@ -88,7 +88,7 @@ class NavigationContainer extends Component {
         );
       }
       navItems.push(
-        { label: 'Public Map', to: '/' },
+        { label: 'Public Map', to: '/map' },
         { label: 'Logout', to: '/login', onClick: this.props.doLogout },
       );
     } else {
