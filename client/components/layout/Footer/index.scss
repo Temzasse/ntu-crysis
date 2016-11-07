@@ -1,0 +1,35 @@
+@import '../../../static/scss/theme';
+
+.Footer {
+  height: 50px;
+  padding: 0px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $blue-dark;
+
+  .info {
+    color: $blue-lightest;
+    font-size: 14px;
+  }
+
+  .social-media {
+    display: flex;
+    flex-direction: row;
+
+    a {
+      font-size: 18px;
+      display: block;
+      background-color: $blue;
+      color: #fff;
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      margin-left: 16px;
+    }
+  }
+}

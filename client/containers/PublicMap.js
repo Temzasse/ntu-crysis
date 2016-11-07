@@ -8,6 +8,7 @@ import { fetchIncidents } from '../actions/index.actions';
 // Component imports
 import FlexLayout from '../components/layout/FlexLayout';
 import MainPanel from '../components/layout/MainPanel';
+import Footer from '../components/layout/Footer';
 import MapProvider from '../components/map/MapProvider';
 import PublicMapContainer from '../components/map/PublicMapContainer';
 
@@ -29,9 +30,15 @@ class PublicMap extends Component {
       <div className='PublicMap'>
         <FlexLayout>
           <MainPanel fullsize>
-            <MapProvider>
-              <PublicMapContainer />
-            </MapProvider>
+
+            <div style={{ height: 'calc(100% - 50px)', width: '100%' }}>
+              <MapProvider>
+                <PublicMapContainer />
+              </MapProvider>
+            </div>
+
+            <Footer />
+
           </MainPanel>
         </FlexLayout>
       </div>
