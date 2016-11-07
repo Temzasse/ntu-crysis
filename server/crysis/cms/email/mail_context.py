@@ -1,13 +1,13 @@
-from cms.models import Incident
+# from cms.models import Incident
 # for html templates
 from django.template import Context
 import datetime
 
 
-def getPM_MailContext():
+def getPM_MailContext(incident_list, title):
     now = datetime.datetime.now()
 
-    incident_list = Incident.objects.all()
+    # incident_list = Incident.objects.all()
 
     time_min_before = now - datetime.timedelta(minutes=30)
 
@@ -52,7 +52,7 @@ def getPM_MailContext():
         incident_ph_SW_resolved = incident_ph_SW.filter(resolved=True)
 
         data = Context({
-            'time_now': now,
+            'title': title,
             'incident_list': incident_list,
             'incident_ongoing': incident_ongoing,
             'incident_resolved': incident_resolved,

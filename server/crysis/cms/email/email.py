@@ -1,4 +1,4 @@
-import datetime
+# import datetime
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -24,14 +24,15 @@ def send_mail_html(recipient_list, sender, subject, d, plain_t, html_t):
                 subject)
 
 
-def send_mailv4(recipient_list, d):
+def send_mailv4(recipient_list, d, subject="Periodic email"):
 
     plaintxt_ly = get_template('report_to_PM.txt')
     html_ly = get_template('report_to_PM.html')
 
-    now = datetime.datetime.now()
-    strtime_now = now.strftime("%Y %b %d,%H:%M:%S")
-    subject = "Incident report %s" % strtime_now
+    # now = datetime.datetime.now()
+    # strtime_now = now.strftime("%Y %b %d,%H:%M:%S")
+
+    # subject = "Incident report %s" % strtime_now
 
     if d:
 
@@ -46,7 +47,7 @@ def send_mailv4(recipient_list, d):
         msg.attach_alternative(html_content, "text/html")
 
         try:
-            # msg.send()
+            msg.send()
             print "***(%s) -mail sent" % (
                 subject)
         except:
