@@ -8,8 +8,10 @@ import * as actions from '../actions/index.actions';
 
 // TODO: these could be moved to config file.
 const wsPort = 8000;
+// const wsPort = 3003;
 const wsEndpoint = 'cms';
 const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+// const url = `128.199.250.111:${wsPort}/${wsEndpoint}`;
 const url = `localhost:${wsPort}/${wsEndpoint}`;
 const ws = new WebSocket(`${scheme}://${url}`);
 
