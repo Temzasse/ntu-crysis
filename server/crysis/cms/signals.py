@@ -1,5 +1,5 @@
 # import json
-from datetime import datetime
+# from datetime import datetime
 from django.dispatch import receiver
 # from django.db.models import Q
 from django.db.models.signals import post_save, post_delete
@@ -73,14 +73,14 @@ def execute_after_delete_incident(sender, instance, *args, **kwargs):
 #     ws_send_notification('Shelter', 'UPDATE', data)
 
 
-@receiver(post_save, sender=Crisis)
-def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
-    if not created and instance.status == 'ARC':
-        # Let's create a new crisis since previous one was archived
-        newCrisis = Crisis(title="Crisis ({:%B-%d-%Y})".format(datetime.now()))
-        newCrisis.save()
-        serializer = CrisisSerializer(newCrisis)
-        ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
+# @receiver(post_save, sender=Crisis)
+# def execute_after_save_crisis(sender, instance, created, *args, **kwargs):
+#     if not created and instance.status == 'ARC':
+#         # Let's create a new crisis since previous one was archived
+#         newCrisis = Crisis(title="Crisis ({:%B-%d-%Y})".format(datetime.now()))
+#         newCrisis.save()
+#         serializer = CrisisSerializer(newCrisis)
+#         ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
 
 
 @receiver(post_delete, sender=Crisis)
