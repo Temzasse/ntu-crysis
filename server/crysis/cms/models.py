@@ -9,13 +9,6 @@ from .choice import (
     TRAINER_TYPE_CHOICE,
     TYPE_CHOICE,
     )
-from .email.tasks import (
-    send_crysis_start_mail,
-    send_crysis_archived_mail,
-    )
-from .serializers import CrisisSerializer
-from .consumers import ws_send_notification
-from datetime import datetime
 
 
 class Incident(models.Model):
@@ -90,26 +83,6 @@ class Crisis(models.Model):
 
     def __str__(self):
         return self.title
-
-    def save(self, *args, **kw):
-        if self.pk is not None:
-            orig = Crisis.objects.get(pk=self.pk)
-            # Crisis starts
-            if orig.ongoing != self.ongoing and self.ongoing:
-                send_crysis_start_mail.delay(self.incidents)
-                print('=======> Sending email when crisis starts')
-            # Crisis is archived/ends
-            elif (orig.status != self.status) and (self.status == 'ARC'):
-                # Let's create a new crisis since previous one was archived
-                newCrisis = Crisis(
-                    title="Crisis ({:%B-%d-%Y})".format(datetime.now()))
-                newCrisis.save()
-                # Send PM email
-                send_crysis_archived_mail.delay(self.incidents)
-                serializer = CrisisSerializer(newCrisis)
-                ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
-
-        super(Crisis, self).save(*args, **kw)
 
 
 class PokemonDB(models.Model):

@@ -1,8 +1,8 @@
 # import json
-# from datetime import datetime
+from datetime import datetime
 from django.dispatch import receiver
 # from django.db.models import Q
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import pre_save, post_save, post_delete
 from django.contrib.auth.models import User
 # from django.core import serializers
 from .consumers import ws_send_notification
@@ -10,6 +10,7 @@ from rest_framework.authtoken.models import Token
 from .models import Crisis, Incident
 from .serializers import IncidentSerializer, CrisisSerializer
 from cms.email.email import send_mailv4_to_responseunit
+# from .email.tasks import send_crysis_start_mail, send_crysis_archived_mail
 
 
 # NOTE:
@@ -81,6 +82,33 @@ def execute_after_delete_incident(sender, instance, *args, **kwargs):
 #         newCrisis.save()
 #         serializer = CrisisSerializer(newCrisis)
 #         ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
+
+
+@receiver(pre_save, sender=Crisis)
+def execute_before_save_crisis(sender, instance, *args, **kwargs):
+    orig = Crisis.objects.filter(id=instance.id).first()
+
+    if not orig:
+        return
+
+    # Crisis starts
+    if orig.ongoing != instance.ongoing and instance.ongoing:
+        print('[EMAIL] Sending email when crisis starts')
+        # send_crysis_start_mail.delay(instance.incidents)
+
+    # Crisis is archived/ends
+    elif (orig.status != instance.status) and (instance.status == 'ARC'):
+        # Let's create a new crisis since previous one was archived
+        newCrisis = Crisis(title="Crisis ({:%B-%d-%Y})".format(datetime.now()))
+
+        serializer = CrisisSerializer(newCrisis)
+        ws_send_notification('CRISIS_RECEIVE_NEW', serializer.data)
+
+        # Send PM email
+        print('[EMAIL] Sending email when crisis ends')
+        # send_crysis_archived_mail.delay(instance.incidents)
+
+        newCrisis.save()
 
 
 @receiver(post_delete, sender=Crisis)
