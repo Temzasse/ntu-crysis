@@ -27,7 +27,8 @@ function* handleApiErrors({ body }) {
     break;
   }
   default:
-    console.log(`Error ${body.error}`);
+    console.log('Error:');
+    console.log(body);
   }
 }
 

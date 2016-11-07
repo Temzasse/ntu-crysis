@@ -25,33 +25,43 @@ def create_auth_token(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Incident)
 def execute_after_save_incident(sender, instance, created, *args, **kwargs):
-    # Add newly created incident to current crisis.
-    # Create new active crisis if it does not exist.
-    currentCrisis, crisisCreated = Crisis.objects.get_or_create(
-        status='ACT',
-        defaults={
-            'title': 'crisis',
-            'description': 'automatically created crisis'
-        },
-    )
-    currentCrisis.incidents.add(instance.id)
-
-    level = currentCrisis.incidents.count()
-
-    if level >= currentCrisis.threshold and not currentCrisis.ongoing:
-        # Now we are in crisis mode
-        currentCrisis.ongoing = True
-        currentCrisis.save()
-
-        # Send update notification to client
-        crisis_serializer = CrisisSerializer(currentCrisis)
-        ws_send_notification('CRISIS_RECEIVE_UPDATED', crisis_serializer.data)
-
-    # Send incident data to client
-    serializer = IncidentSerializer(instance)
     if created:
+        # Add newly created incident to current crisis.
+        # Create new active crisis if it does not exist.
+        currentCrisis, crisisCreated = Crisis.objects.get_or_create(
+            status='ACT',
+            defaults={
+                'title': 'crisis',
+                'description': 'automatically created crisis'
+            },
+        )
+        currentCrisis.incidents.add(instance.id)
+
+        level = currentCrisis.incidents.count()
+
+        if level >= currentCrisis.threshold and not currentCrisis.ongoing:
+            # Now we are in crisis mode
+            currentCrisis.ongoing = True
+            currentCrisis.save()
+
+            # Send update notification to client
+            crisis_serializer = CrisisSerializer(currentCrisis)
+            ws_send_notification(
+                'CRISIS_RECEIVE_UPDATED',
+                crisis_serializer.data
+            )
+
+        # Send incident data to client
+        serializer = IncidentSerializer(instance)
         ws_send_notification('INCIDENT_NEW', serializer.data)
-    else:
+
+
+@receiver(pre_save, sender=Incident)
+def execute_before_save_incident(sender, instance, *args, **kwargs):
+    old = Incident.objects.filter(id=instance.id).first()
+
+    if old and old.resolved != instance.resolved:
+        serializer = IncidentSerializer(instance)
         ws_send_notification('INCIDENT_UPDATED', serializer.data)
 
 

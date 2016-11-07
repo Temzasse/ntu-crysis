@@ -1,6 +1,7 @@
 from .models import Incident, Crisis, ResponseUnit, PokemonDB, Pokemon, Trainer, Shelter  # noqa
-from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSerializer, PokemonSerializer, \
-    PokemonDBSerializer, TrainerSerializer, UserSerializer, ShelterSerializer, LoginSerializer  # noqa
+from .serializers import IncidentSerializer, CrisisSerializer, \
+    ResponseUnitSerializer, PokemonSerializer, PokemonDBSerializer, \
+    TrainerSerializer, UserSerializer, ShelterSerializer, LoginSerializer  # noqa
 from rest_framework import generics
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -15,6 +16,7 @@ from rest_framework.views import APIView
 from django.http import HttpResponse
 from django.template import loader
 from cms.email.email import send_mailv4_to_responseunit
+
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -139,6 +141,7 @@ class HandleIncident(APIView):
             incident.handle_by = RUsByAreaAndType[0]
             incident.save()
             try:
+                print('[EMAIL] send response unit email')
                 send_mailv4_to_responseunit(incident, incident.handle_by.email)
             except Exception as e:
                 print(e)
@@ -153,6 +156,7 @@ class HandleIncident(APIView):
             incident.handle_by = RUsByType[0]
             incident.save()
             try:
+                print('[EMAIL] send response unit email')
                 send_mailv4_to_responseunit(incident, incident.handle_by.email)
             except Exception as e:
                 print(e)
