@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-
+import datetime
+import djcelery
 import os
-from datetime import timedelta
+# from datetime import timedelta
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -67,33 +68,41 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'celery',
+    'djcelery',
     'tweepy',
     'facepy',
-     # 'cms.twitterUpdate',
+    'cms.twitterUpdate',
     'cms.email',
-    # 'cms.facebookUpdate',
+    'cms.facebookUpdate',
 ]
 
 # Email configuration
-MAILGUN_API_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
-MAILGUN_BASE_URL = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
-#'https://api.mailgun.net/v2/sandbox4ac9c7827182454cb64760dea766890d.mailgun.org/messages'
-
-# MAILGUN_API_KEY = 'key-4745d5bb1df7897d7cc9866769c74df3'
-# MAILGUN_BASE_URL = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
-
 EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-# MAILGUN_ACCESS_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
-# MAILGUN_SERVER_NAME = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
+# Joel key
+# MAILGUN_ACCESS_KEY = 'key-4745d5bb1df7897d7cc9866769c74df3'
+# MAILGUN_SERVER_NAME = 'sandboxed3dc79ee0374c9a9a288859fbd98726.mailgun.org'
 
-MAILGUN_ACCESS_KEY = 'key-49604cbf02ae2c0f4665354a1110f361'
-MAILGUN_SERVER_NAME = 'sandboxbaf24b0c7e0d46d4a69d7fb15c16a99c.mailgun.org'
+# hs key
+MAILGUN_ACCESS_KEY = 'key-cf72e362443ce99dcbea8c0bb6b0c29d'
+MAILGUN_SERVER_NAME = 'sandbox4ac9c7827182454cb64760dea766890d.mailgun.org'
 
+# fuqiang key
+# MAILGUN_ACCESS_KEY = 'key-49604cbf02ae2c0f4665354a1110f361'
+# MAILGUN_SERVER_NAME = 'sandboxbaf24b0c7e0d46d4a69d7fb15c16a99c.mailgun.org'
 
-
-
-
+# django version 1.10 use this
 MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+# django version 1.9.2 use this
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -124,13 +133,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crysis.wsgi.application'
 
-# CELERY STUFF
+# CELERY SETTINGS
 BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Singapore'
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 # CELERYBEAT_SCHEDULE = {
 #     'update-twitter-every-30-mins': {
 #         'task': 'twitterUpdate.tasks.update_twitter',
@@ -138,7 +149,7 @@ CELERY_TIMEZONE = 'Asia/Singapore'
 #         # 'args': (16, 16)
 #     },
 # }
-import datetime
+
 SERVER_START_TIME = datetime.datetime.now()
 
 # Database
@@ -176,7 +187,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Singapore'
 
 USE_I18N = True
 
@@ -202,3 +213,4 @@ CORS_ALLOW_METHODS = (
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+djcelery.setup_loader()

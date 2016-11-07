@@ -1,5 +1,6 @@
 from facepy import GraphAPI
-
+from django.conf import settings
+import os
 
 # Initialize the Graph API with a valid access token (optional,
 # but will allow you to do all sorts of fun stuff).
@@ -8,34 +9,35 @@ oauth_access_token = 'EAABZC0OOt2wQBAOcKcpbbYiuFyEONLyqOsdUrODvEBLXq6ZCPXBcI1oZA
 graph = GraphAPI(oauth_access_token)
 
 # Get my latest posts
-#graph.get('me/posts')
+# graph.get('me/posts')
 
-#Post a photo of a parrot
-#graph.post(
+# Post a photo of a parrot
+# graph.post(
 #   path = 'me/photos',
 #   source = open('Untitled.png','rb')
-#)
+# )
+
+
 def updateFacebook():
-    
     file = open('../templates/shelter.txt', 'r')
 
     graph.post(
-    path = 'me/feed',
-    message=file.read(),
-   
-    ) 
+        path='me/feed',
+        message=file.read(),
+        )
 
     return True
 
-def updateFacebookv2():
-    from django.conf import settings
-    import os
-    file = open(os.path.join(settings.BASE_DIR,'cms/templates/shelter.txt'), 'r')
 
+def updateFacebookv2():
+
+    file = open(os.path.join(
+        settings.BASE_DIR,
+        'cms/templates/shelter.txt'), 'r'
+    )
     graph.post(
-    path = 'me/feed',
-    message=file.read(),
-   
-    ) 
+        path='me/feed',
+        message=file.read(),
+        )
 
     return True

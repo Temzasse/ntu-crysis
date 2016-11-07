@@ -4,7 +4,7 @@ from .serializers import IncidentSerializer, CrisisSerializer, ResponseUnitSeria
 from rest_framework import generics
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from rest_framework import permissions, status
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -14,6 +14,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from django.template import loader
+
 
 @api_view(['GET'])
 def api_root(request, format=None):

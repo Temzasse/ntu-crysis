@@ -1,9 +1,67 @@
-{% if incident_list %}
-    {% for incident in incident_list %}
-{{ incident.title }}
-    {% endfor %}
+Mr Prime Minister,
 
-{% else %}
 
-	No incident happens in our country.
-{% endif %}
+Incident crisis as of {{time_now}}
+
+
+No. of incident (Past Hour)
+-----------------------------
+NE:             {{incident_ph_NE.count}} 
+NW:             {{incident_ph_NW.count}}
+SE:             {{incident_ph_SE.count}}
+SW:             {{incident_ph_SW.count}}
+Total:          {{incident_ph.count}}
+Total Ongoing:  {{incident_ph_ongoing.count}}
+Total Handled:  {{incident_ph_resolved.count}}
+
+
+No. of incident (Since Start)
+-----------------------------
+NE:             {{incident_NE.count}} 
+NW:             {{incident_NW.count}}
+SE:             {{incident_SE.count}}
+SW:             {{incident_SW.count}}
+Total:          {{incident_list.count}}
+Total Ongoing:  {{incident_ongoing.count}}
+Total Handled:  {{incident_resolved.count}}
+
+
+
+No.of Incident (Past-Hour Ongoing)
+-----------------------------
+NE:             {{incident_ph_NE_ongoing.count}}
+NW:             {{incident_ph_NW_ongoing.count}}
+SE:             {{incident_ph_SE_ongoing.count}}
+SW:             {{incident_ph_SW_ongoing.count}}
+Total:          {{incident_ph_ongoing.count}}
+
+
+No.of Incident (Past-Hour Resolved)
+-----------------------------
+NE:             {{incident_ph_NE_resolved.count}}
+NW:             {{incident_ph_NW_resolved.count}}
+SE:             {{incident_ph_SE_resolved.count}}
+SW:             {{incident_ph_SW_resolved.count}}
+Total:          {{incident_ph_resolved.count}}
+
+
+No.of Incident (Since-start Ongoing)
+-----------------------------
+NE:             {{incident_NE_ongoing.count}}
+NW:             {{incident_NW_ongoing.count}}
+SE:             {{incident_SE_ongoing.count}}
+SW:             {{incident_SW_ongoing.count}}
+Total:          {{incident_ongoing.count}}
+
+
+No.of Incident (Since-start Resolved)
+-----------------------------
+NE:             {{incident_NE_resolved.count}}
+NW:             {{incident_NW_resolved.count}}
+SE:             {{incident_SE_resolved.count}}
+SW:             {{incident_SW_resolved.count}}
+Total:          {{incident_resolved.count}}
+
+
+
+Thank you Mr Prime Minister.
