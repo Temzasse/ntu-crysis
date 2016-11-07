@@ -34,16 +34,12 @@ class ReportIncidentPage extends Component {
   componentWillMount() {
     const { loggedIn, currentUser } = this.props;
 
-    // Don't require login when developing
-    const isDev = process.env.DEBUG;
-
     if (loggedIn) {
       if (currentUser.role === 'callcenter'
-      || currentUser.role === 'operator') {
+      || currentUser.role === 'operator'
+      || currentUser.role === 'responseunit') {
         this.setState({ userIsAuthenticated: true });
       }
-    } else if (isDev) { // NOTE: This part is only for development
-      this.setState({ userIsAuthenticated: true });
     }
   }
 
