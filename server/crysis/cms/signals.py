@@ -9,7 +9,7 @@ from .consumers import ws_send_notification
 from rest_framework.authtoken.models import Token
 from .models import Crisis, Incident
 from .serializers import IncidentSerializer, CrisisSerializer
-# from .email.tasks import send_crysis_start_mail, send_crysis_archived_mail
+from .email.tasks import send_crysis_start_mail, send_crysis_archived_mail
 
 
 # NOTE:
@@ -88,7 +88,7 @@ def execute_before_save_crisis(sender, instance, *args, **kwargs):
     # Crisis starts
     if orig.ongoing != instance.ongoing and instance.ongoing:
         print('[EMAIL] Sending email when crisis starts')
-        # send_crysis_start_mail.delay(instance.incidents)
+        send_crysis_start_mail.delay(instance.incidents)
 
     # Crisis is archived/ends
     elif (orig.status != instance.status) and (instance.status == 'ARC'):
@@ -100,7 +100,7 @@ def execute_before_save_crisis(sender, instance, *args, **kwargs):
 
         # Send PM email
         print('[EMAIL] Sending email when crisis ends')
-        # send_crysis_archived_mail.delay(instance.incidents)
+        send_crysis_archived_mail.delay(instance.incidents)
 
         newCrisis.save()
 

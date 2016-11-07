@@ -24,7 +24,7 @@ def send_email_to_pm():
     recipient_list = {"superusercrysis@gmail.com"}
     crisis_latest = Crisis.objects.all()
     if crisis_latest[0].ongoing:
-        d_context = getPM_MailContext(crisis_latest[0].Incident, subject)
+        d_context = getPM_MailContext(crisis_latest[0].incidents, subject)
         send_mailv4(recipient_list, d_context, subject)
 
     else:
