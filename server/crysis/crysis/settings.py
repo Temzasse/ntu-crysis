@@ -196,9 +196,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8080',
-    '127.0.0.1:8080'
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:8080',
+#     '127.0.0.1:8080'
+# )
+
+CORS_ORIGIN_REGEX_WHITELIST = (
+    '^(https?://)?localhost:8080$',
+    '^(https?://)?127.0.0.1:8080$',
+    '^(https?://)?(\w+\.)?ngrok\.io$',
 )
 
 CORS_ALLOW_METHODS = (
