@@ -71,9 +71,10 @@ INSTALLED_APPS = [
     'djcelery',
     'tweepy',
     'facepy',
-    'cms.twitterUpdate',
+    # 'cms.twitterUpdate',
     'cms.email',
-    'cms.facebookUpdate',
+    # 'cms.facebookUpdate',
+    'djsupervisor',
 ]
 
 # Email configuration
