@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from django.template import loader
-
+from cms.email.email import send_mailv4_to_responseunit
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -138,6 +138,11 @@ class HandleIncident(APIView):
         if RUsByAreaAndType:
             incident.handle_by = RUsByAreaAndType[0]
             incident.save()
+            try:
+                send_mailv4_to_responseunit(incident, incident.handle_by.email)
+            except Exception as e:
+                print(e)
+                print("response unit email not sending")
             serializer = IncidentSerializer(incident)
             return Response(serializer.data)
 
@@ -147,6 +152,11 @@ class HandleIncident(APIView):
         if RUsByType:
             incident.handle_by = RUsByType[0]
             incident.save()
+            try:
+                send_mailv4_to_responseunit(incident, incident.handle_by.email)
+            except Exception as e:
+                print(e)
+                print("response unit email not sending")
             serializer = IncidentSerializer(incident)
             return Response(serializer.data)
 
