@@ -9,7 +9,7 @@ from .consumers import ws_send_notification
 from rest_framework.authtoken.models import Token
 from .models import Crisis, Incident
 from .serializers import IncidentSerializer, CrisisSerializer
-from cms.email.email import send_mailv4_to_responseunit
+
 
 
 # NOTE:
@@ -50,11 +50,6 @@ def execute_after_save_incident(sender, instance, created, *args, **kwargs):
     # Send incident data to client
     serializer = IncidentSerializer(instance)
     if created:
-        try:
-            send_mailv4_to_responseunit(instance, instance.handle_by.email)
-        except Exception as e:
-            print(e)
-            print("response unit email not sending")
         ws_send_notification('INCIDENT_NEW', serializer.data)
     else:
         ws_send_notification('INCIDENT_UPDATED', serializer.data)
