@@ -46,7 +46,7 @@ def send_mailv4(recipient_list, d):
         msg.attach_alternative(html_content, "text/html")
 
         try:
-            msg.send()
+            # msg.send()
             print "***(%s) -mail sent" % (
                 subject)
         except:

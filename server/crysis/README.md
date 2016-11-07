@@ -139,6 +139,16 @@ $ python manage.py loaddata fixtures/initial_usergroup.json
         $ python manage.py celery beat --loglevel=INFO
 ```
 
+**Run server and celery task together Using Supervisor"
+```
+    - to run supervisor
+        $ python manage.py supervisor
+    - to enter supervisor shell
+        $ python manage.py supervisor shell
+    - to stop supervisor
+        $ python manage.py supervisor shutdown
+```
+
 **Test API**
 
    - test API([example](http://127.0.0.1:8000/cms/api-root)) in your browser    
