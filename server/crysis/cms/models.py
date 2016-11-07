@@ -84,6 +84,13 @@ class Crisis(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kw):
+        if self.pk is not None:
+            orig = Crisis.objects.get(pk=self.pk)
+            if orig.ongoing != self.ongoing and self.ongoing:
+                print('=======> Send PM email')
+        super(Crisis, self).save(*args, **kw)
+
 
 class PokemonDB(models.Model):
     name = models.CharField(max_length=30)
