@@ -98,7 +98,7 @@ def execute_before_save_crisis(sender, instance, *args, **kwargs):
     # Crisis starts
     if orig.ongoing != instance.ongoing and instance.ongoing:
         print('[EMAIL] Sending email when crisis starts')
-        send_crysis_start_mail.delay(instance.incidents)
+        send_crysis_start_mail.delay()
 
     # Crisis is archived/ends
     elif (orig.status != instance.status) and (instance.status == 'ARC'):
@@ -110,8 +110,7 @@ def execute_before_save_crisis(sender, instance, *args, **kwargs):
 
         # Send PM email
         print('[EMAIL] Sending email when crisis ends')
-        send_crysis_archived_mail.delay(instance.incidents)
-
+        send_crysis_archived_mail.delay()
         newCrisis.save()
 
 

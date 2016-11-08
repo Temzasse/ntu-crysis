@@ -76,6 +76,7 @@ class CurrentUser(APIView):
 
 
 class LoginView(APIView):
+
     def post(self, request, format=None):
         serializer = LoginSerializer(data=request.data)
 
@@ -142,7 +143,8 @@ class HandleIncident(APIView):
             incident.save()
             try:
                 print('[EMAIL] send response unit email')
-                send_mailv4_to_responseunit(incident, incident.handle_by.email)
+                send_mailv4_to_responseunit(
+                    incident, [incident.handle_by.email])
             except Exception as e:
                 print(e)
                 print("response unit email not sending")
@@ -157,7 +159,8 @@ class HandleIncident(APIView):
             incident.save()
             try:
                 print('[EMAIL] send response unit email')
-                send_mailv4_to_responseunit(incident, incident.handle_by.email)
+                send_mailv4_to_responseunit(
+                    incident, [incident.handle_by.email])
             except Exception as e:
                 print(e)
                 print("response unit email not sending")
