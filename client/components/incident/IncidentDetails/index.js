@@ -14,7 +14,7 @@ const areaMappings = {
   'NE': 'North-east',
   'SE': 'South-east',
   'NW': 'North-west',
-  'NS': 'North-west',
+  'SW': 'South-west',
 };
 
 const propTypes = {

@@ -25,7 +25,12 @@ const IncidentList = ({ incidents, selectIncident, onMouseEnter, onMouseLeave })
           onMouseLeave={() => onMouseLeave(id)}
         >
           <div styleName='card-content'>
-            <span styleName='title'>{title} ({id} {handledBy})</span>
+            <span styleName='title'>
+              {title}&nbsp;&nbsp;
+              <span style={{ color: '#eee', fontSize: 12 }}>
+                (IID: {id} RUID: {handledBy})
+              </span>
+            </span>
             <span styleName={handledBy ? 'tag' : 'tag-err'}>
               {handledBy ? 'being handled' : 'unhandled'}
             </span>
