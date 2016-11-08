@@ -48,7 +48,7 @@ const ResponseUnitAttacher = ({ incident, attach, responseunits }) => (
         <div styleName='attach-btn'>
           <Tooltip content='Automatically attach response unit'>
             <button onClick={() => attach(incident.id)}>
-              <i className='ion-ios-unlocked-outline' />
+              <i className='ion-link' />
             </button>
           </Tooltip>
         </div>

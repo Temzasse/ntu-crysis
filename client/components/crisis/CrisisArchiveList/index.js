@@ -31,7 +31,9 @@ const CrisisArchiveList = ({ crises }) => (
             <div styleName='body'>
               <span>{crisis.incidents.length} incidents</span>
               {crisis.description &&
-                <div>Description: {crisis.description}</div>
+                <div styleName='description'>
+                  Description: {crisis.description}
+                </div>
               }
             </div>
             <div styleName='footer'>
